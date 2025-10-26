@@ -1,0 +1,2 @@
+module arithmetic_geometric_mean_fortran
+end module arithmetic_geometric_mean_fortran
