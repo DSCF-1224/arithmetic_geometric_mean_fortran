@@ -1,0 +1,39 @@
+name: CI
+
+on: [push, pull_request]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+
+  test:
+
+    timeout-minutes: 10
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        profile: [debug, release]
+      fail-fast: false
+
+    steps:
+
+      - uses: actions/checkout@v5
+
+      - name: Install fpm
+        uses: fortran-lang/setup-fpm@v8
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build library using fpm
+        run: fpm build --profile ${{ matrix.profile }}
+
+      - name: Test library using fpm (${{ matrix.profile }} mode)
+        run: fpm test --profile ${{ matrix.profile }}
