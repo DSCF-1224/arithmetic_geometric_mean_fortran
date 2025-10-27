@@ -5,4 +5,12 @@ module arithmetic_geometric_mean_fortran
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
 #:endfor
 
+
+
+    implicit none
+
+
+
+    private
+
 end module arithmetic_geometric_mean_fortran
