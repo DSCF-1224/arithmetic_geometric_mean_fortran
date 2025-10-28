@@ -15,6 +15,16 @@ module arithmetic_geometric_mean_fortran
 
 
 
+#:set INTERFACE_NAME = 'arithmetic_geometric_mean_kernel'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
     contains
 #:for REAL_KIND in REAL_KINDS
     #:set FUNCTION_NAME = 'arithmetic_geometric_mean_kernel_' + REAL_KIND
