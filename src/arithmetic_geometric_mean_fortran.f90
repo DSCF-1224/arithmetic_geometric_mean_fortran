@@ -26,6 +26,66 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    elemental function arithmetic_geometric_mean_real32(x,y) result(agm)
+
+        real(real32), intent(in) :: x, y
+
+
+
+        real(real32) :: agm ! return value
+
+
+
+        if (x .lt. y) then
+            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        else
+            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+        end if
+
+    end function arithmetic_geometric_mean_real32
+
+
+
+    elemental function arithmetic_geometric_mean_real64(x,y) result(agm)
+
+        real(real64), intent(in) :: x, y
+
+
+
+        real(real64) :: agm ! return value
+
+
+
+        if (x .lt. y) then
+            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        else
+            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+        end if
+
+    end function arithmetic_geometric_mean_real64
+
+
+
+    elemental function arithmetic_geometric_mean_real128(x,y) result(agm)
+
+        real(real128), intent(in) :: x, y
+
+
+
+        real(real128) :: agm ! return value
+
+
+
+        if (x .lt. y) then
+            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        else
+            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+        end if
+
+    end function arithmetic_geometric_mean_real128
+
+
+
     elemental function arithmetic_geometric_mean_kernel_real32(a, g) result(agm)
 
         real(real32), intent(in) :: a !! arithmetic mean
