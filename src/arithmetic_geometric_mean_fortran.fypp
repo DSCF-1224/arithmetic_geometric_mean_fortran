@@ -27,6 +27,30 @@ module arithmetic_geometric_mean_fortran
 
     contains
 #:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = 'arithmetic_geometric_mean_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(x,y) result(agm)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: agm ! return value
+
+
+
+        if (x .lt. y) then
+            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        else
+            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+        end if
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
     #:set FUNCTION_NAME = 'arithmetic_geometric_mean_kernel_' + REAL_KIND
 
 
