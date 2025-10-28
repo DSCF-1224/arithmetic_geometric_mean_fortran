@@ -14,6 +14,14 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    interface arithmetic_geometric_mean_kernel
+        module procedure :: arithmetic_geometric_mean_kernel_real32
+        module procedure :: arithmetic_geometric_mean_kernel_real64
+        module procedure :: arithmetic_geometric_mean_kernel_real128
+    end interface arithmetic_geometric_mean_kernel
+
+
+
     contains
 
 
