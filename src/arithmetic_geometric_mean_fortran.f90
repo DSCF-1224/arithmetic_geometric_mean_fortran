@@ -12,6 +12,16 @@ module arithmetic_geometric_mean_fortran
 
     private
 
+    public :: arithmetic_geometric_mean
+
+
+
+    interface arithmetic_geometric_mean
+        module procedure :: arithmetic_geometric_mean_real32
+        module procedure :: arithmetic_geometric_mean_real64
+        module procedure :: arithmetic_geometric_mean_real128
+    end interface arithmetic_geometric_mean
+
 
 
     interface arithmetic_geometric_mean_kernel
