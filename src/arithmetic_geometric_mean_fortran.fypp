@@ -31,7 +31,7 @@ module arithmetic_geometric_mean_fortran
 
 
     #:set FUNCTION_NAME = 'arithmetic_geometric_mean_' + REAL_KIND
-    elemental function ${FUNCTION_NAME}$(x,y) result(agm)
+    elemental function ${FUNCTION_NAME}$(x, y) result(agm)
 
         real(${REAL_KIND}$), intent(in) :: x, y
 
