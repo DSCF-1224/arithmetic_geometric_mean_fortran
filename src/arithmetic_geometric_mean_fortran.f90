@@ -26,7 +26,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental function arithmetic_geometric_mean_real32(x,y) result(agm)
+    elemental function arithmetic_geometric_mean_real32(x, y) result(agm)
 
         real(real32), intent(in) :: x, y
 
@@ -46,7 +46,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental function arithmetic_geometric_mean_real64(x,y) result(agm)
+    elemental function arithmetic_geometric_mean_real64(x, y) result(agm)
 
         real(real64), intent(in) :: x, y
 
@@ -66,7 +66,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental function arithmetic_geometric_mean_real128(x,y) result(agm)
+    elemental function arithmetic_geometric_mean_real128(x, y) result(agm)
 
         real(real128), intent(in) :: x, y
 
