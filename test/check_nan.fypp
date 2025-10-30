@@ -1,0 +1,4 @@
+#:include '../src/common.fypp'
+#:set PROGRAM_NAME = 'check_nan'
+program ${PROGRAM_NAME}$
+end program ${PROGRAM_NAME}$
