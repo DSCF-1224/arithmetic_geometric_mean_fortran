@@ -77,6 +77,12 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Run fypp
+        run: |
+          cd src
+          fypp -F check_nan.fypp check_nan.f90
+          cd ..
+
       - name: Build library using fpm
         run: fpm build --profile ${{ matrix.profile }}
 
