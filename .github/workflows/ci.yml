@@ -79,7 +79,7 @@ jobs:
 
       - name: Run fypp
         run: |
-          cd src
+          cd test
           fypp -F check_nan.fypp check_nan.f90
           cd ..
 
