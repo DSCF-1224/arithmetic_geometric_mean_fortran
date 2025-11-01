@@ -1,8 +1,131 @@
 #:include 'common.fypp'
+#:set INTERFACE_NAME_KERNEL = 'arithmetic_geometric_mean'
 module arithmetic_geometric_mean_fortran
 
 #:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
+    use, intrinsic :: ieee_arithmetic, only: ieee_value
+
+
+
+    implicit none
+
+
+
+    private
+
+    public :: ${INTERFACE_NAME_KERNEL}$
+
+
+
+    interface ${INTERFACE_NAME_KERNEL}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME_KERNEL}$
+
+
+
+#:set INTERFACE_NAME = INTERFACE_NAME_KERNEL + '_kernel'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(x, y) result(agm)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: agm ! return value
+
+
+
+        if ( (x * y) .lt. 0.0_${REAL_KIND}$ ) then
+            agm = ieee_value(agm, ieee_quiet_nan); return
+        end if
+
+
+
+        if (x .lt. y) then
+            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        else
+            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+        end if
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+    #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_kernel_' + REAL_KIND
+
+
+
+    elemental function ${FUNCTION_NAME}$(a, g) result(agm)
+
+        real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: g !! geometric mean
+
+
+
+        real(${REAL_KIND}$) :: agm ! return value
+
+
+
+        real(${REAL_KIND}$) :: last_a !! last arithmetic mean
+
+        real(${REAL_KIND}$) :: last_g !! last geometric mean
+
+        real(${REAL_KIND}$) :: next_a !! next arithmetic mean
+
+        real(${REAL_KIND}$) :: next_g !! next geometric mean
+
+
+
+        last_a = a
+        last_g = g
+
+
+
+        do
+
+            next_a =     (last_a + last_g) * 0.5_${REAL_KIND}$
+            next_g = sqrt(last_a * last_g)
+
+            if ( abs(next_a - next_g) .gt. 0.0_${REAL_KIND}$ ) then
+
+                last_a = next_a
+                last_g = next_g
+
+                cycle
+
+            else
+
+                agm = next_a
+
+                return
+
+            end if
+
+        end do
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
 #:endfor
 
 end module arithmetic_geometric_mean_fortran
