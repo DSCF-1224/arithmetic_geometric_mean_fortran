@@ -1,4 +1,34 @@
 #:include '../src/common.fypp'
 #:set PROGRAM_NAME = 'check_nan'
 program ${PROGRAM_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+
+
+    implicit none
+
+
+
+#:for REAL_KIND in REAL_KINDS
+    call test_${REAL_KIND}$
+#:endfor
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+
 end program ${PROGRAM_NAME}$
