@@ -50,7 +50,7 @@ module arithmetic_geometric_mean_fortran
 
 
         if ( (x * y) .lt. 0.0_real32 ) then
-            agm = ieee_value(agm, ieee_quiet_nan)
+            agm = ieee_value(agm, ieee_quiet_nan); return
         end if
 
 
@@ -76,7 +76,7 @@ module arithmetic_geometric_mean_fortran
 
 
         if ( (x * y) .lt. 0.0_real64 ) then
-            agm = ieee_value(agm, ieee_quiet_nan)
+            agm = ieee_value(agm, ieee_quiet_nan); return
         end if
 
 
@@ -102,7 +102,7 @@ module arithmetic_geometric_mean_fortran
 
 
         if ( (x * y) .lt. 0.0_real128 ) then
-            agm = ieee_value(agm, ieee_quiet_nan)
+            agm = ieee_value(agm, ieee_quiet_nan); return
         end if
 
 
