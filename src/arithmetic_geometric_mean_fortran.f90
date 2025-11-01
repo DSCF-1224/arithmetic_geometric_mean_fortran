@@ -4,6 +4,9 @@ module arithmetic_geometric_mean_fortran
     use, intrinsic :: iso_fortran_env, only: real64
     use, intrinsic :: iso_fortran_env, only: real128
 
+    use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
+    use, intrinsic :: ieee_arithmetic, only: ieee_value
+
 
 
     implicit none
@@ -46,6 +49,12 @@ module arithmetic_geometric_mean_fortran
 
 
 
+        if ( (x * y) .lt. 0.0_real32 ) then
+            agm = ieee_value(agm, ieee_quiet_nan); return
+        end if
+
+
+
         if (x .lt. y) then
             agm = arithmetic_geometric_mean_kernel( a = y, g = x )
         else
@@ -66,6 +75,12 @@ module arithmetic_geometric_mean_fortran
 
 
 
+        if ( (x * y) .lt. 0.0_real64 ) then
+            agm = ieee_value(agm, ieee_quiet_nan); return
+        end if
+
+
+
         if (x .lt. y) then
             agm = arithmetic_geometric_mean_kernel( a = y, g = x )
         else
@@ -83,6 +98,12 @@ module arithmetic_geometric_mean_fortran
 
 
         real(real128) :: agm ! return value
+
+
+
+        if ( (x * y) .lt. 0.0_real128 ) then
+            agm = ieee_value(agm, ieee_quiet_nan); return
+        end if
 
 
 

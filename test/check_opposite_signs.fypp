@@ -1,5 +1,5 @@
 #:include '../src/common.fypp'
-#:set PROGRAM_NAME = 'check_nan'
+#:set PROGRAM_NAME = 'check_opposite_signs'
 program ${PROGRAM_NAME}$
 
 #:for REAL_KIND in REAL_KINDS
@@ -36,17 +36,14 @@ program ${PROGRAM_NAME}$
 
 
 
-        x   = 1.0_${REAL_KIND}$
-        y   = ieee_value(x, ieee_quiet_nan)
+        x = -1.0_${REAL_KIND}$
+        y =  1.0_${REAL_KIND}$
+
         agm = arithmetic_geometric_mean(x, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
         agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(y, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
