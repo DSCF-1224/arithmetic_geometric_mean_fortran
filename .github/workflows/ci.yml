@@ -32,10 +32,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run fypp
+      - name: Run fypp (src)
         run: |
           cd src
           fypp -F arithmetic_geometric_mean_fortran.fypp arithmetic_geometric_mean_fortran.f90
+          cd ..
+
+      - name: Run fypp (test)
+        run: |
+          cd test
+          fypp -F check_nan.fypp check_nan.f90
           cd ..
 
       - name: Upload artifacts (src)
@@ -60,28 +66,10 @@ jobs:
 
     steps:
 
-      - uses: actions/checkout@v5
-
-      - uses: actions/setup-python@v6
-        with:
-          python-version: '3.x'
-          cache: 'pip'
-
-      - name: Install Python dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
       - name: Install fpm
         uses: fortran-lang/setup-fpm@v8
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Run fypp
-        run: |
-          cd test
-          fypp -F check_nan.fypp check_nan.f90
-          cd ..
 
       - name: Build library using fpm
         run: fpm build --profile ${{ matrix.profile }}
