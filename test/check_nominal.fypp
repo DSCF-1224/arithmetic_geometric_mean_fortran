@@ -1,0 +1,68 @@
+#:include '../src/common.fypp'
+#:set PROGRAM_NAME = 'check_nominal'
+program ${PROGRAM_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_normal
+    use, intrinsic :: ieee_arithmetic, only: ieee_value
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+
+
+    implicit none
+
+
+
+#:for REAL_KIND in REAL_KINDS
+    call test_${REAL_KIND}$
+#:endfor
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$
+
+        real(${REAL_KIND}$) :: agm, x, y
+
+
+
+        x = 1.0_${REAL_KIND}$
+
+
+
+        y = tiny(y)
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+
+
+        y = epsilon(y)
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+
+end program ${PROGRAM_NAME}$
