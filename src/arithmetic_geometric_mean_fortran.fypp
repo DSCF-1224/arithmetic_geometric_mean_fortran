@@ -7,6 +7,7 @@ module arithmetic_geometric_mean_fortran
 #:endfor
 
     use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
+    use, intrinsic :: ieee_arithmetic, only: ieee_unordered
     use, intrinsic :: ieee_arithmetic, only: ieee_value
 
 
@@ -55,16 +56,38 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        if ( (x * y) .lt. 0.0_${REAL_KIND}$ ) then
+        real(${REAL_KIND}$) :: xy !! x * y
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
             agm = ieee_value(agm, ieee_quiet_nan); return
+
         end if
 
 
 
-        if (x .lt. y) then
-            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_${REAL_KIND}$ ) then
+
+            agm = ieee_value(agm, ieee_quiet_nan)
+
+        else if ( xy .gt. 0.0_${REAL_KIND}$ ) then
+
+            if (x .lt. y) then
+                agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+            else
+                agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+            end if
+
         else
-            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+
+            agm = 0.0_${REAL_KIND}$
+
         end if
 
     end function ${FUNCTION_NAME}$
@@ -107,7 +130,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_${REAL_KIND}$
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. 0.0_${REAL_KIND}$ ) then
+            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
 
                 last_a = next_a
                 last_g = next_g
@@ -116,7 +139,7 @@ module arithmetic_geometric_mean_fortran
 
             else
 
-                agm = next_a
+                agm = max(next_a, next_g)
 
                 return
 
