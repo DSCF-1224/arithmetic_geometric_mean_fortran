@@ -5,6 +5,7 @@ module arithmetic_geometric_mean_fortran
     use, intrinsic :: iso_fortran_env, only: real128
 
     use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
+    use, intrinsic :: ieee_arithmetic, only: ieee_unordered
     use, intrinsic :: ieee_arithmetic, only: ieee_value
 
 
@@ -49,16 +50,38 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        if ( (x * y) .lt. 0.0_real32 ) then
+        real(real32) :: xy !! x * y
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
             agm = ieee_value(agm, ieee_quiet_nan); return
+
         end if
 
 
 
-        if (x .lt. y) then
-            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_real32 ) then
+
+            agm = ieee_value(agm, ieee_quiet_nan)
+
+        else if ( xy .gt. 0.0_real32 ) then
+
+            if (x .lt. y) then
+                agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+            else
+                agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+            end if
+
         else
-            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+
+            agm = 0.0_real32
+
         end if
 
     end function arithmetic_geometric_mean_real32
@@ -75,16 +98,38 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        if ( (x * y) .lt. 0.0_real64 ) then
+        real(real64) :: xy !! x * y
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
             agm = ieee_value(agm, ieee_quiet_nan); return
+
         end if
 
 
 
-        if (x .lt. y) then
-            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_real64 ) then
+
+            agm = ieee_value(agm, ieee_quiet_nan)
+
+        else if ( xy .gt. 0.0_real64 ) then
+
+            if (x .lt. y) then
+                agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+            else
+                agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+            end if
+
         else
-            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+
+            agm = 0.0_real64
+
         end if
 
     end function arithmetic_geometric_mean_real64
@@ -101,16 +146,38 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        if ( (x * y) .lt. 0.0_real128 ) then
+        real(real128) :: xy !! x * y
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
             agm = ieee_value(agm, ieee_quiet_nan); return
+
         end if
 
 
 
-        if (x .lt. y) then
-            agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_real128 ) then
+
+            agm = ieee_value(agm, ieee_quiet_nan)
+
+        else if ( xy .gt. 0.0_real128 ) then
+
+            if (x .lt. y) then
+                agm = arithmetic_geometric_mean_kernel( a = y, g = x )
+            else
+                agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+            end if
+
         else
-            agm = arithmetic_geometric_mean_kernel( a = x, g = y )
+
+            agm = 0.0_real128
+
         end if
 
     end function arithmetic_geometric_mean_real128
@@ -149,7 +216,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_real32
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. 0.0_real32 ) then
+            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
 
                 last_a = next_a
                 last_g = next_g
@@ -158,7 +225,7 @@ module arithmetic_geometric_mean_fortran
 
             else
 
-                agm = next_a
+                agm = max(next_a, next_g)
 
                 return
 
@@ -202,7 +269,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_real64
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. 0.0_real64 ) then
+            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
 
                 last_a = next_a
                 last_g = next_g
@@ -211,7 +278,7 @@ module arithmetic_geometric_mean_fortran
 
             else
 
-                agm = next_a
+                agm = max(next_a, next_g)
 
                 return
 
@@ -255,7 +322,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_real128
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. 0.0_real128 ) then
+            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
 
                 last_a = next_a
                 last_g = next_g
@@ -264,7 +331,7 @@ module arithmetic_geometric_mean_fortran
 
             else
 
-                agm = next_a
+                agm = max(next_a, next_g)
 
                 return
 
