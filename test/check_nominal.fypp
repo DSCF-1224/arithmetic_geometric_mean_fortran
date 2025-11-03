@@ -7,6 +7,7 @@ program ${PROGRAM_NAME}$
 #:endfor
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_normal
+    use, intrinsic :: ieee_arithmetic, only: ieee_next_after
     use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
@@ -52,6 +53,19 @@ program ${PROGRAM_NAME}$
 
 
         y = epsilon(y)
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+
+
+        x   = sqrt( huge(x) )
+        y   = ieee_next_after(x, 0.0_${REAL_KIND}$)
 
         agm = arithmetic_geometric_mean(x, y)
 
