@@ -44,6 +44,7 @@ jobs:
           fypp -F check_nan.fypp check_nan.f90
           fypp -F check_nominal.fypp check_nominal.f90
           fypp -F check_opposite_signs.fypp check_opposite_signs.f90
+          fypp -F check_zero.fypp check_zero.f90
           cd ..
 
       - name: Upload artifacts (src)
