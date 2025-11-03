@@ -29,6 +29,30 @@ program ${PROGRAM_NAME}$
 
 
 
+    #:set SUBROUTINE_NAME = 'test_kernel_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, nan)
+
+        real(${REAL_KIND}$), intent(in) :: x, nan
+
+
+
+        real(${REAL_KIND}$) :: agm
+
+
+
+        agm = arithmetic_geometric_mean(x, nan)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(nan, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+
+
+
     #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
@@ -36,9 +60,16 @@ program ${PROGRAM_NAME}$
 
 
 
-        x = 1.0_${REAL_KIND}$
-
         call set_ieee_quiet_nan(y)
+
+
+
+        call test_kernel_${REAL_KIND}$( x = 0.0_${REAL_KIND}$, nan = y )
+        call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, nan = y )
+
+
+
+        call set_ieee_quiet_nan(x)
 
 
 
@@ -47,10 +78,6 @@ program ${PROGRAM_NAME}$
         if ( .not. ieee_is_nan(agm) ) error stop
 
         agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(y, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
