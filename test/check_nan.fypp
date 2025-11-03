@@ -7,10 +7,10 @@ program ${PROGRAM_NAME}$
 #:endfor
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
 
 
 
@@ -36,8 +36,12 @@ program ${PROGRAM_NAME}$
 
 
 
-        x   = 1.0_${REAL_KIND}$
-        y   = ieee_value(x, ieee_quiet_nan)
+        x = 1.0_${REAL_KIND}$
+
+        call set_ieee_quiet_nan(y)
+
+
+
         agm = arithmetic_geometric_mean(x, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
