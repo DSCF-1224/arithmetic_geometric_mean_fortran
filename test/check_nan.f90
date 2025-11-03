@@ -26,15 +26,44 @@ program check_nan
 
 
 
+    subroutine test_kernel_real32(x, nan)
+
+        real(real32), intent(in) :: x, nan
+
+
+
+        real(real32) :: agm
+
+
+
+        agm = arithmetic_geometric_mean(x, nan)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(nan, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+    end subroutine test_kernel_real32
+
+
+
     subroutine test_real32
 
         real(real32) :: agm, x, y
 
 
 
-        x = 1.0_real32
-
         call set_ieee_quiet_nan(y)
+
+
+
+        call test_kernel_real32( x = 0.0_real32, nan = y )
+        call test_kernel_real32( x = 1.0_real32, nan = y )
+
+
+
+        call set_ieee_quiet_nan(x)
 
 
 
@@ -46,11 +75,29 @@ program check_nan
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, y)
+    end subroutine test_real32
+
+
+
+    subroutine test_kernel_real64(x, nan)
+
+        real(real64), intent(in) :: x, nan
+
+
+
+        real(real64) :: agm
+
+
+
+        agm = arithmetic_geometric_mean(x, nan)
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-    end subroutine test_real32
+        agm = arithmetic_geometric_mean(nan, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+    end subroutine test_kernel_real64
 
 
 
@@ -60,9 +107,16 @@ program check_nan
 
 
 
-        x = 1.0_real64
-
         call set_ieee_quiet_nan(y)
+
+
+
+        call test_kernel_real64( x = 0.0_real64, nan = y )
+        call test_kernel_real64( x = 1.0_real64, nan = y )
+
+
+
+        call set_ieee_quiet_nan(x)
 
 
 
@@ -74,11 +128,29 @@ program check_nan
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, y)
+    end subroutine test_real64
+
+
+
+    subroutine test_kernel_real128(x, nan)
+
+        real(real128), intent(in) :: x, nan
+
+
+
+        real(real128) :: agm
+
+
+
+        agm = arithmetic_geometric_mean(x, nan)
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-    end subroutine test_real64
+        agm = arithmetic_geometric_mean(nan, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+    end subroutine test_kernel_real128
 
 
 
@@ -88,9 +160,16 @@ program check_nan
 
 
 
-        x = 1.0_real128
-
         call set_ieee_quiet_nan(y)
+
+
+
+        call test_kernel_real128( x = 0.0_real128, nan = y )
+        call test_kernel_real128( x = 1.0_real128, nan = y )
+
+
+
+        call set_ieee_quiet_nan(x)
 
 
 
@@ -99,10 +178,6 @@ program check_nan
         if ( .not. ieee_is_nan(agm) ) error stop
 
         agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(y, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
