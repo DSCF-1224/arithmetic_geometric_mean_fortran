@@ -5,6 +5,7 @@ program check_nominal
     use, intrinsic :: iso_fortran_env, only: real128
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_normal
+    use, intrinsic :: ieee_arithmetic, only: ieee_next_after
     use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
@@ -57,6 +58,19 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+
+
+        x   = sqrt( huge(x) )
+        y   = ieee_next_after(x, 0.0_real32)
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
     end subroutine test_real32
 
 
@@ -93,6 +107,19 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+
+
+        x   = sqrt( huge(x) )
+        y   = ieee_next_after(x, 0.0_real64)
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
     end subroutine test_real64
 
 
@@ -120,6 +147,19 @@ program check_nominal
 
 
         y = epsilon(y)
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+
+
+        x   = sqrt( huge(x) )
+        y   = ieee_next_after(x, 0.0_real128)
 
         agm = arithmetic_geometric_mean(x, y)
 
