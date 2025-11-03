@@ -5,10 +5,10 @@ program check_nan
     use, intrinsic :: iso_fortran_env, only: real128
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
 
 
 
@@ -32,8 +32,12 @@ program check_nan
 
 
 
-        x   = 1.0_real32
-        y   = ieee_value(x, ieee_quiet_nan)
+        x = 1.0_real32
+
+        call set_ieee_quiet_nan(y)
+
+
+
         agm = arithmetic_geometric_mean(x, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
@@ -56,8 +60,12 @@ program check_nan
 
 
 
-        x   = 1.0_real64
-        y   = ieee_value(x, ieee_quiet_nan)
+        x = 1.0_real64
+
+        call set_ieee_quiet_nan(y)
+
+
+
         agm = arithmetic_geometric_mean(x, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
@@ -80,8 +88,12 @@ program check_nan
 
 
 
-        x   = 1.0_real128
-        y   = ieee_value(x, ieee_quiet_nan)
+        x = 1.0_real128
+
+        call set_ieee_quiet_nan(y)
+
+
+
         agm = arithmetic_geometric_mean(x, y)
 
         if ( .not. ieee_is_nan(agm) ) error stop
