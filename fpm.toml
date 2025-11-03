@@ -20,3 +20,6 @@ source-form = "free"
 name = "compiler"
 source-dir = "test"
 main = "check_compiler.f90"
+
+[test.dependencies]
+ieee_class_fortran = { git = "https://github.com/DSCF-1224/ieee_class_fortran", branch = "main" }
