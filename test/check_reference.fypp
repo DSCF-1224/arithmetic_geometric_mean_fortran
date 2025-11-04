@@ -105,6 +105,14 @@ program ${PROGRAM_NAME}$
 
         integer :: stat
 
+        real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$) :: ar_mean !! arithmetic mean
+
+        real(${REAL_KIND}$) :: b
+
+        real(${REAL_KIND}$) :: ge_mean !! geometric mean
+
         character(256) :: msg
 
 
@@ -114,6 +122,30 @@ program ${PROGRAM_NAME}$
         stat = stat      , &!
         msg  = msg         &!
         )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ar_mean, ag_mean_ref, ge_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+            print *, b ! print debug
+
+        end do
+
+
 
         call close_file( &!
         unit = file_unit , &!
