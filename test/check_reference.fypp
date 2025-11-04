@@ -2,8 +2,8 @@
 #:set PROGRAM_NAME = 'check_reference'
 program ${PROGRAM_NAME}$
 
-#:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: error_unit
+#:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
 #:endfor
 
