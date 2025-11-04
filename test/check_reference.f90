@@ -2,9 +2,7 @@ program check_reference
 
     use, intrinsic :: iso_fortran_env, only: error_unit
     use, intrinsic :: iso_fortran_env, only: real32
-    use, intrinsic :: iso_fortran_env, only: error_unit
     use, intrinsic :: iso_fortran_env, only: real64
-    use, intrinsic :: iso_fortran_env, only: error_unit
     use, intrinsic :: iso_fortran_env, only: real128
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
