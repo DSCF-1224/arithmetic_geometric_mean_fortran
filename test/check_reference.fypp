@@ -101,9 +101,15 @@ program ${PROGRAM_NAME}$
     #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
+        real(${REAL_KIND}$), parameter :: a = 1.0_${REAL_KIND}$
+
         integer :: file_unit
 
         integer :: stat
+
+        real(${REAL_KIND}$) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
 
         real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
@@ -141,7 +147,10 @@ program ${PROGRAM_NAME}$
                 call handle_stat(stat, msg)
             end if
 
-            print *, b ! print debug
+            ag_mean_cal = arithmetic_geometric_mean(a, b)
+            ag_mean_dif = ag_mean_cal - ag_mean_ref
+
+            print *, b, ag_mean_dif / spacing(ag_mean_ref)
 
         end do
 
