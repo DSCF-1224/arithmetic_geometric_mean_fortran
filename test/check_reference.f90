@@ -97,9 +97,15 @@ program check_reference
 
     subroutine test_real32
 
+        real(real32), parameter :: a = 1.0_real32
+
         integer :: file_unit
 
         integer :: stat
+
+        real(real32) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real32) :: ag_mean_dif !! arithmetic-geometric mean (difference)
 
         real(real32) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
@@ -137,7 +143,10 @@ program check_reference
                 call handle_stat(stat, msg)
             end if
 
-            print *, b ! print debug
+            ag_mean_cal = arithmetic_geometric_mean(a, b)
+            ag_mean_dif = ag_mean_cal - ag_mean_ref
+
+            print *, b, ag_mean_dif / spacing(ag_mean_ref)
 
         end do
 
@@ -155,9 +164,15 @@ program check_reference
 
     subroutine test_real64
 
+        real(real64), parameter :: a = 1.0_real64
+
         integer :: file_unit
 
         integer :: stat
+
+        real(real64) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real64) :: ag_mean_dif !! arithmetic-geometric mean (difference)
 
         real(real64) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
@@ -195,7 +210,10 @@ program check_reference
                 call handle_stat(stat, msg)
             end if
 
-            print *, b ! print debug
+            ag_mean_cal = arithmetic_geometric_mean(a, b)
+            ag_mean_dif = ag_mean_cal - ag_mean_ref
+
+            print *, b, ag_mean_dif / spacing(ag_mean_ref)
 
         end do
 
@@ -213,9 +231,15 @@ program check_reference
 
     subroutine test_real128
 
+        real(real128), parameter :: a = 1.0_real128
+
         integer :: file_unit
 
         integer :: stat
+
+        real(real128) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real128) :: ag_mean_dif !! arithmetic-geometric mean (difference)
 
         real(real128) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
@@ -253,7 +277,10 @@ program check_reference
                 call handle_stat(stat, msg)
             end if
 
-            print *, b ! print debug
+            ag_mean_cal = arithmetic_geometric_mean(a, b)
+            ag_mean_dif = ag_mean_cal - ag_mean_ref
+
+            print *, b, ag_mean_dif / spacing(ag_mean_ref)
 
         end do
 
