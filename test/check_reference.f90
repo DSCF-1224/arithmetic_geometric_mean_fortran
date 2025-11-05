@@ -115,6 +115,10 @@ program check_reference
 
         real(real32) :: ge_mean !! geometric mean
 
+        real(real32) :: ulp_error
+
+        real(real32) :: ulp_error_abs
+
         character(256) :: msg
 
 
@@ -143,10 +147,46 @@ program check_reference
                 call handle_stat(stat, msg)
             end if
 
-            ag_mean_cal = arithmetic_geometric_mean(a, b)
-            ag_mean_dif = ag_mean_cal - ag_mean_ref
 
-            print *, b, ag_mean_dif / spacing(ag_mean_ref)
+
+            ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_dif   = ag_mean_cal - ag_mean_ref
+            ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+            ulp_error_abs = abs(ulp_error)
+
+
+
+            if ( ulp_error_abs .gt. 2.0_real32 ) then
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'WARNING: Large ULP error at b ='
+
+                write( unit = error_unit, fmt = * ) b
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'ULP error ='
+
+                write( unit = error_unit, fmt = * ) ulp_error
+
+            end if
+
+
+
+            if ( ulp_error_abs .gt. 10.0_real32 ) then
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'FAIL: Unacceptable error at b ='
+
+                write( unit = error_unit, fmt = * ) b
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'ULP error ='
+
+                write( unit = error_unit, fmt = * ) ulp_error
+
+                error stop
+
+            end if
 
         end do
 
@@ -182,6 +222,10 @@ program check_reference
 
         real(real64) :: ge_mean !! geometric mean
 
+        real(real64) :: ulp_error
+
+        real(real64) :: ulp_error_abs
+
         character(256) :: msg
 
 
@@ -210,10 +254,46 @@ program check_reference
                 call handle_stat(stat, msg)
             end if
 
-            ag_mean_cal = arithmetic_geometric_mean(a, b)
-            ag_mean_dif = ag_mean_cal - ag_mean_ref
 
-            print *, b, ag_mean_dif / spacing(ag_mean_ref)
+
+            ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_dif   = ag_mean_cal - ag_mean_ref
+            ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+            ulp_error_abs = abs(ulp_error)
+
+
+
+            if ( ulp_error_abs .gt. 2.0_real64 ) then
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'WARNING: Large ULP error at b ='
+
+                write( unit = error_unit, fmt = * ) b
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'ULP error ='
+
+                write( unit = error_unit, fmt = * ) ulp_error
+
+            end if
+
+
+
+            if ( ulp_error_abs .gt. 10.0_real64 ) then
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'FAIL: Unacceptable error at b ='
+
+                write( unit = error_unit, fmt = * ) b
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'ULP error ='
+
+                write( unit = error_unit, fmt = * ) ulp_error
+
+                error stop
+
+            end if
 
         end do
 
@@ -249,6 +329,10 @@ program check_reference
 
         real(real128) :: ge_mean !! geometric mean
 
+        real(real128) :: ulp_error
+
+        real(real128) :: ulp_error_abs
+
         character(256) :: msg
 
 
@@ -277,10 +361,46 @@ program check_reference
                 call handle_stat(stat, msg)
             end if
 
-            ag_mean_cal = arithmetic_geometric_mean(a, b)
-            ag_mean_dif = ag_mean_cal - ag_mean_ref
 
-            print *, b, ag_mean_dif / spacing(ag_mean_ref)
+
+            ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_dif   = ag_mean_cal - ag_mean_ref
+            ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+            ulp_error_abs = abs(ulp_error)
+
+
+
+            if ( ulp_error_abs .gt. 2.0_real128 ) then
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'WARNING: Large ULP error at b ='
+
+                write( unit = error_unit, fmt = * ) b
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'ULP error ='
+
+                write( unit = error_unit, fmt = * ) ulp_error
+
+            end if
+
+
+
+            if ( ulp_error_abs .gt. 10.0_real128 ) then
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'FAIL: Unacceptable error at b ='
+
+                write( unit = error_unit, fmt = * ) b
+
+                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
+                    'ULP error ='
+
+                write( unit = error_unit, fmt = * ) ulp_error
+
+                error stop
+
+            end if
 
         end do
 
