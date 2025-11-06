@@ -179,7 +179,7 @@ program check_reference
             if ( ge_mean .gt. ag_mean_cal ) then
 
                 write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic mean is less than geometric mean'
+                    'FAIL: arithmetic-geometric mean is less than geometric mean'
 
                 write( unit = error_unit, fmt = * ) &!
                     'b                    = ' , b
@@ -324,7 +324,7 @@ program check_reference
             if ( ge_mean .gt. ag_mean_cal ) then
 
                 write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic mean is less than geometric mean'
+                    'FAIL: arithmetic-geometric mean is less than geometric mean'
 
                 write( unit = error_unit, fmt = * ) &!
                     'b                    = ' , b
@@ -469,7 +469,7 @@ program check_reference
             if ( ge_mean .gt. ag_mean_cal ) then
 
                 write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic mean is less than geometric mean'
+                    'FAIL: arithmetic-geometric mean is less than geometric mean'
 
                 write( unit = error_unit, fmt = * ) &!
                     'b                    = ' , b
