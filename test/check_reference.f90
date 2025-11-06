@@ -196,6 +196,26 @@ program check_reference
 
 
 
+            if ( ag_mean_cal .gt. ar_mean ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic           = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                error stop
+
+            end if
+
+
+
             if ( ulp_error_abs .gt. 2.0_real32 ) then
 
                 write( unit = error_unit, fmt = * ) &!
@@ -341,6 +361,26 @@ program check_reference
 
 
 
+            if ( ag_mean_cal .gt. ar_mean ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic           = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                error stop
+
+            end if
+
+
+
             if ( ulp_error_abs .gt. 2.0_real64 ) then
 
                 write( unit = error_unit, fmt = * ) &!
@@ -479,6 +519,26 @@ program check_reference
 
                 write( unit = error_unit, fmt = * ) &!
                     '           geometric = ' , ge_mean
+
+                error stop
+
+            end if
+
+
+
+            if ( ag_mean_cal .gt. ar_mean ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic           = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
 
                 error stop
 
