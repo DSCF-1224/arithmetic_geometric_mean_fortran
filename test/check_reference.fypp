@@ -200,6 +200,26 @@ program ${PROGRAM_NAME}$
 
 
 
+            if ( ag_mean_cal .gt. ar_mean ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic           = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                error stop
+
+            end if
+
+
+
             if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
 
                 write( unit = error_unit, fmt = * ) &!
