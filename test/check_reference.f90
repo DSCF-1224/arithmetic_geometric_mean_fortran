@@ -139,12 +139,32 @@ program check_reference
             iostat = stat      , &!
             iomsg  = msg         &!
             ) &!
-            b, ar_mean, ag_mean_ref, ge_mean
+            b, ge_mean, ag_mean_ref, ar_mean
 
             if ( is_iostat_end(stat) ) then
                 exit
             else
                 call handle_stat(stat, msg)
+            end if
+
+
+
+            if (ge_mean .gt. ar_mean) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b          = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'geometric  = ' , ge_mean
+
+                error stop
+
             end if
 
 
@@ -244,12 +264,32 @@ program check_reference
             iostat = stat      , &!
             iomsg  = msg         &!
             ) &!
-            b, ar_mean, ag_mean_ref, ge_mean
+            b, ge_mean, ag_mean_ref, ar_mean
 
             if ( is_iostat_end(stat) ) then
                 exit
             else
                 call handle_stat(stat, msg)
+            end if
+
+
+
+            if (ge_mean .gt. ar_mean) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b          = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'geometric  = ' , ge_mean
+
+                error stop
+
             end if
 
 
@@ -349,12 +389,32 @@ program check_reference
             iostat = stat      , &!
             iomsg  = msg         &!
             ) &!
-            b, ar_mean, ag_mean_ref, ge_mean
+            b, ge_mean, ag_mean_ref, ar_mean
 
             if ( is_iostat_end(stat) ) then
                 exit
             else
                 call handle_stat(stat, msg)
+            end if
+
+
+
+            if (ge_mean .gt. ar_mean) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b          = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'geometric  = ' , ge_mean
+
+                error stop
+
             end if
 
 
