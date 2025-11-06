@@ -158,15 +158,14 @@ program check_reference
 
             if ( ulp_error_abs .gt. 2.0_real32 ) then
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'WARNING: Large ULP error at b ='
+                write( unit = error_unit, fmt = * ) &!
+                    'WARNING: Large ULP error'
 
-                write( unit = error_unit, fmt = * ) b
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'ULP error ='
-
-                write( unit = error_unit, fmt = * ) ulp_error
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
 
             end if
 
@@ -174,15 +173,14 @@ program check_reference
 
             if ( ulp_error_abs .gt. 10.0_real32 ) then
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'FAIL: Unacceptable error at b ='
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Unacceptable error'
 
-                write( unit = error_unit, fmt = * ) b
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'ULP error ='
-
-                write( unit = error_unit, fmt = * ) ulp_error
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
 
                 error stop
 
@@ -265,15 +263,14 @@ program check_reference
 
             if ( ulp_error_abs .gt. 2.0_real64 ) then
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'WARNING: Large ULP error at b ='
+                write( unit = error_unit, fmt = * ) &!
+                    'WARNING: Large ULP error'
 
-                write( unit = error_unit, fmt = * ) b
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'ULP error ='
-
-                write( unit = error_unit, fmt = * ) ulp_error
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
 
             end if
 
@@ -281,15 +278,14 @@ program check_reference
 
             if ( ulp_error_abs .gt. 10.0_real64 ) then
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'FAIL: Unacceptable error at b ='
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Unacceptable error'
 
-                write( unit = error_unit, fmt = * ) b
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'ULP error ='
-
-                write( unit = error_unit, fmt = * ) ulp_error
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
 
                 error stop
 
@@ -372,15 +368,14 @@ program check_reference
 
             if ( ulp_error_abs .gt. 2.0_real128 ) then
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'WARNING: Large ULP error at b ='
+                write( unit = error_unit, fmt = * ) &!
+                    'WARNING: Large ULP error'
 
-                write( unit = error_unit, fmt = * ) b
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'ULP error ='
-
-                write( unit = error_unit, fmt = * ) ulp_error
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
 
             end if
 
@@ -388,15 +383,14 @@ program check_reference
 
             if ( ulp_error_abs .gt. 10.0_real128 ) then
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'FAIL: Unacceptable error at b ='
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Unacceptable error'
 
-                write( unit = error_unit, fmt = * ) b
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
 
-                write( unit = error_unit, fmt = '(A)', advance = 'no' ) &!
-                    'ULP error ='
-
-                write( unit = error_unit, fmt = * ) ulp_error
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
 
                 error stop
 
