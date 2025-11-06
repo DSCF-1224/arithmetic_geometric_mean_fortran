@@ -176,6 +176,26 @@ program check_reference
 
 
 
+            if ( ge_mean .gt. ag_mean_cal ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    '           geometric = ' , ge_mean
+
+                error stop
+
+            end if
+
+
+
             if ( ulp_error_abs .gt. 2.0_real32 ) then
 
                 write( unit = error_unit, fmt = * ) &!
@@ -301,6 +321,26 @@ program check_reference
 
 
 
+            if ( ge_mean .gt. ag_mean_cal ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    '           geometric = ' , ge_mean
+
+                error stop
+
+            end if
+
+
+
             if ( ulp_error_abs .gt. 2.0_real64 ) then
 
                 write( unit = error_unit, fmt = * ) &!
@@ -423,6 +463,26 @@ program check_reference
             ag_mean_dif   = ag_mean_cal - ag_mean_ref
             ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
             ulp_error_abs = abs(ulp_error)
+
+
+
+            if ( ge_mean .gt. ag_mean_cal ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    '           geometric = ' , ge_mean
+
+                error stop
+
+            end if
 
 
 
