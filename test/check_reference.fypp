@@ -180,6 +180,26 @@ program ${PROGRAM_NAME}$
 
 
 
+            if ( ge_mean .gt. ag_mean_cal ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    '           geometric = ' , ge_mean
+
+                error stop
+
+            end if
+
+
+
             if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
 
                 write( unit = error_unit, fmt = * ) &!
