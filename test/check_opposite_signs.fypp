@@ -7,10 +7,10 @@ program ${PROGRAM_NAME}$
 #:endfor
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
 
 
 
@@ -38,6 +38,34 @@ program ${PROGRAM_NAME}$
 
         x = -1.0_${REAL_KIND}$
         y =  1.0_${REAL_KIND}$
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call set_ieee_positive_inf(x)
+
+        y = -1.0_${REAL_KIND}$
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call set_ieee_negative_inf(x)
+
+        y = 1.0_${REAL_KIND}$
 
         agm = arithmetic_geometric_mean(x, y)
 
