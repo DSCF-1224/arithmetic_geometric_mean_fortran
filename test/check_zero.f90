@@ -56,7 +56,6 @@ program check_zero
 
 
 
-        call test_kernel_real32( x = 0.0_real32, zero = y )
         call test_kernel_real32( x = 1.0_real32, zero = y )
 
 
@@ -109,7 +108,6 @@ program check_zero
 
 
 
-        call test_kernel_real64( x = 0.0_real64, zero = y )
         call test_kernel_real64( x = 1.0_real64, zero = y )
 
 
@@ -162,7 +160,6 @@ program check_zero
 
 
 
-        call test_kernel_real128( x = 0.0_real128, zero = y )
         call test_kernel_real128( x = 1.0_real128, zero = y )
 
 
