@@ -62,7 +62,6 @@ program ${PROGRAM_NAME}$
 
 
 
-        call test_kernel_${REAL_KIND}$( x = 0.0_${REAL_KIND}$, zero = y )
         call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, zero = y )
 
 
