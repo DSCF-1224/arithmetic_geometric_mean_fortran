@@ -5,10 +5,10 @@ program check_opposite_signs
     use, intrinsic :: iso_fortran_env, only: real128
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_quiet_nan
-    use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
 
 
 
@@ -43,6 +43,34 @@ program check_opposite_signs
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
+
+
+        call set_ieee_positive_inf(x)
+
+        y = -1.0_real32
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call set_ieee_negative_inf(x)
+
+        y = 1.0_real32
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
     end subroutine test_real32
 
 
@@ -64,6 +92,34 @@ program check_opposite_signs
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
+
+
+        call set_ieee_positive_inf(x)
+
+        y = -1.0_real64
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call set_ieee_negative_inf(x)
+
+        y = 1.0_real64
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
     end subroutine test_real64
 
 
@@ -76,6 +132,34 @@ program check_opposite_signs
 
         x = -1.0_real128
         y =  1.0_real128
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call set_ieee_positive_inf(x)
+
+        y = -1.0_real128
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        agm = arithmetic_geometric_mean(y, x)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call set_ieee_negative_inf(x)
+
+        y = 1.0_real128
 
         agm = arithmetic_geometric_mean(x, y)
 
