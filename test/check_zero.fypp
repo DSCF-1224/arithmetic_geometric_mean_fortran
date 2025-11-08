@@ -64,6 +64,8 @@ program ${PROGRAM_NAME}$
 
         call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, zero = y )
 
+        call test_kernel_${REAL_KIND}$( x = huge(x), zero = y )
+
 
 
         call set_ieee_positive_zero(x)
