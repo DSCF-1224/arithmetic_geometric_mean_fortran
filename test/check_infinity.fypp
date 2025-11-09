@@ -1,5 +1,5 @@
 #:include '../src/common.fypp'
-#:set PROGRAM_NAME = 'check_zero'
+#:set PROGRAM_NAME = 'check_infinity'
 program ${PROGRAM_NAME}$
 
 #:for REAL_KIND in REAL_KINDS
@@ -40,11 +40,11 @@ program ${PROGRAM_NAME}$
 
         agm = arithmetic_geometric_mean(x, zero)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_inf(agm) ) error stop
 
         agm = arithmetic_geometric_mean(zero, x)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_inf(agm) ) error stop
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
@@ -58,9 +58,13 @@ program ${PROGRAM_NAME}$
 
 
 
-        call set_ieee_positive_zero(y)
+        call set_ieee_positive_inf(y)
 
 
+
+        call test_kernel_${REAL_KIND}$( x = tiny(x), zero = y )
+
+        call test_kernel_${REAL_KIND}$( x = epsilon(x), zero = y )
 
         call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, zero = y )
 
@@ -68,17 +72,17 @@ program ${PROGRAM_NAME}$
 
 
 
-        call set_ieee_positive_zero(x)
+        call set_ieee_positive_inf(x)
 
 
 
         agm = arithmetic_geometric_mean(x, y)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_inf(agm) ) error stop
 
         agm = arithmetic_geometric_mean(y, x)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_inf(agm) ) error stop
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
