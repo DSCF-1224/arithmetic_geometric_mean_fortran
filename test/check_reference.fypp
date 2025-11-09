@@ -1,0 +1,295 @@
+#:include '../src/common.fypp'
+#:set PROGRAM_NAME = 'check_reference'
+program ${PROGRAM_NAME}$
+
+    use, intrinsic :: iso_fortran_env, only: error_unit
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
+
+
+
+    implicit none
+
+
+
+    character(*), parameter :: reference_file = 'test/reference.csv'
+
+
+
+#:for REAL_KIND in REAL_KINDS
+    call test_${REAL_KIND}$
+#:endfor
+
+
+
+    contains
+
+
+
+    subroutine close_file(unit, stat, msg)
+
+        integer, intent(in) :: unit
+
+        integer, intent(out) :: stat
+
+        character(*), intent(inout) :: msg
+
+
+
+        close( &!
+        unit   = unit , &!
+        iostat = stat , &!
+        iomsg  = msg    &!
+        )
+
+        call handle_stat(stat, msg)
+
+    end subroutine close_file
+
+
+
+    subroutine handle_stat(stat, msg)
+
+        integer, intent(in) :: stat
+
+        character(*), intent(in) :: msg
+
+
+
+        if (stat .ne. 0) then
+
+            write( unit = error_unit, fmt = '(A,I0)') 'iostat : ', stat
+            write( unit = error_unit, fmt = '(A,A)' ) 'iomsg  : ', trim(msg)
+
+            error stop
+
+        end if
+
+    end subroutine handle_stat
+
+
+
+    subroutine open_reference_file(unit, stat, msg)
+
+        integer, intent(inout) :: unit
+
+        integer, intent(out) :: stat
+
+        character(*), intent(inout) :: msg
+
+
+
+        open( &!
+        file    = reference_file , &!
+        newunit = unit           , &!
+        action  = 'read'         , &!
+        status  = 'old'          , &!
+        iostat  = stat           , &!
+        iomsg   = msg              &!
+        )
+
+        call handle_stat(stat, msg)
+
+    end subroutine open_reference_file
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$
+
+        real(${REAL_KIND}$), parameter :: a = 1.0_${REAL_KIND}$
+
+        integer :: file_unit
+
+        integer :: stat
+
+        real(${REAL_KIND}$) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$) :: ag_mean_rev !! arithmetic-geometric mean (reverse)
+
+        real(${REAL_KIND}$) :: ar_mean !! arithmetic mean
+
+        real(${REAL_KIND}$) :: b
+
+        real(${REAL_KIND}$) :: ge_mean !! geometric mean
+
+        real(${REAL_KIND}$) :: ulp_error
+
+        real(${REAL_KIND}$) :: ulp_error_abs
+
+        character(256) :: msg
+
+
+
+        call open_reference_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ge_mean, ag_mean_ref, ar_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+
+
+            if (ge_mean .gt. ar_mean) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b          = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'geometric  = ' , ge_mean
+
+                error stop
+
+            end if
+
+
+
+            ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_rev   = arithmetic_geometric_mean(b, a)
+            ag_mean_dif   = ag_mean_cal - ag_mean_ref
+            ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+            ulp_error_abs = abs(ulp_error)
+
+
+
+            if ( ge_mean .gt. ag_mean_cal ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic-geometric mean is less than geometric mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    '           geometric = ' , ge_mean
+
+                error stop
+
+            end if
+
+
+
+            if ( ag_mean_cal .gt. ar_mean ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b                    = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic           = ' , ar_mean
+
+                write( unit = error_unit, fmt = * ) &!
+                    'arithmetic-geometric = ' , ag_mean_cal
+
+                error stop
+
+            end if
+
+
+
+            if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'WARNING: Large ULP error'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
+
+            end if
+
+
+
+            if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Unacceptable error'
+
+                write( unit = error_unit, fmt = * ) &!
+                    'b         = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'ULP error = ' ,  ulp_error
+
+                error stop
+
+            end if
+
+
+
+            if ( .not. is_ieee_either_zero(ag_mean_cal - ag_mean_rev) ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Order independence error'
+
+                write( unit = error_unit, fmt = * ) &!
+                    '    a     = ' , a
+
+                write( unit = error_unit, fmt = * ) &!
+                    '       b  = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(a, b) = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(b, a) = ' , ag_mean_rev
+
+                error stop
+
+            end if
+
+        end do
+
+
+
+        call close_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+
+end program ${PROGRAM_NAME}$
