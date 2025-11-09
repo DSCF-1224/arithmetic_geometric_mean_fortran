@@ -24,9 +24,9 @@ program check_infinity
 
 
 
-    subroutine test_kernel_real32(x, zero)
+    subroutine test_kernel_real32(x, inf)
 
-        real(real32), intent(in) :: x, zero
+        real(real32), intent(in) :: x, inf
 
 
 
@@ -34,11 +34,11 @@ program check_infinity
 
 
 
-        agm = arithmetic_geometric_mean(x, zero)
+        agm = arithmetic_geometric_mean(x, inf)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(zero, x)
+        agm = arithmetic_geometric_mean(inf, x)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
@@ -56,13 +56,13 @@ program check_infinity
 
 
 
-        call test_kernel_real32( x = tiny(x), zero = y )
+        call test_kernel_real32( x = tiny(x), inf = y )
 
-        call test_kernel_real32( x = epsilon(x), zero = y )
+        call test_kernel_real32( x = epsilon(x), inf = y )
 
-        call test_kernel_real32( x = 1.0_real32, zero = y )
+        call test_kernel_real32( x = 1.0_real32, inf = y )
 
-        call test_kernel_real32( x = huge(x), zero = y )
+        call test_kernel_real32( x = huge(x), inf = y )
 
 
 
@@ -82,9 +82,9 @@ program check_infinity
 
 
 
-    subroutine test_kernel_real64(x, zero)
+    subroutine test_kernel_real64(x, inf)
 
-        real(real64), intent(in) :: x, zero
+        real(real64), intent(in) :: x, inf
 
 
 
@@ -92,11 +92,11 @@ program check_infinity
 
 
 
-        agm = arithmetic_geometric_mean(x, zero)
+        agm = arithmetic_geometric_mean(x, inf)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(zero, x)
+        agm = arithmetic_geometric_mean(inf, x)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
@@ -114,13 +114,13 @@ program check_infinity
 
 
 
-        call test_kernel_real64( x = tiny(x), zero = y )
+        call test_kernel_real64( x = tiny(x), inf = y )
 
-        call test_kernel_real64( x = epsilon(x), zero = y )
+        call test_kernel_real64( x = epsilon(x), inf = y )
 
-        call test_kernel_real64( x = 1.0_real64, zero = y )
+        call test_kernel_real64( x = 1.0_real64, inf = y )
 
-        call test_kernel_real64( x = huge(x), zero = y )
+        call test_kernel_real64( x = huge(x), inf = y )
 
 
 
@@ -140,9 +140,9 @@ program check_infinity
 
 
 
-    subroutine test_kernel_real128(x, zero)
+    subroutine test_kernel_real128(x, inf)
 
-        real(real128), intent(in) :: x, zero
+        real(real128), intent(in) :: x, inf
 
 
 
@@ -150,11 +150,11 @@ program check_infinity
 
 
 
-        agm = arithmetic_geometric_mean(x, zero)
+        agm = arithmetic_geometric_mean(x, inf)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(zero, x)
+        agm = arithmetic_geometric_mean(inf, x)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
@@ -172,13 +172,13 @@ program check_infinity
 
 
 
-        call test_kernel_real128( x = tiny(x), zero = y )
+        call test_kernel_real128( x = tiny(x), inf = y )
 
-        call test_kernel_real128( x = epsilon(x), zero = y )
+        call test_kernel_real128( x = epsilon(x), inf = y )
 
-        call test_kernel_real128( x = 1.0_real128, zero = y )
+        call test_kernel_real128( x = 1.0_real128, inf = y )
 
-        call test_kernel_real128( x = huge(x), zero = y )
+        call test_kernel_real128( x = huge(x), inf = y )
 
 
 
