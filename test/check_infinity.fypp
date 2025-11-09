@@ -28,9 +28,9 @@ program ${PROGRAM_NAME}$
 
 
     #:set SUBROUTINE_NAME = 'test_kernel_' + REAL_KIND
-    subroutine ${SUBROUTINE_NAME}$(x, zero)
+    subroutine ${SUBROUTINE_NAME}$(x, inf)
 
-        real(${REAL_KIND}$), intent(in) :: x, zero
+        real(${REAL_KIND}$), intent(in) :: x, inf
 
 
 
@@ -38,11 +38,11 @@ program ${PROGRAM_NAME}$
 
 
 
-        agm = arithmetic_geometric_mean(x, zero)
+        agm = arithmetic_geometric_mean(x, inf)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(zero, x)
+        agm = arithmetic_geometric_mean(inf, x)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
@@ -62,13 +62,13 @@ program ${PROGRAM_NAME}$
 
 
 
-        call test_kernel_${REAL_KIND}$( x = tiny(x), zero = y )
+        call test_kernel_${REAL_KIND}$( x = tiny(x), inf = y )
 
-        call test_kernel_${REAL_KIND}$( x = epsilon(x), zero = y )
+        call test_kernel_${REAL_KIND}$( x = epsilon(x), inf = y )
 
-        call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, zero = y )
+        call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, inf = y )
 
-        call test_kernel_${REAL_KIND}$( x = huge(x), zero = y )
+        call test_kernel_${REAL_KIND}$( x = huge(x), inf = y )
 
 
 
