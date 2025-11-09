@@ -7,6 +7,8 @@ program check_reference
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
+    use, non_intrinsic :: ieee_class_fortran
+
 
 
     implicit none
@@ -109,6 +111,8 @@ program check_reference
 
         real(real32) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
+        real(real32) :: ag_mean_rev !! arithmetic-geometric mean (reverse)
+
         real(real32) :: ar_mean !! arithmetic mean
 
         real(real32) :: b
@@ -170,6 +174,7 @@ program check_reference
 
 
             ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_rev   = arithmetic_geometric_mean(b, a)
             ag_mean_dif   = ag_mean_cal - ag_mean_ref
             ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
             ulp_error_abs = abs(ulp_error)
@@ -246,6 +251,29 @@ program check_reference
 
             end if
 
+
+
+            if ( .not. is_ieee_either_zero(ag_mean_cal - ag_mean_rev) ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Order independence error'
+
+                write( unit = error_unit, fmt = * ) &!
+                    '    a     = ' , a
+
+                write( unit = error_unit, fmt = * ) &!
+                    '       b  = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(a, b) = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(b, a) = ' , ag_mean_rev
+
+                error stop
+
+            end if
+
         end do
 
 
@@ -273,6 +301,8 @@ program check_reference
         real(real64) :: ag_mean_dif !! arithmetic-geometric mean (difference)
 
         real(real64) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real64) :: ag_mean_rev !! arithmetic-geometric mean (reverse)
 
         real(real64) :: ar_mean !! arithmetic mean
 
@@ -335,6 +365,7 @@ program check_reference
 
 
             ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_rev   = arithmetic_geometric_mean(b, a)
             ag_mean_dif   = ag_mean_cal - ag_mean_ref
             ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
             ulp_error_abs = abs(ulp_error)
@@ -411,6 +442,29 @@ program check_reference
 
             end if
 
+
+
+            if ( .not. is_ieee_either_zero(ag_mean_cal - ag_mean_rev) ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Order independence error'
+
+                write( unit = error_unit, fmt = * ) &!
+                    '    a     = ' , a
+
+                write( unit = error_unit, fmt = * ) &!
+                    '       b  = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(a, b) = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(b, a) = ' , ag_mean_rev
+
+                error stop
+
+            end if
+
         end do
 
 
@@ -438,6 +492,8 @@ program check_reference
         real(real128) :: ag_mean_dif !! arithmetic-geometric mean (difference)
 
         real(real128) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real128) :: ag_mean_rev !! arithmetic-geometric mean (reverse)
 
         real(real128) :: ar_mean !! arithmetic mean
 
@@ -500,6 +556,7 @@ program check_reference
 
 
             ag_mean_cal   = arithmetic_geometric_mean(a, b)
+            ag_mean_rev   = arithmetic_geometric_mean(b, a)
             ag_mean_dif   = ag_mean_cal - ag_mean_ref
             ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
             ulp_error_abs = abs(ulp_error)
@@ -571,6 +628,29 @@ program check_reference
 
                 write( unit = error_unit, fmt = * ) &!
                     'ULP error = ' ,  ulp_error
+
+                error stop
+
+            end if
+
+
+
+            if ( .not. is_ieee_either_zero(ag_mean_cal - ag_mean_rev) ) then
+
+                write( unit = error_unit, fmt = * ) &!
+                    'FAIL: Order independence error'
+
+                write( unit = error_unit, fmt = * ) &!
+                    '    a     = ' , a
+
+                write( unit = error_unit, fmt = * ) &!
+                    '       b  = ' , b
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(a, b) = ' , ag_mean_cal
+
+                write( unit = error_unit, fmt = * ) &!
+                    'AGM(b, a) = ' , ag_mean_rev
 
                 error stop
 
