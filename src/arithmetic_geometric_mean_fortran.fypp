@@ -1,6 +1,7 @@
 #:include 'common.fypp'
 #:set INTERFACE_NAME_KERNEL = 'arithmetic_geometric_mean'
 module arithmetic_geometric_mean_fortran
+#:include 'module_description.fypp'
 
 #:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
