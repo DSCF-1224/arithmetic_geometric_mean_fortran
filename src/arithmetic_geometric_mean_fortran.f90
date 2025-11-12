@@ -30,9 +30,26 @@ module arithmetic_geometric_mean_fortran
 
 
     interface arithmetic_geometric_mean_kernel
+        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! @warning
+        !! - This function/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! The iteration stops when the absolute difference
+        !! between successive arithmetic and geometric means
+        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! as determined by the intrinsic `spacing()` function.
+        !! @endnote
+
+
         module procedure :: arithmetic_geometric_mean_kernel_real32
         module procedure :: arithmetic_geometric_mean_kernel_real64
         module procedure :: arithmetic_geometric_mean_kernel_real128
+
     end interface arithmetic_geometric_mean_kernel
 
 
@@ -186,6 +203,21 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_kernel_real32(a, g) result(agm)
+        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! @warning
+        !! - This function/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! The iteration stops when the absolute difference
+        !! between successive arithmetic and geometric means
+        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! as determined by the intrinsic `spacing()` function.
+        !! @endnote
+
 
         real(real32), intent(in) :: a !! arithmetic mean
 
@@ -239,6 +271,21 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_kernel_real64(a, g) result(agm)
+        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! @warning
+        !! - This function/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! The iteration stops when the absolute difference
+        !! between successive arithmetic and geometric means
+        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! as determined by the intrinsic `spacing()` function.
+        !! @endnote
+
 
         real(real64), intent(in) :: a !! arithmetic mean
 
@@ -292,6 +339,21 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_kernel_real128(a, g) result(agm)
+        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! @warning
+        !! - This function/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! The iteration stops when the absolute difference
+        !! between successive arithmetic and geometric means
+        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! as determined by the intrinsic `spacing()` function.
+        !! @endnote
+
 
         real(real128), intent(in) :: a !! arithmetic mean
 
