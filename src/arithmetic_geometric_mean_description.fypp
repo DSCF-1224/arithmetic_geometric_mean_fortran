@@ -1,0 +1,10 @@
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
+        !! with input validation and ordering.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: computes AGM using the iterative kernel
+        !! @endnote
+
