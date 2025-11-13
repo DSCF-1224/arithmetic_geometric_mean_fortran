@@ -41,7 +41,7 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! The iteration stops when the absolute difference
         !! between successive arithmetic and geometric means
-        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! is less than or equal to the machine epsilon (relative to the smaller value),
         !! as determined by the intrinsic `spacing()` function.
         !! @endnote
 
@@ -214,7 +214,7 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! The iteration stops when the absolute difference
         !! between successive arithmetic and geometric means
-        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! is less than or equal to the machine epsilon (relative to the smaller value),
         !! as determined by the intrinsic `spacing()` function.
         !! @endnote
 
@@ -282,7 +282,7 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! The iteration stops when the absolute difference
         !! between successive arithmetic and geometric means
-        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! is less than or equal to the machine epsilon (relative to the smaller value),
         !! as determined by the intrinsic `spacing()` function.
         !! @endnote
 
@@ -350,7 +350,7 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! The iteration stops when the absolute difference
         !! between successive arithmetic and geometric means
-        !! is less than or equal tothe machine epsilon (relative to the smaller value),
+        !! is less than or equal to the machine epsilon (relative to the smaller value),
         !! as determined by the intrinsic `spacing()` function.
         !! @endnote
 
