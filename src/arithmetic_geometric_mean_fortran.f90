@@ -22,9 +22,21 @@ module arithmetic_geometric_mean_fortran
 
 
     interface arithmetic_geometric_mean
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
+        !! with input validation and ordering.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: computes AGM using the iterative kernel
+        !! @endnote
+
+
         module procedure :: arithmetic_geometric_mean_real32
         module procedure :: arithmetic_geometric_mean_real64
         module procedure :: arithmetic_geometric_mean_real128
+
     end interface arithmetic_geometric_mean
 
 
@@ -59,6 +71,16 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_real32(x, y) result(agm)
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
+        !! with input validation and ordering.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: computes AGM using the iterative kernel
+        !! @endnote
+
 
         real(real32), intent(in) :: x, y
 
@@ -107,6 +129,16 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_real64(x, y) result(agm)
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
+        !! with input validation and ordering.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: computes AGM using the iterative kernel
+        !! @endnote
+
 
         real(real64), intent(in) :: x, y
 
@@ -155,6 +187,16 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_real128(x, y) result(agm)
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
+        !! with input validation and ordering.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: computes AGM using the iterative kernel
+        !! @endnote
+
 
         real(real128), intent(in) :: x, y
 
