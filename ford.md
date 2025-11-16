@@ -1,6 +1,6 @@
 ---
 project: DSCF-1224/arithmetic_geometric_mean_fortran
-summary: Compute arithmetic–geometric mean.
+summary: A Fortran library for computing the arithmetic-geometric mean (AGM) of two non-negative floating-point numbers.
 project_github: https://github.com/DSCF-1224/arithmetic_geometric_mean_fortran
 github: https://github.com/DSCF-1224
 src_dir: ./src
