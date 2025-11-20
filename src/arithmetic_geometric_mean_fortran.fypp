@@ -1,6 +1,7 @@
 #:include 'common.fypp'
 #:set INTERFACE_NAME_KERNEL = 'arithmetic_geometric_mean'
 module arithmetic_geometric_mean_fortran
+#:include 'module_description.fypp'
 
 #:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
@@ -23,18 +24,24 @@ module arithmetic_geometric_mean_fortran
 
 
     interface ${INTERFACE_NAME_KERNEL}$
+        #:include 'arithmetic_geometric_mean_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME_KERNEL}$
 
 
 
 #:set INTERFACE_NAME = INTERFACE_NAME_KERNEL + '_kernel'
     interface ${INTERFACE_NAME}$
+        #:include 'arithmetic_geometric_mean_kernel_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -47,6 +54,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(x, y) result(agm)
+        #:include 'arithmetic_geometric_mean_description.fypp'
 
         real(${REAL_KIND}$), intent(in) :: x, y
 
@@ -99,6 +107,7 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function ${FUNCTION_NAME}$(a, g) result(agm)
+        #:include 'arithmetic_geometric_mean_kernel_description.fypp'
 
         real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
 
