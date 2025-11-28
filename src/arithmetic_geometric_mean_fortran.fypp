@@ -20,6 +20,7 @@ module arithmetic_geometric_mean_fortran
     private
 
     public :: ${INTERFACE_NAME_KERNEL}$
+    public :: ${INTERFACE_NAME_KERNEL}$_kernel
 
 
 
