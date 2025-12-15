@@ -20,6 +20,10 @@ module arithmetic_geometric_mean_fortran
     public :: arithmetic_geometric_mean
     public :: arithmetic_geometric_mean_kernel
 
+    public :: arithmetic_geometric_mean_real32_type
+    public :: arithmetic_geometric_mean_real64_type
+    public :: arithmetic_geometric_mean_real128_type
+
 
 
     interface arithmetic_geometric_mean
@@ -64,6 +68,21 @@ module arithmetic_geometric_mean_fortran
         module procedure :: arithmetic_geometric_mean_kernel_real128
 
     end interface arithmetic_geometric_mean_kernel
+
+
+
+    type :: arithmetic_geometric_mean_real32_type
+    end type arithmetic_geometric_mean_real32_type
+
+
+
+    type :: arithmetic_geometric_mean_real64_type
+    end type arithmetic_geometric_mean_real64_type
+
+
+
+    type :: arithmetic_geometric_mean_real128_type
+    end type arithmetic_geometric_mean_real128_type
 
 
 
