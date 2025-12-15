@@ -22,6 +22,10 @@ module arithmetic_geometric_mean_fortran
     public :: ${INTERFACE_NAME_KERNEL}$
     public :: ${INTERFACE_NAME_KERNEL}$_kernel
 
+#:for REAL_KIND in REAL_KINDS
+    public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
+#:endfor
+
 
 
     interface ${INTERFACE_NAME_KERNEL}$
@@ -45,6 +49,15 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
+    type :: ${TYPE_NAME}$
+    end type ${TYPE_NAME}$
+    #:del TYPE_NAME
+#:endfor
 
 
 
