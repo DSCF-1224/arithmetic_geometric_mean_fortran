@@ -72,6 +72,10 @@ module arithmetic_geometric_mean_fortran
 
 
     type, abstract :: arithmetic_geometric_mean_base_type
+
+        integer, private :: n_iter
+        !! the number of iterations performed during AGM calculation
+
     end type arithmetic_geometric_mean_base_type
 
 
