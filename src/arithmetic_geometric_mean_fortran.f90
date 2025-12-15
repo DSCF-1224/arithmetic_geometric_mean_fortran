@@ -76,17 +76,17 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    type :: arithmetic_geometric_mean_real32_type
+    type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real32_type
     end type arithmetic_geometric_mean_real32_type
 
 
 
-    type :: arithmetic_geometric_mean_real64_type
+    type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real64_type
     end type arithmetic_geometric_mean_real64_type
 
 
 
-    type :: arithmetic_geometric_mean_real128_type
+    type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real128_type
     end type arithmetic_geometric_mean_real128_type
 
 
