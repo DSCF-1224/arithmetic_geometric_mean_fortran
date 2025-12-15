@@ -71,6 +71,11 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    type, abstract :: arithmetic_geometric_mean_base_type
+    end type arithmetic_geometric_mean_base_type
+
+
+
     type :: arithmetic_geometric_mean_real32_type
     end type arithmetic_geometric_mean_real32_type
 
