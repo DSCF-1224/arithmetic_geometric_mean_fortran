@@ -54,6 +54,10 @@ module arithmetic_geometric_mean_fortran
 
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_base_type'
     type, abstract :: ${TYPE_NAME}$
+
+        integer, private :: n_iter
+        !! the number of iterations performed during AGM calculation
+
     end type ${TYPE_NAME}$
     #:del TYPE_NAME
 #:for REAL_KIND in REAL_KINDS
