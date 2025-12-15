@@ -61,7 +61,7 @@ module arithmetic_geometric_mean_fortran
 
 
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
-    type :: ${TYPE_NAME}$
+    type, extends(${INTERFACE_NAME_KERNEL}$_base_type) :: ${TYPE_NAME}$
     end type ${TYPE_NAME}$
     #:del TYPE_NAME
 #:endfor
