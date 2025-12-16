@@ -90,16 +90,37 @@ module arithmetic_geometric_mean_fortran
 
 
     type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real32_type
+
+        real(real32), private :: ari(0:max_n_iter_real32)
+        !! history of the arithmetic mean
+
+        real(real32), private :: geo(0:max_n_iter_real32)
+        !! history of the geometric mean
+
     end type arithmetic_geometric_mean_real32_type
 
 
 
     type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real64_type
+
+        real(real64), private :: ari(0:max_n_iter_real64)
+        !! history of the arithmetic mean
+
+        real(real64), private :: geo(0:max_n_iter_real64)
+        !! history of the geometric mean
+
     end type arithmetic_geometric_mean_real64_type
 
 
 
     type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real128_type
+
+        real(real128), private :: ari(0:max_n_iter_real128)
+        !! history of the arithmetic mean
+
+        real(real128), private :: geo(0:max_n_iter_real128)
+        !! history of the geometric mean
+
     end type arithmetic_geometric_mean_real128_type
 
 
