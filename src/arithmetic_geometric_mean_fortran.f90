@@ -26,6 +26,10 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    integer, parameter :: initial_n_iter = -1
+
+
+
     interface arithmetic_geometric_mean
         !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
         !! with input validation and ordering.
@@ -73,7 +77,7 @@ module arithmetic_geometric_mean_fortran
 
     type, abstract :: arithmetic_geometric_mean_base_type
 
-        integer, private :: n_iter
+        integer, private :: n_iter = initial_n_iter
         !! the number of iterations performed during AGM calculation
 
     end type arithmetic_geometric_mean_base_type
