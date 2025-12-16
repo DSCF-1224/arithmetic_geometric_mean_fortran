@@ -28,6 +28,11 @@ module arithmetic_geometric_mean_fortran
 
     integer, parameter :: initial_n_iter = -1
 
+    integer, parameter :: max_n_iter_real32 = digits(0.0_real32)
+    integer, parameter :: max_n_iter_real64 = digits(0.0_real64)
+    integer, parameter :: max_n_iter_real128 = digits(0.0_real128)
+
+
 
 
     interface arithmetic_geometric_mean
