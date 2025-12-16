@@ -75,6 +75,13 @@ module arithmetic_geometric_mean_fortran
 
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
     type, extends(${INTERFACE_NAME_KERNEL}$_base_type) :: ${TYPE_NAME}$
+
+        real(${REAL_KIND}$), private :: ari(0:max_n_iter_${REAL_KIND}$)
+        !! history of the arithmetic mean
+
+        real(${REAL_KIND}$), private :: geo(0:max_n_iter_${REAL_KIND}$)
+        !! history of the geometric mean
+
     end type ${TYPE_NAME}$
     #:del TYPE_NAME
 #:endfor
