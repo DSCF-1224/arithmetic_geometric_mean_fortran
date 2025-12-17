@@ -80,6 +80,14 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    interface initialize
+        module procedure :: initialize_real32
+        module procedure :: initialize_real64
+        module procedure :: initialize_real128
+    end interface initialize
+
+
+
     type, abstract :: arithmetic_geometric_mean_base_type
 
         integer, private :: n_iter = initial_n_iter
