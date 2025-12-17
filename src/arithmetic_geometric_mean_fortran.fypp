@@ -61,6 +61,16 @@ module arithmetic_geometric_mean_fortran
 
 
 
+#:set INTERFACE_NAME = 'initialize'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_base_type'
     type, abstract :: ${TYPE_NAME}$
 
