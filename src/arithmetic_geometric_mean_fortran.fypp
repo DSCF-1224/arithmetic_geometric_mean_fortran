@@ -93,6 +93,25 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    #:set SUBROUTINE_NAME = 'initialize_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm)
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+
+
+        agm%n_iter = initial_n_iter
+
+        agm%ari(:) = ieee_value( x = 0.0_${REAL_KIND}$, class = ieee_quiet_nan )
+        agm%geo(:) = agm%ari(:)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
     #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(x, y) result(agm)
         #:include 'arithmetic_geometric_mean_description.fypp'
