@@ -229,5 +229,20 @@ module arithmetic_geometric_mean_fortran
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
+#:for REAL_KIND in REAL_KINDS
+    #:set SUBROUTINE_NAME = 'compute_kernel_' + REAL_KIND
+
+
+
+    elemental subroutine ${SUBROUTINE_NAME}$(agm)
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+
+
+        call initialize(agm)
+
+    end subroutine ${SUBROUTINE_NAME}$
+#:endfor
 
 end module arithmetic_geometric_mean_fortran
