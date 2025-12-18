@@ -558,4 +558,40 @@ module arithmetic_geometric_mean_fortran
 
     end function arithmetic_geometric_mean_kernel_real128
 
+
+
+    elemental subroutine compute_kernel_real32(agm)
+
+        type(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
+
+
+
+        call initialize(agm)
+
+    end subroutine compute_kernel_real32
+
+
+
+    elemental subroutine compute_kernel_real64(agm)
+
+        type(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
+
+
+
+        call initialize(agm)
+
+    end subroutine compute_kernel_real64
+
+
+
+    elemental subroutine compute_kernel_real128(agm)
+
+        type(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
+
+
+
+        call initialize(agm)
+
+    end subroutine compute_kernel_real128
+
 end module arithmetic_geometric_mean_fortran
