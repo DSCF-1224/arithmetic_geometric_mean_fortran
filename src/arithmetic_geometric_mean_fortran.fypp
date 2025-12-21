@@ -71,7 +71,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-#:set INTERFACE_NAME = 'is_converged'
+#:set INTERFACE_NAME = 'is_not_converged'
     interface ${INTERFACE_NAME}$
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
@@ -246,7 +246,7 @@ module arithmetic_geometric_mean_fortran
     #:del FUNCTION_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
-    #:set FUNCTION_NAME = 'is_converged_' + REAL_KIND
+    #:set FUNCTION_NAME = 'is_not_converged_' + REAL_KIND
 
 
 
@@ -262,7 +262,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        stat = abs(a - g) .le. spacing( min(a, g) )
+        stat = abs(a - g) .gt. spacing( min(a, g) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
