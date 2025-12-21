@@ -61,6 +61,16 @@ module arithmetic_geometric_mean_fortran
 
 
 
+#:set INTERFACE_NAME = 'compute_step'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
 #:set INTERFACE_NAME = 'initialize'
     interface ${INTERFACE_NAME}$
     #:for REAL_KIND in REAL_KINDS
@@ -302,6 +312,32 @@ module arithmetic_geometric_mean_fortran
             end associate
 
         end do
+
+    end subroutine ${SUBROUTINE_NAME}$
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_step_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(last_a, last_g, next_a, next_g)
+
+        real(${REAL_KIND}$), intent(in) :: last_a
+        !! last arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: last_g
+        !! last geometric mean
+
+        real(${REAL_KIND}$), intent(out) :: next_a
+        !! next arithmetic mean
+
+        real(${REAL_KIND}$), intent(out) :: next_g
+        !! next geometric mean
+
+
+
+        next_a =     (last_a + last_g) * 0.5_${REAL_KIND}$
+        next_g = sqrt(last_a * last_g)
 
     end subroutine ${SUBROUTINE_NAME}$
 #:endfor
