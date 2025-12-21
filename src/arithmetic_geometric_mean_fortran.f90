@@ -88,6 +88,14 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    interface is_converged
+        module procedure :: is_converged_real32
+        module procedure :: is_converged_real64
+        module procedure :: is_converged_real128
+    end interface is_converged
+
+
+
     type, abstract :: arithmetic_geometric_mean_base_type
 
         integer, private :: n_iter = initial_n_iter
@@ -575,6 +583,60 @@ module arithmetic_geometric_mean_fortran
         end do
 
     end function arithmetic_geometric_mean_kernel_real128
+
+
+
+    elemental function is_converged_real32(a, g) result(stat)
+
+        real(real32), intent(in) :: a !! arithmetic mean
+
+        real(real32), intent(in) :: g !! geometric mean
+
+
+
+        logical :: stat
+
+
+
+        stat = abs(a - g) .gt. spacing( min(a, g) )
+
+    end function is_converged_real32
+
+
+
+    elemental function is_converged_real64(a, g) result(stat)
+
+        real(real64), intent(in) :: a !! arithmetic mean
+
+        real(real64), intent(in) :: g !! geometric mean
+
+
+
+        logical :: stat
+
+
+
+        stat = abs(a - g) .gt. spacing( min(a, g) )
+
+    end function is_converged_real64
+
+
+
+    elemental function is_converged_real128(a, g) result(stat)
+
+        real(real128), intent(in) :: a !! arithmetic mean
+
+        real(real128), intent(in) :: g !! geometric mean
+
+
+
+        logical :: stat
+
+
+
+        stat = abs(a - g) .gt. spacing( min(a, g) )
+
+    end function is_converged_real128
 
 
 
