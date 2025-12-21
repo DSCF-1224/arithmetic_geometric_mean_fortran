@@ -80,6 +80,14 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    interface compute_step
+        module procedure :: compute_step_real32
+        module procedure :: compute_step_real64
+        module procedure :: compute_step_real128
+    end interface compute_step
+
+
+
     interface initialize
         module procedure :: initialize_real32
         module procedure :: initialize_real64
@@ -754,6 +762,75 @@ module arithmetic_geometric_mean_fortran
         end do
 
     end subroutine compute_kernel_real128
+
+
+
+    elemental subroutine compute_step_real32(last_a, last_g, next_a, next_g)
+
+        real(real32), intent(in) :: last_a
+        !! last arithmetic mean
+
+        real(real32), intent(in) :: last_g
+        !! last geometric mean
+
+        real(real32), intent(out) :: next_a
+        !! next arithmetic mean
+
+        real(real32), intent(out) :: next_g
+        !! next geometric mean
+
+
+
+        next_a =     (last_a + last_g) * 0.5_real32
+        next_g = sqrt(last_a * last_g)
+
+    end subroutine compute_step_real32
+
+
+
+    elemental subroutine compute_step_real64(last_a, last_g, next_a, next_g)
+
+        real(real64), intent(in) :: last_a
+        !! last arithmetic mean
+
+        real(real64), intent(in) :: last_g
+        !! last geometric mean
+
+        real(real64), intent(out) :: next_a
+        !! next arithmetic mean
+
+        real(real64), intent(out) :: next_g
+        !! next geometric mean
+
+
+
+        next_a =     (last_a + last_g) * 0.5_real64
+        next_g = sqrt(last_a * last_g)
+
+    end subroutine compute_step_real64
+
+
+
+    elemental subroutine compute_step_real128(last_a, last_g, next_a, next_g)
+
+        real(real128), intent(in) :: last_a
+        !! last arithmetic mean
+
+        real(real128), intent(in) :: last_g
+        !! last geometric mean
+
+        real(real128), intent(out) :: next_a
+        !! next arithmetic mean
+
+        real(real128), intent(out) :: next_g
+        !! next geometric mean
+
+
+
+        next_a =     (last_a + last_g) * 0.5_real128
+        next_g = sqrt(last_a * last_g)
+
+    end subroutine compute_step_real128
 
 
 
