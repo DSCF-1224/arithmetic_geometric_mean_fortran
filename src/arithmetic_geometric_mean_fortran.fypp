@@ -240,13 +240,23 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental subroutine ${SUBROUTINE_NAME}$(agm)
+    elemental subroutine ${SUBROUTINE_NAME}$(agm, init_a, init_g)
 
         class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+        real(${REAL_KIND}$), intent(in) :: init_a
+        !! initial value: arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: init_g
+        !! initial value: geometric mean
 
 
 
         call initialize(agm)
+
+        agm%list_a(0) = init_a
+        agm%list_g(0) = init_g
+        agm%n_iter    = 0
 
     end subroutine ${SUBROUTINE_NAME}$
 #:endfor
