@@ -99,10 +99,10 @@ module arithmetic_geometric_mean_fortran
 
     type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real32_type
 
-        real(real32), private :: ari(0:max_n_iter_real32)
+        real(real32), private :: list_a(0:max_n_iter_real32)
         !! history of the arithmetic mean
 
-        real(real32), private :: geo(0:max_n_iter_real32)
+        real(real32), private :: list_g(0:max_n_iter_real32)
         !! history of the geometric mean
 
         contains
@@ -117,10 +117,10 @@ module arithmetic_geometric_mean_fortran
 
     type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real64_type
 
-        real(real64), private :: ari(0:max_n_iter_real64)
+        real(real64), private :: list_a(0:max_n_iter_real64)
         !! history of the arithmetic mean
 
-        real(real64), private :: geo(0:max_n_iter_real64)
+        real(real64), private :: list_g(0:max_n_iter_real64)
         !! history of the geometric mean
 
         contains
@@ -135,10 +135,10 @@ module arithmetic_geometric_mean_fortran
 
     type, extends(arithmetic_geometric_mean_base_type) :: arithmetic_geometric_mean_real128_type
 
-        real(real128), private :: ari(0:max_n_iter_real128)
+        real(real128), private :: list_a(0:max_n_iter_real128)
         !! history of the arithmetic mean
 
-        real(real128), private :: geo(0:max_n_iter_real128)
+        real(real128), private :: list_g(0:max_n_iter_real128)
         !! history of the geometric mean
 
         contains
@@ -163,8 +163,8 @@ module arithmetic_geometric_mean_fortran
 
         agm%n_iter = initial_n_iter
 
-        agm%ari(:) = ieee_value( x = 0.0_real32, class = ieee_quiet_nan )
-        agm%geo(:) = agm%ari(:)
+        agm%list_a(:) = ieee_value( x = 0.0_real32, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
 
     end subroutine initialize_real32
 
@@ -178,8 +178,8 @@ module arithmetic_geometric_mean_fortran
 
         agm%n_iter = initial_n_iter
 
-        agm%ari(:) = ieee_value( x = 0.0_real64, class = ieee_quiet_nan )
-        agm%geo(:) = agm%ari(:)
+        agm%list_a(:) = ieee_value( x = 0.0_real64, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
 
     end subroutine initialize_real64
 
@@ -193,8 +193,8 @@ module arithmetic_geometric_mean_fortran
 
         agm%n_iter = initial_n_iter
 
-        agm%ari(:) = ieee_value( x = 0.0_real128, class = ieee_quiet_nan )
-        agm%geo(:) = agm%ari(:)
+        agm%list_a(:) = ieee_value( x = 0.0_real128, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
 
     end subroutine initialize_real128
 
