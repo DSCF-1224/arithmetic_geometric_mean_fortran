@@ -163,51 +163,6 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental subroutine initialize_real32(agm)
-
-        type(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
-
-
-
-        agm%n_iter = initial_n_iter
-
-        agm%list_a(:) = ieee_value( x = 0.0_real32, class = ieee_quiet_nan )
-        agm%list_g(:) = agm%list_a(:)
-
-    end subroutine initialize_real32
-
-
-
-    elemental subroutine initialize_real64(agm)
-
-        type(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
-
-
-
-        agm%n_iter = initial_n_iter
-
-        agm%list_a(:) = ieee_value( x = 0.0_real64, class = ieee_quiet_nan )
-        agm%list_g(:) = agm%list_a(:)
-
-    end subroutine initialize_real64
-
-
-
-    elemental subroutine initialize_real128(agm)
-
-        type(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
-
-
-
-        agm%n_iter = initial_n_iter
-
-        agm%list_a(:) = ieee_value( x = 0.0_real128, class = ieee_quiet_nan )
-        agm%list_g(:) = agm%list_a(:)
-
-    end subroutine initialize_real128
-
-
-
     elemental function arithmetic_geometric_mean_real32(x, y) result(agm)
         !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
         !! with input validation and ordering.
@@ -799,5 +754,50 @@ module arithmetic_geometric_mean_fortran
         end do
 
     end subroutine compute_kernel_real128
+
+
+
+    elemental subroutine initialize_real32(agm)
+
+        type(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
+
+
+
+        agm%n_iter = initial_n_iter
+
+        agm%list_a(:) = ieee_value( x = 0.0_real32, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
+
+    end subroutine initialize_real32
+
+
+
+    elemental subroutine initialize_real64(agm)
+
+        type(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
+
+
+
+        agm%n_iter = initial_n_iter
+
+        agm%list_a(:) = ieee_value( x = 0.0_real64, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
+
+    end subroutine initialize_real64
+
+
+
+    elemental subroutine initialize_real128(agm)
+
+        type(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
+
+
+
+        agm%n_iter = initial_n_iter
+
+        agm%list_a(:) = ieee_value( x = 0.0_real128, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
+
+    end subroutine initialize_real128
 
 end module arithmetic_geometric_mean_fortran
