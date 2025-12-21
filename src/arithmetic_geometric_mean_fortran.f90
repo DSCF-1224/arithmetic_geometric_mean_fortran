@@ -596,6 +596,38 @@ module arithmetic_geometric_mean_fortran
         agm%list_g(0) = init_g
         agm%n_iter    = 0
 
+        do
+
+            associate(last_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+
+                agm%n_iter = next_iter
+
+                associate( &!
+                    last_a => agm%list_a(last_iter) , &!
+                    last_g => agm%list_g(last_iter) , &!
+                    next_a => agm%list_a(next_iter) , &!
+                    next_g => agm%list_g(next_iter)   &!
+                )
+
+                    next_a =     (last_a + last_g) * 0.5_real32
+                    next_g = sqrt(last_a * last_g)
+
+                    if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+
+                        cycle
+
+                    else
+
+                        return
+
+                    end if
+
+                end associate
+
+            end associate
+
+        end do
+
     end subroutine compute_kernel_real32
 
 
@@ -618,6 +650,38 @@ module arithmetic_geometric_mean_fortran
         agm%list_g(0) = init_g
         agm%n_iter    = 0
 
+        do
+
+            associate(last_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+
+                agm%n_iter = next_iter
+
+                associate( &!
+                    last_a => agm%list_a(last_iter) , &!
+                    last_g => agm%list_g(last_iter) , &!
+                    next_a => agm%list_a(next_iter) , &!
+                    next_g => agm%list_g(next_iter)   &!
+                )
+
+                    next_a =     (last_a + last_g) * 0.5_real64
+                    next_g = sqrt(last_a * last_g)
+
+                    if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+
+                        cycle
+
+                    else
+
+                        return
+
+                    end if
+
+                end associate
+
+            end associate
+
+        end do
+
     end subroutine compute_kernel_real64
 
 
@@ -639,6 +703,38 @@ module arithmetic_geometric_mean_fortran
         agm%list_a(0) = init_a
         agm%list_g(0) = init_g
         agm%n_iter    = 0
+
+        do
+
+            associate(last_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+
+                agm%n_iter = next_iter
+
+                associate( &!
+                    last_a => agm%list_a(last_iter) , &!
+                    last_g => agm%list_g(last_iter) , &!
+                    next_a => agm%list_a(next_iter) , &!
+                    next_g => agm%list_g(next_iter)   &!
+                )
+
+                    next_a =     (last_a + last_g) * 0.5_real128
+                    next_g = sqrt(last_a * last_g)
+
+                    if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+
+                        cycle
+
+                    else
+
+                        return
+
+                    end if
+
+                end associate
+
+            end associate
+
+        end do
 
     end subroutine compute_kernel_real128
 
