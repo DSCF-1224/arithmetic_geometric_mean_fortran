@@ -115,6 +115,7 @@ module arithmetic_geometric_mean_fortran
 
 
     contains
+#:for REAL_KIND in REAL_KINDS
 
 
 
@@ -323,6 +324,5 @@ module arithmetic_geometric_mean_fortran
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
 #:endfor
-#:for REAL_KIND in REAL_KINDS
 
 end module arithmetic_geometric_mean_fortran
