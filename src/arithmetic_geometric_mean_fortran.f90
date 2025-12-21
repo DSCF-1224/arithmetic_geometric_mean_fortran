@@ -105,6 +105,12 @@ module arithmetic_geometric_mean_fortran
         real(real32), private :: geo(0:max_n_iter_real32)
         !! history of the geometric mean
 
+        contains
+
+        procedure, pass, private :: compute_kernel_real32
+
+        generic, private :: compute_kernel => compute_kernel_real32
+
     end type arithmetic_geometric_mean_real32_type
 
 
@@ -117,6 +123,12 @@ module arithmetic_geometric_mean_fortran
         real(real64), private :: geo(0:max_n_iter_real64)
         !! history of the geometric mean
 
+        contains
+
+        procedure, pass, private :: compute_kernel_real64
+
+        generic, private :: compute_kernel => compute_kernel_real64
+
     end type arithmetic_geometric_mean_real64_type
 
 
@@ -128,6 +140,12 @@ module arithmetic_geometric_mean_fortran
 
         real(real128), private :: geo(0:max_n_iter_real128)
         !! history of the geometric mean
+
+        contains
+
+        procedure, pass, private :: compute_kernel_real128
+
+        generic, private :: compute_kernel => compute_kernel_real128
 
     end type arithmetic_geometric_mean_real128_type
 
@@ -562,7 +580,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental subroutine compute_kernel_real32(agm)
 
-        type(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
+        class(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
 
 
 
@@ -574,7 +592,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental subroutine compute_kernel_real64(agm)
 
-        type(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
+        class(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
 
 
 
@@ -586,7 +604,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental subroutine compute_kernel_real128(agm)
 
-        type(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
+        class(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
 
 
 
