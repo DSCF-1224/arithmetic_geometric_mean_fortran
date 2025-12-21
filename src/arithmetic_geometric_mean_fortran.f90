@@ -578,37 +578,67 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental subroutine compute_kernel_real32(agm)
+    elemental subroutine compute_kernel_real32(agm, init_a, init_g)
 
         class(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
+
+        real(real32), intent(in) :: init_a
+        !! initial value: arithmetic mean
+
+        real(real32), intent(in) :: init_g
+        !! initial value: geometric mean
 
 
 
         call initialize(agm)
+
+        agm%list_a(0) = init_a
+        agm%list_g(0) = init_g
+        agm%n_iter    = 0
 
     end subroutine compute_kernel_real32
 
 
 
-    elemental subroutine compute_kernel_real64(agm)
+    elemental subroutine compute_kernel_real64(agm, init_a, init_g)
 
         class(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
+
+        real(real64), intent(in) :: init_a
+        !! initial value: arithmetic mean
+
+        real(real64), intent(in) :: init_g
+        !! initial value: geometric mean
 
 
 
         call initialize(agm)
+
+        agm%list_a(0) = init_a
+        agm%list_g(0) = init_g
+        agm%n_iter    = 0
 
     end subroutine compute_kernel_real64
 
 
 
-    elemental subroutine compute_kernel_real128(agm)
+    elemental subroutine compute_kernel_real128(agm, init_a, init_g)
 
         class(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
+
+        real(real128), intent(in) :: init_a
+        !! initial value: arithmetic mean
+
+        real(real128), intent(in) :: init_g
+        !! initial value: geometric mean
 
 
 
         call initialize(agm)
+
+        agm%list_a(0) = init_a
+        agm%list_g(0) = init_g
+        agm%n_iter    = 0
 
     end subroutine compute_kernel_real128
 
