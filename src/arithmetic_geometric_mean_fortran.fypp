@@ -262,7 +262,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        stat = abs(a - g) .gt. spacing( min(a, g) )
+        stat = abs(a - g) .le. spacing( min(a, g) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
