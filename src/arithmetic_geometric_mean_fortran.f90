@@ -598,7 +598,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        stat = abs(a - g) .gt. spacing( min(a, g) )
+        stat = abs(a - g) .le. spacing( min(a, g) )
 
     end function is_converged_real32
 
@@ -616,7 +616,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        stat = abs(a - g) .gt. spacing( min(a, g) )
+        stat = abs(a - g) .le. spacing( min(a, g) )
 
     end function is_converged_real64
 
@@ -634,7 +634,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        stat = abs(a - g) .gt. spacing( min(a, g) )
+        stat = abs(a - g) .le. spacing( min(a, g) )
 
     end function is_converged_real128
 
