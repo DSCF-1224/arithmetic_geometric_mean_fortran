@@ -86,10 +86,10 @@ module arithmetic_geometric_mean_fortran
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
     type, extends(${INTERFACE_NAME_KERNEL}$_base_type) :: ${TYPE_NAME}$
 
-        real(${REAL_KIND}$), private :: ari(0:max_n_iter_${REAL_KIND}$)
+        real(${REAL_KIND}$), private :: list_a(0:max_n_iter_${REAL_KIND}$)
         !! history of the arithmetic mean
 
-        real(${REAL_KIND}$), private :: geo(0:max_n_iter_${REAL_KIND}$)
+        real(${REAL_KIND}$), private :: list_g(0:max_n_iter_${REAL_KIND}$)
         !! history of the geometric mean
 
         contains
@@ -118,8 +118,8 @@ module arithmetic_geometric_mean_fortran
 
         agm%n_iter = initial_n_iter
 
-        agm%ari(:) = ieee_value( x = 0.0_${REAL_KIND}$, class = ieee_quiet_nan )
-        agm%geo(:) = agm%ari(:)
+        agm%list_a(:) = ieee_value( x = 0.0_${REAL_KIND}$, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
