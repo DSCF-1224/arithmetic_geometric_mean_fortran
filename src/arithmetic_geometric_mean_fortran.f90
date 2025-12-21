@@ -429,7 +429,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_real32
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+            if ( is_not_converged(next_a, next_g) ) then
 
                 last_a = next_a
                 last_g = next_g
@@ -497,7 +497,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_real64
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+            if ( is_not_converged(next_a, next_g) ) then
 
                 last_a = next_a
                 last_g = next_g
@@ -565,7 +565,7 @@ module arithmetic_geometric_mean_fortran
             next_a =     (last_a + last_g) * 0.5_real128
             next_g = sqrt(last_a * last_g)
 
-            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+            if ( is_not_converged(next_a, next_g) ) then
 
                 last_a = next_a
                 last_g = next_g
