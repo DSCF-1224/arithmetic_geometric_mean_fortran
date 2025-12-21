@@ -71,6 +71,16 @@ module arithmetic_geometric_mean_fortran
 
 
 
+#:set INTERFACE_NAME = 'is_converged'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_base_type'
     type, abstract :: ${TYPE_NAME}$
 
@@ -231,6 +241,28 @@ module arithmetic_geometric_mean_fortran
             end if
 
         end do
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+    #:set FUNCTION_NAME = 'is_converged_' + REAL_KIND
+
+
+
+    elemental function ${FUNCTION_NAME}$(a, g) result(stat)
+
+        real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: g !! geometric mean
+
+
+
+        logical :: stat
+
+
+
+        stat = abs(a - g) .gt. spacing( min(a, g) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
