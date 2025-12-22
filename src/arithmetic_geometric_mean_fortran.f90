@@ -372,9 +372,9 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        real(real32) :: last_a !! last arithmetic mean
+        real(real32) :: prev_a !! last arithmetic mean
 
-        real(real32) :: last_g !! last geometric mean
+        real(real32) :: prev_g !! last geometric mean
 
         real(real32) :: next_a !! next arithmetic mean
 
@@ -382,24 +382,24 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        last_a = a
-        last_g = g
+        prev_a = a
+        prev_g = g
 
 
 
         do
 
             call compute_step( &!
-                last_a = last_a , &!
-                last_g = last_g , &!
+                prev_a = prev_a , &!
+                prev_g = prev_g , &!
                 next_a = next_a , &!
                 next_g = next_g   &!
             )
 
             if ( is_not_converged(next_a, next_g) ) then
 
-                last_a = next_a
-                last_g = next_g
+                prev_a = next_a
+                prev_g = next_g
 
                 cycle
 
@@ -444,9 +444,9 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        real(real64) :: last_a !! last arithmetic mean
+        real(real64) :: prev_a !! last arithmetic mean
 
-        real(real64) :: last_g !! last geometric mean
+        real(real64) :: prev_g !! last geometric mean
 
         real(real64) :: next_a !! next arithmetic mean
 
@@ -454,24 +454,24 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        last_a = a
-        last_g = g
+        prev_a = a
+        prev_g = g
 
 
 
         do
 
             call compute_step( &!
-                last_a = last_a , &!
-                last_g = last_g , &!
+                prev_a = prev_a , &!
+                prev_g = prev_g , &!
                 next_a = next_a , &!
                 next_g = next_g   &!
             )
 
             if ( is_not_converged(next_a, next_g) ) then
 
-                last_a = next_a
-                last_g = next_g
+                prev_a = next_a
+                prev_g = next_g
 
                 cycle
 
@@ -516,9 +516,9 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        real(real128) :: last_a !! last arithmetic mean
+        real(real128) :: prev_a !! last arithmetic mean
 
-        real(real128) :: last_g !! last geometric mean
+        real(real128) :: prev_g !! last geometric mean
 
         real(real128) :: next_a !! next arithmetic mean
 
@@ -526,24 +526,24 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        last_a = a
-        last_g = g
+        prev_a = a
+        prev_g = g
 
 
 
         do
 
             call compute_step( &!
-                last_a = last_a , &!
-                last_g = last_g , &!
+                prev_a = prev_a , &!
+                prev_g = prev_g , &!
                 next_a = next_a , &!
                 next_g = next_g   &!
             )
 
             if ( is_not_converged(next_a, next_g) ) then
 
-                last_a = next_a
-                last_g = next_g
+                prev_a = next_a
+                prev_g = next_g
 
                 cycle
 
@@ -635,20 +635,20 @@ module arithmetic_geometric_mean_fortran
 
         do
 
-            associate(last_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
 
                 agm%n_iter = next_iter
 
                 associate( &!
-                    last_a => agm%list_a(last_iter) , &!
-                    last_g => agm%list_g(last_iter) , &!
+                    prev_a => agm%list_a(prev_iter) , &!
+                    prev_g => agm%list_g(prev_iter) , &!
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
 
                     call compute_step( &!
-                        last_a = last_a , &!
-                        last_g = last_g , &!
+                        prev_a = prev_a , &!
+                        prev_g = prev_g , &!
                         next_a = next_a , &!
                         next_g = next_g   &!
                     )
@@ -693,20 +693,20 @@ module arithmetic_geometric_mean_fortran
 
         do
 
-            associate(last_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
 
                 agm%n_iter = next_iter
 
                 associate( &!
-                    last_a => agm%list_a(last_iter) , &!
-                    last_g => agm%list_g(last_iter) , &!
+                    prev_a => agm%list_a(prev_iter) , &!
+                    prev_g => agm%list_g(prev_iter) , &!
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
 
                     call compute_step( &!
-                        last_a = last_a , &!
-                        last_g = last_g , &!
+                        prev_a = prev_a , &!
+                        prev_g = prev_g , &!
                         next_a = next_a , &!
                         next_g = next_g   &!
                     )
@@ -751,20 +751,20 @@ module arithmetic_geometric_mean_fortran
 
         do
 
-            associate(last_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
 
                 agm%n_iter = next_iter
 
                 associate( &!
-                    last_a => agm%list_a(last_iter) , &!
-                    last_g => agm%list_g(last_iter) , &!
+                    prev_a => agm%list_a(prev_iter) , &!
+                    prev_g => agm%list_g(prev_iter) , &!
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
 
                     call compute_step( &!
-                        last_a = last_a , &!
-                        last_g = last_g , &!
+                        prev_a = prev_a , &!
+                        prev_g = prev_g , &!
                         next_a = next_a , &!
                         next_g = next_g   &!
                     )
@@ -789,12 +789,12 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    elemental subroutine compute_step_real32(last_a, last_g, next_a, next_g)
+    elemental subroutine compute_step_real32(prev_a, prev_g, next_a, next_g)
 
-        real(real32), intent(in) :: last_a
+        real(real32), intent(in) :: prev_a
         !! last arithmetic mean
 
-        real(real32), intent(in) :: last_g
+        real(real32), intent(in) :: prev_g
         !! last geometric mean
 
         real(real32), intent(out) :: next_a
@@ -805,19 +805,19 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        next_a =     (last_a + last_g) * 0.5_real32
-        next_g = sqrt(last_a * last_g)
+        next_a =     (prev_a + prev_g) * 0.5_real32
+        next_g = sqrt(prev_a * prev_g)
 
     end subroutine compute_step_real32
 
 
 
-    elemental subroutine compute_step_real64(last_a, last_g, next_a, next_g)
+    elemental subroutine compute_step_real64(prev_a, prev_g, next_a, next_g)
 
-        real(real64), intent(in) :: last_a
+        real(real64), intent(in) :: prev_a
         !! last arithmetic mean
 
-        real(real64), intent(in) :: last_g
+        real(real64), intent(in) :: prev_g
         !! last geometric mean
 
         real(real64), intent(out) :: next_a
@@ -828,19 +828,19 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        next_a =     (last_a + last_g) * 0.5_real64
-        next_g = sqrt(last_a * last_g)
+        next_a =     (prev_a + prev_g) * 0.5_real64
+        next_g = sqrt(prev_a * prev_g)
 
     end subroutine compute_step_real64
 
 
 
-    elemental subroutine compute_step_real128(last_a, last_g, next_a, next_g)
+    elemental subroutine compute_step_real128(prev_a, prev_g, next_a, next_g)
 
-        real(real128), intent(in) :: last_a
+        real(real128), intent(in) :: prev_a
         !! last arithmetic mean
 
-        real(real128), intent(in) :: last_g
+        real(real128), intent(in) :: prev_g
         !! last geometric mean
 
         real(real128), intent(out) :: next_a
@@ -851,8 +851,8 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        next_a =     (last_a + last_g) * 0.5_real128
-        next_g = sqrt(last_a * last_g)
+        next_a =     (prev_a + prev_g) * 0.5_real128
+        next_g = sqrt(prev_a * prev_g)
 
     end subroutine compute_step_real128
 
