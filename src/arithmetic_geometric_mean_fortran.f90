@@ -646,8 +646,12 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    next_a =     (last_a + last_g) * 0.5_real32
-                    next_g = sqrt(last_a * last_g)
+                    call compute_step( &!
+                        last_a = last_a , &!
+                        last_g = last_g , &!
+                        next_a = next_a , &!
+                        next_g = next_g   &!
+                    )
 
                     if ( is_not_converged(next_a, next_g) ) then
 
@@ -700,8 +704,12 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    next_a =     (last_a + last_g) * 0.5_real64
-                    next_g = sqrt(last_a * last_g)
+                    call compute_step( &!
+                        last_a = last_a , &!
+                        last_g = last_g , &!
+                        next_a = next_a , &!
+                        next_g = next_g   &!
+                    )
 
                     if ( is_not_converged(next_a, next_g) ) then
 
@@ -754,8 +762,12 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    next_a =     (last_a + last_g) * 0.5_real128
-                    next_g = sqrt(last_a * last_g)
+                    call compute_step( &!
+                        last_a = last_a , &!
+                        last_g = last_g , &!
+                        next_a = next_a , &!
+                        next_g = next_g   &!
+                    )
 
                     if ( is_not_converged(next_a, next_g) ) then
 
