@@ -196,9 +196,9 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        real(${REAL_KIND}$) :: prev_a !! last arithmetic mean
+        real(${REAL_KIND}$) :: prev_a !! previous arithmetic mean
 
-        real(${REAL_KIND}$) :: prev_g !! last geometric mean
+        real(${REAL_KIND}$) :: prev_g !! previous geometric mean
 
         real(${REAL_KIND}$) :: next_a !! next arithmetic mean
 
@@ -331,10 +331,10 @@ module arithmetic_geometric_mean_fortran
     elemental subroutine ${SUBROUTINE_NAME}$(prev_a, prev_g, next_a, next_g)
 
         real(${REAL_KIND}$), intent(in) :: prev_a
-        !! last arithmetic mean
+        !! previous arithmetic mean
 
         real(${REAL_KIND}$), intent(in) :: prev_g
-        !! last geometric mean
+        !! previous geometric mean
 
         real(${REAL_KIND}$), intent(out) :: next_a
         !! next arithmetic mean
