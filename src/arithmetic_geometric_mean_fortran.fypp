@@ -241,10 +241,10 @@ module arithmetic_geometric_mean_fortran
     #:del FUNCTION_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set FUNCTION_NAME = 'is_not_converged_' + REAL_KIND
-
-
-
     elemental function ${FUNCTION_NAME}$(a, g) result(stat)
 
         real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
