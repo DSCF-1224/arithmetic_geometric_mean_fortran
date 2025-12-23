@@ -179,10 +179,10 @@ module arithmetic_geometric_mean_fortran
     #:del FUNCTION_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_kernel_' + REAL_KIND
-
-
-
     elemental function ${FUNCTION_NAME}$(a, g) result(agm)
         #:include 'arithmetic_geometric_mean_kernel_description.fypp'
 
@@ -263,10 +263,10 @@ module arithmetic_geometric_mean_fortran
     #:del FUNCTION_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set SUBROUTINE_NAME = 'compute_kernel_' + REAL_KIND
-
-
-
     elemental subroutine ${SUBROUTINE_NAME}$(agm, init_a, init_g)
 
         class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
@@ -322,6 +322,7 @@ module arithmetic_geometric_mean_fortran
         end do
 
     end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
 
@@ -348,6 +349,7 @@ module arithmetic_geometric_mean_fortran
         next_g = sqrt(prev_a * prev_g)
 
     end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
 
