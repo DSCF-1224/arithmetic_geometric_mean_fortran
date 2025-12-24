@@ -114,8 +114,10 @@ module arithmetic_geometric_mean_fortran
 
         contains
 
+        procedure, pass, private :: compute_${REAL_KIND}$
         procedure, pass, private :: compute_kernel_${REAL_KIND}$
 
+        generic, public  :: compute        => compute_${REAL_KIND}$
         generic, private :: compute_kernel => compute_kernel_${REAL_KIND}$
 
     end type ${TYPE_NAME}$
@@ -261,6 +263,73 @@ module arithmetic_geometric_mean_fortran
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm, x, y)
+
+        class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: xy
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
+            call initialize(agm); return
+
+        end if
+
+
+
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_${REAL_KIND}$ ) then
+
+            call initialize(agm)
+
+        else if ( xy .gt. 0.0_${REAL_KIND}$ ) then
+
+            if (x .lt. y) then
+                call agm%compute_kernel(init_a = y, init_g = x)
+            else
+                call agm%compute_kernel(init_a = x, init_g = y)
+            end if
+
+        else
+
+            call initialize(agm)
+
+            if (x .lt. y) then
+
+                agm%list_a(agm%n_iter) = y
+                agm%list_g(agm%n_iter) = x
+
+            else
+
+                agm%list_a(agm%n_iter) = x
+                agm%list_g(agm%n_iter) = y
+        
+            end if
+
+            agm%n_iter = agm%n_iter + 1
+
+            agm%list_a(agm%n_iter) = 0.0_${REAL_KIND}$
+            agm%list_g(agm%n_iter) = 0.0_${REAL_KIND}$
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
 
