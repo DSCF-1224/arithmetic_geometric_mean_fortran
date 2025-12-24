@@ -123,8 +123,10 @@ module arithmetic_geometric_mean_fortran
 
         contains
 
+        procedure, pass, private :: compute_real32
         procedure, pass, private :: compute_kernel_real32
 
+        generic, public  :: compute        => compute_real32
         generic, private :: compute_kernel => compute_kernel_real32
 
     end type arithmetic_geometric_mean_real32_type
@@ -141,8 +143,10 @@ module arithmetic_geometric_mean_fortran
 
         contains
 
+        procedure, pass, private :: compute_real64
         procedure, pass, private :: compute_kernel_real64
 
+        generic, public  :: compute        => compute_real64
         generic, private :: compute_kernel => compute_kernel_real64
 
     end type arithmetic_geometric_mean_real64_type
@@ -159,8 +163,10 @@ module arithmetic_geometric_mean_fortran
 
         contains
 
+        procedure, pass, private :: compute_real128
         procedure, pass, private :: compute_kernel_real128
 
+        generic, public  :: compute        => compute_real128
         generic, private :: compute_kernel => compute_kernel_real128
 
     end type arithmetic_geometric_mean_real128_type
@@ -612,6 +618,195 @@ module arithmetic_geometric_mean_fortran
         stat = abs(a - g) .gt. spacing( min(a, g) )
 
     end function is_not_converged_real128
+
+
+
+    elemental subroutine compute_real32(agm, x, y)
+
+        class(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
+
+        real(real32), intent(in) :: x, y
+
+
+
+        real(real32) :: xy
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
+            call initialize(agm); return
+
+        end if
+
+
+
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_real32 ) then
+
+            call initialize(agm)
+
+        else if ( xy .gt. 0.0_real32 ) then
+
+            if (x .lt. y) then
+                call agm%compute_kernel(init_a = y, init_g = x)
+            else
+                call agm%compute_kernel(init_a = x, init_g = y)
+            end if
+
+        else
+
+            call initialize(agm)
+
+            if (x .lt. y) then
+
+                agm%list_a(agm%n_iter) = y
+                agm%list_g(agm%n_iter) = x
+
+            else
+
+                agm%list_a(agm%n_iter) = x
+                agm%list_g(agm%n_iter) = y
+        
+            end if
+
+            agm%n_iter = agm%n_iter + 1
+
+            agm%list_a(agm%n_iter) = 0.0_real32
+            agm%list_g(agm%n_iter) = 0.0_real32
+
+        end if
+
+    end subroutine compute_real32
+
+
+
+    elemental subroutine compute_real64(agm, x, y)
+
+        class(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
+
+        real(real64), intent(in) :: x, y
+
+
+
+        real(real64) :: xy
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
+            call initialize(agm); return
+
+        end if
+
+
+
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_real64 ) then
+
+            call initialize(agm)
+
+        else if ( xy .gt. 0.0_real64 ) then
+
+            if (x .lt. y) then
+                call agm%compute_kernel(init_a = y, init_g = x)
+            else
+                call agm%compute_kernel(init_a = x, init_g = y)
+            end if
+
+        else
+
+            call initialize(agm)
+
+            if (x .lt. y) then
+
+                agm%list_a(agm%n_iter) = y
+                agm%list_g(agm%n_iter) = x
+
+            else
+
+                agm%list_a(agm%n_iter) = x
+                agm%list_g(agm%n_iter) = y
+        
+            end if
+
+            agm%n_iter = agm%n_iter + 1
+
+            agm%list_a(agm%n_iter) = 0.0_real64
+            agm%list_g(agm%n_iter) = 0.0_real64
+
+        end if
+
+    end subroutine compute_real64
+
+
+
+    elemental subroutine compute_real128(agm, x, y)
+
+        class(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
+
+        real(real128), intent(in) :: x, y
+
+
+
+        real(real128) :: xy
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
+            call initialize(agm); return
+
+        end if
+
+
+
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_real128 ) then
+
+            call initialize(agm)
+
+        else if ( xy .gt. 0.0_real128 ) then
+
+            if (x .lt. y) then
+                call agm%compute_kernel(init_a = y, init_g = x)
+            else
+                call agm%compute_kernel(init_a = x, init_g = y)
+            end if
+
+        else
+
+            call initialize(agm)
+
+            if (x .lt. y) then
+
+                agm%list_a(agm%n_iter) = y
+                agm%list_g(agm%n_iter) = x
+
+            else
+
+                agm%list_a(agm%n_iter) = x
+                agm%list_g(agm%n_iter) = y
+        
+            end if
+
+            agm%n_iter = agm%n_iter + 1
+
+            agm%list_a(agm%n_iter) = 0.0_real128
+            agm%list_g(agm%n_iter) = 0.0_real128
+
+        end if
+
+    end subroutine compute_real128
 
 
 
