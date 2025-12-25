@@ -22,6 +22,19 @@ module arithmetic_geometric_mean_fortran
     public :: ${INTERFACE_NAME_KERNEL}$
     public :: ${INTERFACE_NAME_KERNEL}$_kernel
 
+#:for REAL_KIND in REAL_KINDS
+    public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
+#:endfor
+
+
+
+    integer, parameter :: initial_n_iter = -1
+
+#:for REAL_KIND in REAL_KINDS
+    integer, parameter :: max_n_iter_${REAL_KIND}$ = digits(0.0_${REAL_KIND}$)
+#:endfor
+
+
 
 
     interface ${INTERFACE_NAME_KERNEL}$
@@ -45,6 +58,71 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'compute_step'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'initialize'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'is_not_converged'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
+    #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_base_type'
+    type, abstract :: ${TYPE_NAME}$
+
+        integer, private :: n_iter = initial_n_iter
+        !! the number of iterations performed during AGM calculation
+
+    end type ${TYPE_NAME}$
+    #:del TYPE_NAME
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
+    type, extends(${INTERFACE_NAME_KERNEL}$_base_type) :: ${TYPE_NAME}$
+
+        real(${REAL_KIND}$), private :: list_a(0:max_n_iter_${REAL_KIND}$)
+        !! history of the arithmetic mean
+
+        real(${REAL_KIND}$), private :: list_g(0:max_n_iter_${REAL_KIND}$)
+        !! history of the geometric mean
+
+        contains
+
+        procedure, pass, private :: compute_${REAL_KIND}$
+        procedure, pass, private :: compute_kernel_${REAL_KIND}$
+
+        generic, public  :: compute        => compute_${REAL_KIND}$
+        generic, private :: compute_kernel => compute_kernel_${REAL_KIND}$
+
+    end type ${TYPE_NAME}$
+    #:del TYPE_NAME
+#:endfor
 
 
 
@@ -103,10 +181,10 @@ module arithmetic_geometric_mean_fortran
     #:del FUNCTION_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_kernel_' + REAL_KIND
-
-
-
     elemental function ${FUNCTION_NAME}$(a, g) result(agm)
         #:include 'arithmetic_geometric_mean_kernel_description.fypp'
 
@@ -120,9 +198,9 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        real(${REAL_KIND}$) :: last_a !! last arithmetic mean
+        real(${REAL_KIND}$) :: prev_a !! previous arithmetic mean
 
-        real(${REAL_KIND}$) :: last_g !! last geometric mean
+        real(${REAL_KIND}$) :: prev_g !! previous geometric mean
 
         real(${REAL_KIND}$) :: next_a !! next arithmetic mean
 
@@ -130,20 +208,24 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        last_a = a
-        last_g = g
+        prev_a = a
+        prev_g = g
 
 
 
         do
 
-            next_a =     (last_a + last_g) * 0.5_${REAL_KIND}$
-            next_g = sqrt(last_a * last_g)
+            call compute_step( &!
+                prev_a = prev_a , &!
+                prev_g = prev_g , &!
+                next_a = next_a , &!
+                next_g = next_g   &!
+            )
 
-            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+            if ( is_not_converged(next_a, next_g) ) then
 
-                last_a = next_a
-                last_g = next_g
+                prev_a = next_a
+                prev_g = next_g
 
                 cycle
 
@@ -159,6 +241,203 @@ module arithmetic_geometric_mean_fortran
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = 'is_not_converged_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(a, g) result(stat)
+
+        real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: g !! geometric mean
+
+
+
+        logical :: stat
+
+
+
+        stat = abs(a - g) .gt. spacing( min(a, g) )
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm, x, y)
+
+        class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: xy
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
+            call initialize(agm); return
+
+        end if
+
+
+
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_${REAL_KIND}$ ) then
+
+            call initialize(agm)
+
+        else if ( xy .gt. 0.0_${REAL_KIND}$ ) then
+
+            if (x .lt. y) then
+                call agm%compute_kernel(init_a = y, init_g = x)
+            else
+                call agm%compute_kernel(init_a = x, init_g = y)
+            end if
+
+        else
+
+            call initialize(agm)
+
+            if (x .lt. y) then
+
+                agm%list_a(agm%n_iter) = y
+                agm%list_g(agm%n_iter) = x
+
+            else
+
+                agm%list_a(agm%n_iter) = x
+                agm%list_g(agm%n_iter) = y
+        
+            end if
+
+            agm%n_iter = agm%n_iter + 1
+
+            agm%list_a(agm%n_iter) = 0.0_${REAL_KIND}$
+            agm%list_g(agm%n_iter) = 0.0_${REAL_KIND}$
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_kernel_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm, init_a, init_g)
+
+        class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+        real(${REAL_KIND}$), intent(in) :: init_a
+        !! initial value: arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: init_g
+        !! initial value: geometric mean
+
+
+
+        call initialize(agm)
+
+        agm%list_a(0) = init_a
+        agm%list_g(0) = init_g
+        agm%n_iter    = 0
+
+        do
+
+            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+
+                agm%n_iter = next_iter
+
+                associate( &!
+                    prev_a => agm%list_a(prev_iter) , &!
+                    prev_g => agm%list_g(prev_iter) , &!
+                    next_a => agm%list_a(next_iter) , &!
+                    next_g => agm%list_g(next_iter)   &!
+                )
+
+                    call compute_step( &!
+                        prev_a = prev_a , &!
+                        prev_g = prev_g , &!
+                        next_a = next_a , &!
+                        next_g = next_g   &!
+                    )
+
+                    if ( is_not_converged(next_a, next_g) ) then
+
+                        cycle
+
+                    else
+
+                        return
+
+                    end if
+
+                end associate
+
+            end associate
+
+        end do
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_step_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(prev_a, prev_g, next_a, next_g)
+
+        real(${REAL_KIND}$), intent(in) :: prev_a
+        !! previous arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: prev_g
+        !! previous geometric mean
+
+        real(${REAL_KIND}$), intent(out) :: next_a
+        !! next arithmetic mean
+
+        real(${REAL_KIND}$), intent(out) :: next_g
+        !! next geometric mean
+
+
+
+        next_a =     (prev_a + prev_g) * 0.5_${REAL_KIND}$
+        next_g = sqrt(prev_a * prev_g)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'initialize_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm)
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+
+
+        agm%n_iter = initial_n_iter
+
+        agm%list_a(:) = ieee_value( x = 0.0_${REAL_KIND}$, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
 #:endfor
 
 end module arithmetic_geometric_mean_fortran
