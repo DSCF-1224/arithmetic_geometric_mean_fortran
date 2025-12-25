@@ -18,6 +18,7 @@ module arithmetic_geometric_mean_fortran
     private
 
     public :: arithmetic_geometric_mean
+    public :: arithmetic_geometric_mean_kernel
 
 
 
