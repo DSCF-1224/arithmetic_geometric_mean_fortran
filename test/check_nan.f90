@@ -34,6 +34,8 @@ program check_nan
 
         real(real32) :: agm
 
+        type(arithmetic_geometric_mean_real32_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, nan)
@@ -43,6 +45,12 @@ program check_nan
         agm = arithmetic_geometric_mean(nan, x)
 
         if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, nan)
+
+        call list%compute(nan, x)
 
     end subroutine test_kernel_real32
 
@@ -87,6 +95,8 @@ program check_nan
 
         real(real64) :: agm
 
+        type(arithmetic_geometric_mean_real64_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, nan)
@@ -96,6 +106,12 @@ program check_nan
         agm = arithmetic_geometric_mean(nan, x)
 
         if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, nan)
+
+        call list%compute(nan, x)
 
     end subroutine test_kernel_real64
 
@@ -140,6 +156,8 @@ program check_nan
 
         real(real128) :: agm
 
+        type(arithmetic_geometric_mean_real128_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, nan)
@@ -149,6 +167,12 @@ program check_nan
         agm = arithmetic_geometric_mean(nan, x)
 
         if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, nan)
+
+        call list%compute(nan, x)
 
     end subroutine test_kernel_real128
 
