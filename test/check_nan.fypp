@@ -54,7 +54,11 @@ program ${PROGRAM_NAME}$
 
         call list%compute(x, nan)
 
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
         call list%compute(nan, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
