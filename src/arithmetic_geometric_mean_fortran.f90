@@ -19,6 +19,7 @@ module arithmetic_geometric_mean_fortran
 
     public :: arithmetic_geometric_mean
     public :: arithmetic_geometric_mean_kernel
+    public :: max
 
     public :: arithmetic_geometric_mean_real32_type
     public :: arithmetic_geometric_mean_real64_type
@@ -101,6 +102,14 @@ module arithmetic_geometric_mean_fortran
         module procedure :: is_not_converged_real64
         module procedure :: is_not_converged_real128
     end interface is_not_converged
+
+
+
+    interface max
+        module procedure :: max_final_real32
+        module procedure :: max_final_real64
+        module procedure :: max_final_real128
+    end interface max
 
 
 
@@ -618,6 +627,60 @@ module arithmetic_geometric_mean_fortran
         stat = abs(a - g) .gt. spacing( min(a, g) )
 
     end function is_not_converged_real128
+
+
+
+    elemental function max_final_real32(agm) result(max_final)
+
+        type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
+
+
+
+        real(real32) :: max_final
+
+
+
+        associate(i => agm%n_iter)
+            max_final = max( agm%list_a(i), agm%list_g(i) )
+        end associate
+
+    end function max_final_real32
+
+
+
+    elemental function max_final_real64(agm) result(max_final)
+
+        type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
+
+
+
+        real(real64) :: max_final
+
+
+
+        associate(i => agm%n_iter)
+            max_final = max( agm%list_a(i), agm%list_g(i) )
+        end associate
+
+    end function max_final_real64
+
+
+
+    elemental function max_final_real128(agm) result(max_final)
+
+        type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
+
+
+
+        real(real128) :: max_final
+
+
+
+        associate(i => agm%n_iter)
+            max_final = max( agm%list_a(i), agm%list_g(i) )
+        end associate
+
+    end function max_final_real128
 
 
 
