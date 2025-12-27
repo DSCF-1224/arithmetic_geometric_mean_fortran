@@ -698,7 +698,11 @@ module arithmetic_geometric_mean_fortran
 
         if ( ieee_unordered(x, y) ) then
 
-            call initialize(agm); return
+            call initialize(agm)
+
+            agm%n_iter = agm%n_iter + 1
+
+            return
 
         end if
 
@@ -761,7 +765,11 @@ module arithmetic_geometric_mean_fortran
 
         if ( ieee_unordered(x, y) ) then
 
-            call initialize(agm); return
+            call initialize(agm)
+
+            agm%n_iter = agm%n_iter + 1
+
+            return
 
         end if
 
@@ -824,7 +832,11 @@ module arithmetic_geometric_mean_fortran
 
         if ( ieee_unordered(x, y) ) then
 
-            call initialize(agm); return
+            call initialize(agm)
+
+            agm%n_iter = agm%n_iter + 1
+
+            return
 
         end if
 
