@@ -916,6 +916,8 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
+                    agm%n_iter = agm%n_iter + 1
+
                     call compute_step( &!
                         prev_a = prev_a , &!
                         prev_g = prev_g , &!
@@ -974,6 +976,8 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
+                    agm%n_iter = agm%n_iter + 1
+
                     call compute_step( &!
                         prev_a = prev_a , &!
                         prev_g = prev_g , &!
@@ -1031,6 +1035,8 @@ module arithmetic_geometric_mean_fortran
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
+
+                    agm%n_iter = agm%n_iter + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
