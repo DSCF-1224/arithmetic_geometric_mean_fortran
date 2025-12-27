@@ -64,6 +64,8 @@ program check_nan
 
         real(real32) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real32_type) :: list
+
 
 
         call set_ieee_quiet_nan(y)
@@ -83,9 +85,9 @@ program check_nan
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_real32
 
@@ -129,6 +131,8 @@ program check_nan
 
         real(real64) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real64_type) :: list
+
 
 
         call set_ieee_quiet_nan(y)
@@ -148,9 +152,9 @@ program check_nan
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_real64
 
@@ -194,6 +198,8 @@ program check_nan
 
         real(real128) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real128_type) :: list
+
 
 
         call set_ieee_quiet_nan(y)
@@ -213,9 +219,9 @@ program check_nan
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_real128
 
