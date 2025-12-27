@@ -50,7 +50,11 @@ program check_nan
 
         call list%compute(x, nan)
 
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
         call list%compute(nan, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_kernel_real32
 
@@ -111,7 +115,11 @@ program check_nan
 
         call list%compute(x, nan)
 
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
         call list%compute(nan, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_kernel_real64
 
@@ -172,7 +180,11 @@ program check_nan
 
         call list%compute(x, nan)
 
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
         call list%compute(nan, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_kernel_real128
 
