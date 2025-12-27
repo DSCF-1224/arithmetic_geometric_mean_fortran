@@ -38,6 +38,8 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: agm
 
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, nan)
@@ -47,6 +49,12 @@ program ${PROGRAM_NAME}$
         agm = arithmetic_geometric_mean(nan, x)
 
         if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, nan)
+
+        call list%compute(nan, x)
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
