@@ -72,8 +72,9 @@ program check_nan
 
 
 
-        call test_kernel_real32( x = 0.0_real32, nan = y )
-        call test_kernel_real32( x = 1.0_real32, nan = y )
+        call test_kernel_real32( x = -1.0_real32, nan = y )
+        call test_kernel_real32( x =  0.0_real32, nan = y )
+        call test_kernel_real32( x =  1.0_real32, nan = y )
 
 
 
@@ -139,8 +140,9 @@ program check_nan
 
 
 
-        call test_kernel_real64( x = 0.0_real64, nan = y )
-        call test_kernel_real64( x = 1.0_real64, nan = y )
+        call test_kernel_real64( x = -1.0_real64, nan = y )
+        call test_kernel_real64( x =  0.0_real64, nan = y )
+        call test_kernel_real64( x =  1.0_real64, nan = y )
 
 
 
@@ -206,8 +208,9 @@ program check_nan
 
 
 
-        call test_kernel_real128( x = 0.0_real128, nan = y )
-        call test_kernel_real128( x = 1.0_real128, nan = y )
+        call test_kernel_real128( x = -1.0_real128, nan = y )
+        call test_kernel_real128( x =  0.0_real128, nan = y )
+        call test_kernel_real128( x =  1.0_real128, nan = y )
 
 
 
