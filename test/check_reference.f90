@@ -19,9 +19,13 @@ program check_reference
 
 
 
-    call test_real32
-    call test_real64
-    call test_real128
+    call test_func_real32
+    call test_func_real64
+    call test_func_real128
+
+    call test_type_real32
+    call test_type_real64
+    call test_type_real128
 
 
 
@@ -97,7 +101,7 @@ program check_reference
 
 
 
-    subroutine test_real32
+    subroutine test_func_real32
 
         real(real32), parameter :: a = 1.0_real32
 
@@ -284,11 +288,75 @@ program check_reference
         msg  = msg         &!
         )
 
-    end subroutine test_real32
+    end subroutine test_func_real32
 
 
 
-    subroutine test_real64
+    subroutine test_type_real32
+
+        real(real32), parameter :: a = 1.0_real32
+
+        integer :: file_unit
+
+        integer :: stat
+
+        real(real32) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real32) :: ar_mean !! arithmetic mean
+
+        real(real32) :: b
+
+        real(real32) :: ge_mean !! geometric mean
+
+        character(256) :: msg
+
+        type(arithmetic_geometric_mean_real32_type) :: list
+
+
+
+        call open_reference_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ge_mean, ag_mean_ref, ar_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+
+
+            call list%compute(a, b)
+
+        end do
+
+
+
+        call close_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+    end subroutine test_type_real32
+
+
+
+    subroutine test_func_real64
 
         real(real64), parameter :: a = 1.0_real64
 
@@ -475,11 +543,75 @@ program check_reference
         msg  = msg         &!
         )
 
-    end subroutine test_real64
+    end subroutine test_func_real64
 
 
 
-    subroutine test_real128
+    subroutine test_type_real64
+
+        real(real64), parameter :: a = 1.0_real64
+
+        integer :: file_unit
+
+        integer :: stat
+
+        real(real64) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real64) :: ar_mean !! arithmetic mean
+
+        real(real64) :: b
+
+        real(real64) :: ge_mean !! geometric mean
+
+        character(256) :: msg
+
+        type(arithmetic_geometric_mean_real64_type) :: list
+
+
+
+        call open_reference_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ge_mean, ag_mean_ref, ar_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+
+
+            call list%compute(a, b)
+
+        end do
+
+
+
+        call close_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+    end subroutine test_type_real64
+
+
+
+    subroutine test_func_real128
 
         real(real128), parameter :: a = 1.0_real128
 
@@ -666,6 +798,70 @@ program check_reference
         msg  = msg         &!
         )
 
-    end subroutine test_real128
+    end subroutine test_func_real128
+
+
+
+    subroutine test_type_real128
+
+        real(real128), parameter :: a = 1.0_real128
+
+        integer :: file_unit
+
+        integer :: stat
+
+        real(real128) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real128) :: ar_mean !! arithmetic mean
+
+        real(real128) :: b
+
+        real(real128) :: ge_mean !! geometric mean
+
+        character(256) :: msg
+
+        type(arithmetic_geometric_mean_real128_type) :: list
+
+
+
+        call open_reference_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ge_mean, ag_mean_ref, ar_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+
+
+            call list%compute(a, b)
+
+        end do
+
+
+
+        call close_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+    end subroutine test_type_real128
 
 end program check_reference
