@@ -93,6 +93,14 @@ program ${PROGRAM_NAME}$
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
 #:endfor
