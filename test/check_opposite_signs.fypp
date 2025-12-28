@@ -34,6 +34,8 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: agm, x, y
 
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
 
 
         x = -1.0_${REAL_KIND}$
@@ -46,6 +48,14 @@ program ${PROGRAM_NAME}$
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_nan(agm) ) error stop
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
 
 
