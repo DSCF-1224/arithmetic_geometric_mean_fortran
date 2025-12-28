@@ -716,6 +716,8 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
+            agm%n_iter = agm%n_iter + 1
+
         else if ( xy .gt. 0.0_real32 ) then
 
             if (x .lt. y) then
@@ -783,6 +785,8 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
+            agm%n_iter = agm%n_iter + 1
+
         else if ( xy .gt. 0.0_real64 ) then
 
             if (x .lt. y) then
@@ -849,6 +853,8 @@ module arithmetic_geometric_mean_fortran
         if ( xy .lt. 0.0_real128 ) then
 
             call initialize(agm)
+
+            agm%n_iter = agm%n_iter + 1
 
         else if ( xy .gt. 0.0_real128 ) then
 
