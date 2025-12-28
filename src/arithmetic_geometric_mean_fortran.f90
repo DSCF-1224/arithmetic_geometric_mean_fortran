@@ -907,16 +907,12 @@ module arithmetic_geometric_mean_fortran
 
             associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
 
-                agm%n_iter = next_iter
-
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
                     prev_g => agm%list_g(prev_iter) , &!
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
-
-                    agm%n_iter = agm%n_iter + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -927,9 +923,13 @@ module arithmetic_geometric_mean_fortran
 
                     if ( is_not_converged(next_a, next_g) ) then
 
+                        prev_iter = next_iter
+
                         cycle
 
                     else
+
+                        prev_iter = next_iter
 
                         return
 
@@ -967,16 +967,12 @@ module arithmetic_geometric_mean_fortran
 
             associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
 
-                agm%n_iter = next_iter
-
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
                     prev_g => agm%list_g(prev_iter) , &!
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
-
-                    agm%n_iter = agm%n_iter + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -987,9 +983,13 @@ module arithmetic_geometric_mean_fortran
 
                     if ( is_not_converged(next_a, next_g) ) then
 
+                        prev_iter = next_iter
+
                         cycle
 
                     else
+
+                        prev_iter = next_iter
 
                         return
 
@@ -1027,16 +1027,12 @@ module arithmetic_geometric_mean_fortran
 
             associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
 
-                agm%n_iter = next_iter
-
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
                     prev_g => agm%list_g(prev_iter) , &!
                     next_a => agm%list_a(next_iter) , &!
                     next_g => agm%list_g(next_iter)   &!
                 )
-
-                    agm%n_iter = agm%n_iter + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -1047,9 +1043,13 @@ module arithmetic_geometric_mean_fortran
 
                     if ( is_not_converged(next_a, next_g) ) then
 
+                        prev_iter = next_iter
+
                         cycle
 
                     else
+
+                        prev_iter = next_iter
 
                         return
 
