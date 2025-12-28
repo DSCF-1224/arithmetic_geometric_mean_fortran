@@ -730,6 +730,8 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
+            agm%n_iter = 0
+
             if (x .lt. y) then
 
                 agm%list_a(agm%n_iter) = y
@@ -799,6 +801,8 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
+            agm%n_iter = 0
+
             if (x .lt. y) then
 
                 agm%list_a(agm%n_iter) = y
@@ -867,6 +871,8 @@ module arithmetic_geometric_mean_fortran
         else
 
             call initialize(agm)
+
+            agm%n_iter = 0
 
             if (x .lt. y) then
 
