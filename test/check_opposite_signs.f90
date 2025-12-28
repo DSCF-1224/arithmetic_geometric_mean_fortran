@@ -89,6 +89,14 @@ program check_opposite_signs
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
     end subroutine test_real32
 
 
@@ -156,6 +164,14 @@ program check_opposite_signs
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
     end subroutine test_real64
 
 
@@ -222,6 +238,14 @@ program check_opposite_signs
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_nan(agm) ) error stop
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_real128
 
