@@ -22,7 +22,11 @@ program ${PROGRAM_NAME}$
 
 
 #:for REAL_KIND in REAL_KINDS
-    call test_${REAL_KIND}$
+    call test_func_${REAL_KIND}$
+#:endfor
+
+#:for REAL_KIND in REAL_KINDS
+    call test_type_${REAL_KIND}$
 #:endfor
 
 
@@ -100,7 +104,7 @@ program ${PROGRAM_NAME}$
 
 
 
-    #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
+    #:set SUBROUTINE_NAME = 'test_func_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
         real(${REAL_KIND}$), parameter :: a = 1.0_${REAL_KIND}$
@@ -277,6 +281,72 @@ program ${PROGRAM_NAME}$
                 error stop
 
             end if
+
+        end do
+
+
+
+        call close_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+
+
+
+    #:set SUBROUTINE_NAME = 'test_type_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$
+
+        real(${REAL_KIND}$), parameter :: a = 1.0_${REAL_KIND}$
+
+        integer :: file_unit
+
+        integer :: stat
+
+        real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$) :: ar_mean !! arithmetic mean
+
+        real(${REAL_KIND}$) :: b
+
+        real(${REAL_KIND}$) :: ge_mean !! geometric mean
+
+        character(256) :: msg
+
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
+
+
+        call open_reference_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ge_mean, ag_mean_ref, ar_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+
+
+            call list%compute(a, b)
 
         end do
 
