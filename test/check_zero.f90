@@ -32,6 +32,8 @@ program check_zero
 
         real(real32) :: agm
 
+        type(arithmetic_geometric_mean_real32_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, zero)
@@ -42,6 +44,16 @@ program check_zero
 
         if ( .not. is_ieee_positive_zero(agm) ) error stop
 
+
+
+        call list%compute(x, zero)
+
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+
+        call list%compute(zero, x)
+
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+
     end subroutine test_kernel_real32
 
 
@@ -49,6 +61,8 @@ program check_zero
     subroutine test_real32
 
         real(real32) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real32_type) :: list
 
 
 
@@ -70,9 +84,9 @@ program check_zero
 
         if ( .not. is_ieee_positive_zero(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
 
     end subroutine test_real32
 
@@ -86,6 +100,8 @@ program check_zero
 
         real(real64) :: agm
 
+        type(arithmetic_geometric_mean_real64_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, zero)
@@ -96,6 +112,16 @@ program check_zero
 
         if ( .not. is_ieee_positive_zero(agm) ) error stop
 
+
+
+        call list%compute(x, zero)
+
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+
+        call list%compute(zero, x)
+
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+
     end subroutine test_kernel_real64
 
 
@@ -103,6 +129,8 @@ program check_zero
     subroutine test_real64
 
         real(real64) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real64_type) :: list
 
 
 
@@ -124,9 +152,9 @@ program check_zero
 
         if ( .not. is_ieee_positive_zero(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
 
     end subroutine test_real64
 
@@ -140,6 +168,8 @@ program check_zero
 
         real(real128) :: agm
 
+        type(arithmetic_geometric_mean_real128_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, zero)
@@ -150,6 +180,16 @@ program check_zero
 
         if ( .not. is_ieee_positive_zero(agm) ) error stop
 
+
+
+        call list%compute(x, zero)
+
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+
+        call list%compute(zero, x)
+
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+
     end subroutine test_kernel_real128
 
 
@@ -157,6 +197,8 @@ program check_zero
     subroutine test_real128
 
         real(real128) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real128_type) :: list
 
 
 
@@ -178,9 +220,9 @@ program check_zero
 
         if ( .not. is_ieee_positive_zero(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
+        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
 
     end subroutine test_real128
 
