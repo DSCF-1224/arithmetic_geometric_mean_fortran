@@ -115,8 +115,6 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
 
-        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
-
         real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
         real(${REAL_KIND}$) :: ag_mean_rev !! arithmetic-geometric mean (reverse)
@@ -126,10 +124,6 @@ program ${PROGRAM_NAME}$
         real(${REAL_KIND}$) :: b
 
         real(${REAL_KIND}$) :: ge_mean !! geometric mean
-
-        real(${REAL_KIND}$) :: ulp_error
-
-        real(${REAL_KIND}$) :: ulp_error_abs
 
         character(256) :: msg
 
@@ -181,11 +175,8 @@ program ${PROGRAM_NAME}$
 
 
 
-            ag_mean_cal   = arithmetic_geometric_mean(a, b)
-            ag_mean_rev   = arithmetic_geometric_mean(b, a)
-            ag_mean_dif   = ag_mean_cal - ag_mean_ref
-            ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
-            ulp_error_abs = abs(ulp_error)
+            ag_mean_cal = arithmetic_geometric_mean(a, b)
+            ag_mean_rev = arithmetic_geometric_mean(b, a)
 
 
 
@@ -229,35 +220,11 @@ program ${PROGRAM_NAME}$
 
 
 
-            if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'WARNING: Large ULP error'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b         = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'ULP error = ' ,  ulp_error
-
-            end if
-
-
-
-            if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: Unacceptable error'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b         = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'ULP error = ' ,  ulp_error
-
-                error stop
-
-            end if
+            call validate_${REAL_KIND}$( &!
+            ag_mean_cal = ag_mean_cal , &! 
+            ag_mean_ref = ag_mean_ref , &! 
+            b           = b             &!
+            )
 
 
 
@@ -357,6 +324,66 @@ program ${PROGRAM_NAME}$
         stat = stat      , &!
         msg  = msg         &!
         )
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+
+
+
+    #:set SUBROUTINE_NAME = 'validate_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ag_mean_ref, b)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$), intent(in) :: b
+
+
+
+        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(${REAL_KIND}$) :: ulp_error
+
+        real(${REAL_KIND}$) :: ulp_error_abs
+
+
+
+        ag_mean_dif   = ag_mean_cal - ag_mean_ref
+        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+        ulp_error_abs = abs(ulp_error)
+
+
+
+        if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'WARNING: Large ULP error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+        end if
+
+
+
+        if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: Unacceptable error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+            error stop
+
+        end if
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
