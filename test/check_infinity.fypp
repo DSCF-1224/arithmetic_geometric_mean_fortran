@@ -36,6 +36,8 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: agm
 
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(x, inf)
@@ -46,6 +48,16 @@ program ${PROGRAM_NAME}$
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
+
+
+        call list%compute(x, inf)
+
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+
+        call list%compute(inf, x)
+
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
 
@@ -55,6 +67,8 @@ program ${PROGRAM_NAME}$
     subroutine ${SUBROUTINE_NAME}$
 
         real(${REAL_KIND}$) :: agm, x, y
+
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
 
 
 
@@ -80,9 +94,9 @@ program ${PROGRAM_NAME}$
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
