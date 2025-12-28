@@ -62,6 +62,8 @@ program check_infinity
 
         real(real32) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real32_type) :: list
+
 
 
         call set_ieee_positive_inf(y)
@@ -86,9 +88,9 @@ program check_infinity
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
 
     end subroutine test_real32
 
@@ -132,6 +134,8 @@ program check_infinity
 
         real(real64) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real64_type) :: list
+
 
 
         call set_ieee_positive_inf(y)
@@ -156,9 +160,9 @@ program check_infinity
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
 
     end subroutine test_real64
 
@@ -202,6 +206,8 @@ program check_infinity
 
         real(real128) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real128_type) :: list
+
 
 
         call set_ieee_positive_inf(y)
@@ -226,9 +232,9 @@ program check_infinity
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
 
     end subroutine test_real128
 
