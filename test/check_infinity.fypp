@@ -68,6 +68,8 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: agm, x, y
 
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
 
 
         call set_ieee_positive_inf(y)
@@ -92,9 +94,9 @@ program ${PROGRAM_NAME}$
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
+        call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
