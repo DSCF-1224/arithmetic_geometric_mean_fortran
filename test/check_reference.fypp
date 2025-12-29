@@ -411,6 +411,8 @@ program ${PROGRAM_NAME}$
 
         integer :: stat
 
+        real(${REAL_KIND}$) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
         real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
         real(${REAL_KIND}$) :: ar_mean !! arithmetic mean
@@ -455,9 +457,18 @@ program ${PROGRAM_NAME}$
 
 
 
+            ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
             call validate_ulp_error( &!
-            ag_mean_cal = max(list)   , &! 
-            ag_mean_ref = ag_mean_ref , &! 
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
             b           = b             &!
             )
 
