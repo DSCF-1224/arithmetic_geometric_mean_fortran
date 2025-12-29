@@ -309,6 +309,14 @@ program check_reference
 
             call list%compute(a, b)
 
+
+
+            call validate_real32( &!
+            ag_mean_cal = max(list)   , &! 
+            ag_mean_ref = ag_mean_ref , &! 
+            b           = b             &!
+            )
+
         end do
 
 
@@ -589,6 +597,14 @@ program check_reference
 
             call list%compute(a, b)
 
+
+
+            call validate_real64( &!
+            ag_mean_cal = max(list)   , &! 
+            ag_mean_ref = ag_mean_ref , &! 
+            b           = b             &!
+            )
+
         end do
 
 
@@ -868,6 +884,14 @@ program check_reference
 
 
             call list%compute(a, b)
+
+
+
+            call validate_real128( &!
+            ag_mean_cal = max(list)   , &! 
+            ag_mean_ref = ag_mean_ref , &! 
+            b           = b             &!
+            )
 
         end do
 
