@@ -16,7 +16,18 @@ module ${MODULE_NAME}$
 
     private
 
+    public :: validate_order_error
     public :: validate_ulp_error
+
+
+
+    #:set INTERFACE_NAME = 'validate_order_error'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+    #:del INTERFACE_NAME
 
 
 
@@ -31,6 +42,64 @@ module ${MODULE_NAME}$
 
 
     contains
+
+
+
+    #:for REAL_KIND in REAL_KINDS
+    #:set SUBROUTINE_NAME = 'validate_order_error_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ar_mean, b, ge_mean)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$), intent(in) :: ar_mean !! arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: b
+
+        real(${REAL_KIND}$), intent(in) :: ge_mean !! geometric mean
+
+
+
+        if ( ge_mean .gt. ag_mean_cal ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is less than geometric mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            write( unit = error_unit, fmt = * ) &!
+                '           geometric = ' , ge_mean
+
+            error stop
+
+        end if
+
+
+
+        if ( ag_mean_cal .gt. ar_mean ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic           = ' , ar_mean
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            error stop
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+    #:endfor
 
 
 
@@ -280,43 +349,12 @@ program ${PROGRAM_NAME}$
 
 
 
-            if ( ge_mean .gt. ag_mean_cal ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is less than geometric mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                write( unit = error_unit, fmt = * ) &!
-                    '           geometric = ' , ge_mean
-
-                error stop
-
-            end if
-
-
-
-            if ( ag_mean_cal .gt. ar_mean ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic           = ' , ar_mean
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                error stop
-
-            end if
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
 
 
 
