@@ -1,3 +1,204 @@
+module check_reference_lib
+
+    use, intrinsic :: iso_fortran_env, only: error_unit
+    use, intrinsic :: iso_fortran_env, only: real32
+    use, intrinsic :: iso_fortran_env, only: real64
+    use, intrinsic :: iso_fortran_env, only: real128
+
+
+
+    implicit none
+
+
+
+    private
+
+    public :: validate_ulp_error
+
+
+
+    interface validate_ulp_error
+        module procedure :: validate_ulp_error_real32
+        module procedure :: validate_ulp_error_real64
+        module procedure :: validate_ulp_error_real128
+    end interface validate_ulp_error
+
+
+
+    contains
+
+
+
+    subroutine validate_ulp_error_real32(ag_mean_cal, ag_mean_ref, b)
+
+        real(real32), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real32), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real32), intent(in) :: b
+
+
+
+        real(real32) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(real32) :: ulp_error
+
+        real(real32) :: ulp_error_abs
+
+
+
+        ag_mean_dif   = ag_mean_cal - ag_mean_ref
+        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+        ulp_error_abs = abs(ulp_error)
+
+
+
+        if ( ulp_error_abs .gt. 2.0_real32 ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'WARNING: Large ULP error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+        end if
+
+
+
+        if ( ulp_error_abs .gt. 10.0_real32 ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: Unacceptable error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+            error stop
+
+        end if
+
+    end subroutine validate_ulp_error_real32
+    subroutine validate_ulp_error_real64(ag_mean_cal, ag_mean_ref, b)
+
+        real(real64), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real64), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real64), intent(in) :: b
+
+
+
+        real(real64) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(real64) :: ulp_error
+
+        real(real64) :: ulp_error_abs
+
+
+
+        ag_mean_dif   = ag_mean_cal - ag_mean_ref
+        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+        ulp_error_abs = abs(ulp_error)
+
+
+
+        if ( ulp_error_abs .gt. 2.0_real64 ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'WARNING: Large ULP error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+        end if
+
+
+
+        if ( ulp_error_abs .gt. 10.0_real64 ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: Unacceptable error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+            error stop
+
+        end if
+
+    end subroutine validate_ulp_error_real64
+    subroutine validate_ulp_error_real128(ag_mean_cal, ag_mean_ref, b)
+
+        real(real128), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real128), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(real128), intent(in) :: b
+
+
+
+        real(real128) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(real128) :: ulp_error
+
+        real(real128) :: ulp_error_abs
+
+
+
+        ag_mean_dif   = ag_mean_cal - ag_mean_ref
+        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+        ulp_error_abs = abs(ulp_error)
+
+
+
+        if ( ulp_error_abs .gt. 2.0_real128 ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'WARNING: Large ULP error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+        end if
+
+
+
+        if ( ulp_error_abs .gt. 10.0_real128 ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: Unacceptable error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+            error stop
+
+        end if
+
+    end subroutine validate_ulp_error_real128
+
+end module check_reference_lib
+
+
+
 program check_reference
 
     use, intrinsic :: iso_fortran_env, only: error_unit
@@ -8,6 +209,8 @@ program check_reference
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
     use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: check_reference_lib
 
 
 
@@ -216,7 +419,7 @@ program check_reference
 
 
 
-            call validate_real32( &!
+            call validate_ulp_error( &!
             ag_mean_cal = ag_mean_cal , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -311,7 +514,7 @@ program check_reference
 
 
 
-            call validate_real32( &!
+            call validate_ulp_error( &!
             ag_mean_cal = max(list)   , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -328,64 +531,6 @@ program check_reference
         )
 
     end subroutine test_type_real32
-
-
-
-    subroutine validate_real32(ag_mean_cal, ag_mean_ref, b)
-
-        real(real32), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
-
-        real(real32), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
-
-        real(real32), intent(in) :: b
-
-
-
-        real(real32) :: ag_mean_dif !! arithmetic-geometric mean (difference)
-
-        real(real32) :: ulp_error
-
-        real(real32) :: ulp_error_abs
-
-
-
-        ag_mean_dif   = ag_mean_cal - ag_mean_ref
-        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
-        ulp_error_abs = abs(ulp_error)
-
-
-
-        if ( ulp_error_abs .gt. 2.0_real32 ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'WARNING: Large ULP error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-        end if
-
-
-
-        if ( ulp_error_abs .gt. 10.0_real32 ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'FAIL: Unacceptable error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-            error stop
-
-        end if
-
-    end subroutine validate_real32
 
 
 
@@ -504,7 +649,7 @@ program check_reference
 
 
 
-            call validate_real64( &!
+            call validate_ulp_error( &!
             ag_mean_cal = ag_mean_cal , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -599,7 +744,7 @@ program check_reference
 
 
 
-            call validate_real64( &!
+            call validate_ulp_error( &!
             ag_mean_cal = max(list)   , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -616,64 +761,6 @@ program check_reference
         )
 
     end subroutine test_type_real64
-
-
-
-    subroutine validate_real64(ag_mean_cal, ag_mean_ref, b)
-
-        real(real64), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
-
-        real(real64), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
-
-        real(real64), intent(in) :: b
-
-
-
-        real(real64) :: ag_mean_dif !! arithmetic-geometric mean (difference)
-
-        real(real64) :: ulp_error
-
-        real(real64) :: ulp_error_abs
-
-
-
-        ag_mean_dif   = ag_mean_cal - ag_mean_ref
-        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
-        ulp_error_abs = abs(ulp_error)
-
-
-
-        if ( ulp_error_abs .gt. 2.0_real64 ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'WARNING: Large ULP error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-        end if
-
-
-
-        if ( ulp_error_abs .gt. 10.0_real64 ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'FAIL: Unacceptable error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-            error stop
-
-        end if
-
-    end subroutine validate_real64
 
 
 
@@ -792,7 +879,7 @@ program check_reference
 
 
 
-            call validate_real128( &!
+            call validate_ulp_error( &!
             ag_mean_cal = ag_mean_cal , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -887,7 +974,7 @@ program check_reference
 
 
 
-            call validate_real128( &!
+            call validate_ulp_error( &!
             ag_mean_cal = max(list)   , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -904,63 +991,5 @@ program check_reference
         )
 
     end subroutine test_type_real128
-
-
-
-    subroutine validate_real128(ag_mean_cal, ag_mean_ref, b)
-
-        real(real128), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
-
-        real(real128), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
-
-        real(real128), intent(in) :: b
-
-
-
-        real(real128) :: ag_mean_dif !! arithmetic-geometric mean (difference)
-
-        real(real128) :: ulp_error
-
-        real(real128) :: ulp_error_abs
-
-
-
-        ag_mean_dif   = ag_mean_cal - ag_mean_ref
-        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
-        ulp_error_abs = abs(ulp_error)
-
-
-
-        if ( ulp_error_abs .gt. 2.0_real128 ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'WARNING: Large ULP error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-        end if
-
-
-
-        if ( ulp_error_abs .gt. 10.0_real128 ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'FAIL: Unacceptable error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-            error stop
-
-        end if
-
-    end subroutine validate_real128
 
 end program check_reference
