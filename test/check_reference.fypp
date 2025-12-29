@@ -315,6 +315,14 @@ program ${PROGRAM_NAME}$
 
             call list%compute(a, b)
 
+
+
+            call validate_${REAL_KIND}$( &!
+            ag_mean_cal = max(list)   , &! 
+            ag_mean_ref = ag_mean_ref , &! 
+            b           = b             &!
+            )
+
         end do
 
 
