@@ -13,7 +13,16 @@ module check_reference_lib
 
     private
 
+    public :: validate_order_error
     public :: validate_ulp_error
+
+
+
+    interface validate_order_error
+        module procedure :: validate_order_error_real32
+        module procedure :: validate_order_error_real64
+        module procedure :: validate_order_error_real128
+    end interface validate_order_error
 
 
 
@@ -26,6 +35,162 @@ module check_reference_lib
 
 
     contains
+
+
+
+    subroutine validate_order_error_real32(ag_mean_cal, ar_mean, b, ge_mean)
+
+        real(real32), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real32), intent(in) :: ar_mean !! arithmetic mean
+
+        real(real32), intent(in) :: b
+
+        real(real32), intent(in) :: ge_mean !! geometric mean
+
+
+
+        if ( ge_mean .gt. ag_mean_cal ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is less than geometric mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            write( unit = error_unit, fmt = * ) &!
+                '           geometric = ' , ge_mean
+
+            error stop
+
+        end if
+
+
+
+        if ( ag_mean_cal .gt. ar_mean ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic           = ' , ar_mean
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            error stop
+
+        end if
+
+    end subroutine validate_order_error_real32
+    subroutine validate_order_error_real64(ag_mean_cal, ar_mean, b, ge_mean)
+
+        real(real64), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real64), intent(in) :: ar_mean !! arithmetic mean
+
+        real(real64), intent(in) :: b
+
+        real(real64), intent(in) :: ge_mean !! geometric mean
+
+
+
+        if ( ge_mean .gt. ag_mean_cal ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is less than geometric mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            write( unit = error_unit, fmt = * ) &!
+                '           geometric = ' , ge_mean
+
+            error stop
+
+        end if
+
+
+
+        if ( ag_mean_cal .gt. ar_mean ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic           = ' , ar_mean
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            error stop
+
+        end if
+
+    end subroutine validate_order_error_real64
+    subroutine validate_order_error_real128(ag_mean_cal, ar_mean, b, ge_mean)
+
+        real(real128), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(real128), intent(in) :: ar_mean !! arithmetic mean
+
+        real(real128), intent(in) :: b
+
+        real(real128), intent(in) :: ge_mean !! geometric mean
+
+
+
+        if ( ge_mean .gt. ag_mean_cal ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is less than geometric mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            write( unit = error_unit, fmt = * ) &!
+                '           geometric = ' , ge_mean
+
+            error stop
+
+        end if
+
+
+
+        if ( ag_mean_cal .gt. ar_mean ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic           = ' , ar_mean
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            error stop
+
+        end if
+
+    end subroutine validate_order_error_real128
 
 
 
@@ -379,43 +544,12 @@ program check_reference
 
 
 
-            if ( ge_mean .gt. ag_mean_cal ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is less than geometric mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                write( unit = error_unit, fmt = * ) &!
-                    '           geometric = ' , ge_mean
-
-                error stop
-
-            end if
-
-
-
-            if ( ag_mean_cal .gt. ar_mean ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic           = ' , ar_mean
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                error stop
-
-            end if
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
 
 
 
@@ -609,43 +743,12 @@ program check_reference
 
 
 
-            if ( ge_mean .gt. ag_mean_cal ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is less than geometric mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                write( unit = error_unit, fmt = * ) &!
-                    '           geometric = ' , ge_mean
-
-                error stop
-
-            end if
-
-
-
-            if ( ag_mean_cal .gt. ar_mean ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic           = ' , ar_mean
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                error stop
-
-            end if
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
 
 
 
@@ -839,43 +942,12 @@ program check_reference
 
 
 
-            if ( ge_mean .gt. ag_mean_cal ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is less than geometric mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                write( unit = error_unit, fmt = * ) &!
-                    '           geometric = ' , ge_mean
-
-                error stop
-
-            end if
-
-
-
-            if ( ag_mean_cal .gt. ar_mean ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic           = ' , ar_mean
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                error stop
-
-            end if
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
 
 
 
