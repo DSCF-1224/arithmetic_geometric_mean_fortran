@@ -1,5 +1,103 @@
 #:include '../src/common.fypp'
 #:set PROGRAM_NAME = 'check_reference'
+#:set MODULE_NAME = PROGRAM_NAME + '_lib'
+module ${MODULE_NAME}$
+
+    use, intrinsic :: iso_fortran_env, only: error_unit
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+
+
+    implicit none
+
+
+
+    private
+
+    public :: validate_ulp_error
+
+
+
+    #:set INTERFACE_NAME = 'validate_ulp_error'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+    #:del INTERFACE_NAME
+
+
+
+    contains
+
+
+
+    #:for REAL_KIND in REAL_KINDS
+    #:set SUBROUTINE_NAME = 'validate_ulp_error_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ag_mean_ref, b)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$), intent(in) :: b
+
+
+
+        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(${REAL_KIND}$) :: ulp_error
+
+        real(${REAL_KIND}$) :: ulp_error_abs
+
+
+
+        ag_mean_dif   = ag_mean_cal - ag_mean_ref
+        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+        ulp_error_abs = abs(ulp_error)
+
+
+
+        if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'WARNING: Large ULP error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+        end if
+
+
+
+        if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: Unacceptable error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+            error stop
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+    #:endfor
+
+end module ${MODULE_NAME}$
+
+
+
 program ${PROGRAM_NAME}$
 
     use, intrinsic :: iso_fortran_env, only: error_unit
@@ -10,6 +108,8 @@ program ${PROGRAM_NAME}$
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
     use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: ${PROGRAM_NAME}$_lib
 
 
 
@@ -220,7 +320,7 @@ program ${PROGRAM_NAME}$
 
 
 
-            call validate_${REAL_KIND}$( &!
+            call validate_ulp_error( &!
             ag_mean_cal = ag_mean_cal , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -317,7 +417,7 @@ program ${PROGRAM_NAME}$
 
 
 
-            call validate_${REAL_KIND}$( &!
+            call validate_ulp_error( &!
             ag_mean_cal = max(list)   , &! 
             ag_mean_ref = ag_mean_ref , &! 
             b           = b             &!
@@ -332,66 +432,6 @@ program ${PROGRAM_NAME}$
         stat = stat      , &!
         msg  = msg         &!
         )
-
-    end subroutine ${SUBROUTINE_NAME}$
-    #:del SUBROUTINE_NAME
-
-
-
-    #:set SUBROUTINE_NAME = 'validate_' + REAL_KIND
-    subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ag_mean_ref, b)
-
-        real(${REAL_KIND}$), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
-
-        real(${REAL_KIND}$), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
-
-        real(${REAL_KIND}$), intent(in) :: b
-
-
-
-        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
-
-        real(${REAL_KIND}$) :: ulp_error
-
-        real(${REAL_KIND}$) :: ulp_error_abs
-
-
-
-        ag_mean_dif   = ag_mean_cal - ag_mean_ref
-        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
-        ulp_error_abs = abs(ulp_error)
-
-
-
-        if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'WARNING: Large ULP error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-        end if
-
-
-
-        if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
-
-            write( unit = error_unit, fmt = * ) &!
-                'FAIL: Unacceptable error'
-
-            write( unit = error_unit, fmt = * ) &!
-                'b         = ' , b
-
-            write( unit = error_unit, fmt = * ) &!
-                'ULP error = ' ,  ulp_error
-
-            error stop
-
-        end if
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
