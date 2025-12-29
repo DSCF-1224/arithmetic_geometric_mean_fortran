@@ -604,6 +604,8 @@ program check_reference
 
         integer :: stat
 
+        real(real32) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
         real(real32) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
         real(real32) :: ar_mean !! arithmetic mean
@@ -648,9 +650,18 @@ program check_reference
 
 
 
+            ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
             call validate_ulp_error( &!
-            ag_mean_cal = max(list)   , &! 
-            ag_mean_ref = ag_mean_ref , &! 
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
             b           = b             &!
             )
 
@@ -803,6 +814,8 @@ program check_reference
 
         integer :: stat
 
+        real(real64) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
         real(real64) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
         real(real64) :: ar_mean !! arithmetic mean
@@ -847,9 +860,18 @@ program check_reference
 
 
 
+            ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
             call validate_ulp_error( &!
-            ag_mean_cal = max(list)   , &! 
-            ag_mean_ref = ag_mean_ref , &! 
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
             b           = b             &!
             )
 
@@ -1002,6 +1024,8 @@ program check_reference
 
         integer :: stat
 
+        real(real128) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
         real(real128) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
         real(real128) :: ar_mean !! arithmetic mean
@@ -1046,9 +1070,18 @@ program check_reference
 
 
 
+            ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
             call validate_ulp_error( &!
-            ag_mean_cal = max(list)   , &! 
-            ag_mean_ref = ag_mean_ref , &! 
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
             b           = b             &!
             )
 
