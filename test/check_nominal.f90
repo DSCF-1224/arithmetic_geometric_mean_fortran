@@ -31,11 +31,32 @@ module check_nominal_lib
 
 
 
+    interface check_nominal_kernel_half
+        module procedure :: check_nominal_kernel_half_real32
+        module procedure :: check_nominal_kernel_half_real64
+        module procedure :: check_nominal_kernel_half_real128
+    end interface check_nominal_kernel_half
+
+
+
     contains
 
 
 
     subroutine check_nominal_kernel_real32(x, y)
+
+        real(real32), intent(in) :: x, y
+
+
+
+        call check_nominal_kernel_half(x, y)
+        call check_nominal_kernel_half(y, x)
+
+    end subroutine check_nominal_kernel_real32
+
+
+
+    subroutine check_nominal_kernel_half_real32(x, y)
 
         real(real32), intent(in) :: x, y
 
@@ -57,23 +78,24 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
 
-
-
-        agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
-
-
-
-        call list%compute(y, x)
-
-        if ( .not. ieee_is_normal( max(list) ) ) error stop
-
-    end subroutine check_nominal_kernel_real32
+    end subroutine check_nominal_kernel_half_real32
 
 
 
     subroutine check_nominal_kernel_real64(x, y)
+
+        real(real64), intent(in) :: x, y
+
+
+
+        call check_nominal_kernel_half(x, y)
+        call check_nominal_kernel_half(y, x)
+
+    end subroutine check_nominal_kernel_real64
+
+
+
+    subroutine check_nominal_kernel_half_real64(x, y)
 
         real(real64), intent(in) :: x, y
 
@@ -95,23 +117,24 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
 
-
-
-        agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
-
-
-
-        call list%compute(y, x)
-
-        if ( .not. ieee_is_normal( max(list) ) ) error stop
-
-    end subroutine check_nominal_kernel_real64
+    end subroutine check_nominal_kernel_half_real64
 
 
 
     subroutine check_nominal_kernel_real128(x, y)
+
+        real(real128), intent(in) :: x, y
+
+
+
+        call check_nominal_kernel_half(x, y)
+        call check_nominal_kernel_half(y, x)
+
+    end subroutine check_nominal_kernel_real128
+
+
+
+    subroutine check_nominal_kernel_half_real128(x, y)
 
         real(real128), intent(in) :: x, y
 
@@ -133,19 +156,7 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
 
-
-
-        agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
-
-
-
-        call list%compute(y, x)
-
-        if ( .not. ieee_is_normal( max(list) ) ) error stop
-
-    end subroutine check_nominal_kernel_real128
+    end subroutine check_nominal_kernel_half_real128
 
 end module check_nominal_lib
 
