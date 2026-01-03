@@ -30,6 +30,8 @@ program check_nominal
 
         real(real32) :: agm, x, y
 
+        type(arithmetic_geometric_mean_real32_type) :: list
+
 
 
         x = 1.0_real32
@@ -42,9 +44,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
 
 
@@ -54,9 +64,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
 
 
@@ -67,9 +85,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
     end subroutine test_real32
 
@@ -78,6 +104,8 @@ program check_nominal
     subroutine test_real64
 
         real(real64) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real64_type) :: list
 
 
 
@@ -91,9 +119,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
 
 
@@ -103,9 +139,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
 
 
@@ -116,9 +160,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
     end subroutine test_real64
 
@@ -127,6 +179,8 @@ program check_nominal
     subroutine test_real128
 
         real(real128) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real128_type) :: list
 
 
 
@@ -140,9 +194,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
 
 
@@ -152,9 +214,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
 
 
@@ -165,9 +235,17 @@ program check_nominal
 
         if ( .not. ieee_is_normal(agm) ) error stop
 
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
+
         agm = arithmetic_geometric_mean(y, x)
 
         if ( .not. ieee_is_normal(agm) ) error stop
+
+        call list%compute(y, x)
+
+        if ( .not. ieee_is_normal( max(list) ) ) error stop
 
     end subroutine test_real128
 
