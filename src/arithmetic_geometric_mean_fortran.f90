@@ -57,7 +57,15 @@ module arithmetic_geometric_mean_fortran
 
 
     interface arithmetic_geometric_mean_kernel
-        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! This function/interface provides a lightweight AGM computation
+        !! that returns only the final converged value
+        !! without storing iteration history.  
+        !! For applications that need to analyze the convergence process,
+        !! use the type-bound subroutine instead,
+        !! which preserves the full iteration history.
         !!
         !! @warning
         !! - This function/interface assumes both inputs are positive.
@@ -386,7 +394,15 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_kernel_real32(a, g) result(agm)
-        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! This function/interface provides a lightweight AGM computation
+        !! that returns only the final converged value
+        !! without storing iteration history.  
+        !! For applications that need to analyze the convergence process,
+        !! use the type-bound subroutine [[compute_kernel_real32]] instead,
+        !! which preserves the full iteration history.
         !!
         !! @warning
         !! - This function/interface assumes both inputs are positive.
@@ -455,7 +471,15 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_kernel_real64(a, g) result(agm)
-        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! This function/interface provides a lightweight AGM computation
+        !! that returns only the final converged value
+        !! without storing iteration history.  
+        !! For applications that need to analyze the convergence process,
+        !! use the type-bound subroutine [[compute_kernel_real64]] instead,
+        !! which preserves the full iteration history.
         !!
         !! @warning
         !! - This function/interface assumes both inputs are positive.
@@ -524,7 +548,15 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_kernel_real128(a, g) result(agm)
-        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! This function/interface provides a lightweight AGM computation
+        !! that returns only the final converged value
+        !! without storing iteration history.  
+        !! For applications that need to analyze the convergence process,
+        !! use the type-bound subroutine [[compute_kernel_real128]] instead,
+        !! which preserves the full iteration history.
         !!
         !! @warning
         !! - This function/interface assumes both inputs are positive.
