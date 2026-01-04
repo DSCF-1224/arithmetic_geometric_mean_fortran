@@ -64,9 +64,12 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'compute_step'
     interface ${INTERFACE_NAME}$
+        #:include 'compute_step_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -446,6 +449,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'compute_step_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(prev_a, prev_g, next_a, next_g)
+        #:include 'compute_step_description.fypp'
 
         real(${REAL_KIND}$), intent(in) :: prev_a
         !! previous arithmetic mean
