@@ -689,6 +689,14 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function max_final_real32(agm) result(max_final)
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the larger of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
 
         type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
 
@@ -707,6 +715,14 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function max_final_real64(agm) result(max_final)
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the larger of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
 
         type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
 
@@ -725,6 +741,14 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function max_final_real128(agm) result(max_final)
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the larger of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
 
         type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
 
