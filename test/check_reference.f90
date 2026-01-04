@@ -89,6 +89,9 @@ module check_reference_lib
         end if
 
     end subroutine validate_order_error_real32
+
+
+
     subroutine validate_order_error_real64(ag_mean_cal, ar_mean, b, ge_mean)
 
         real(real64), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
@@ -140,6 +143,9 @@ module check_reference_lib
         end if
 
     end subroutine validate_order_error_real64
+
+
+
     subroutine validate_order_error_real128(ag_mean_cal, ar_mean, b, ge_mean)
 
         real(real128), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
@@ -249,6 +255,9 @@ module check_reference_lib
         end if
 
     end subroutine validate_ulp_error_real32
+
+
+
     subroutine validate_ulp_error_real64(ag_mean_cal, ag_mean_ref, b)
 
         real(real64), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
@@ -304,6 +313,9 @@ module check_reference_lib
         end if
 
     end subroutine validate_ulp_error_real64
+
+
+
     subroutine validate_ulp_error_real128(ag_mean_cal, ag_mean_ref, b)
 
         real(real128), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
