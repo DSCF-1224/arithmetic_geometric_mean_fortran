@@ -799,6 +799,26 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_real32(agm, x, y)
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This type-bound subroutine performs AGM computation
+        !! with input validation, automatic ordering,
+        !! and complete convergence history storage.
+        !! Unlike [[arithmetic_geometric_mean_kernel]],
+        !! this subroutine retains all intermediate calculation results
+        !! and can be retrieved later.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: full AGM iteration using [[compute_kernel_real32]]
+        !! @endnote
+        !!
+        !! @warning
+        !! Calling this subroutine overwrites any previous computation
+        !! stored in the object.
+        !! @endwarning
 
         class(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
 
@@ -870,6 +890,26 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_real64(agm, x, y)
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This type-bound subroutine performs AGM computation
+        !! with input validation, automatic ordering,
+        !! and complete convergence history storage.
+        !! Unlike [[arithmetic_geometric_mean_kernel]],
+        !! this subroutine retains all intermediate calculation results
+        !! and can be retrieved later.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: full AGM iteration using [[compute_kernel_real64]]
+        !! @endnote
+        !!
+        !! @warning
+        !! Calling this subroutine overwrites any previous computation
+        !! stored in the object.
+        !! @endwarning
 
         class(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
 
@@ -941,6 +981,26 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_real128(agm, x, y)
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This type-bound subroutine performs AGM computation
+        !! with input validation, automatic ordering,
+        !! and complete convergence history storage.
+        !! Unlike [[arithmetic_geometric_mean_kernel]],
+        !! this subroutine retains all intermediate calculation results
+        !! and can be retrieved later.
+        !!
+        !! @note
+        !! - If either input was NaN: returns NaN
+        !! - If `x` and `y` had opposite signs (`x * y .lt. 0`): returns NaN
+        !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
+        !! - Otherwise: full AGM iteration using [[compute_kernel_real128]]
+        !! @endnote
+        !!
+        !! @warning
+        !! Calling this subroutine overwrites any previous computation
+        !! stored in the object.
+        !! @endwarning
 
         class(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
 
