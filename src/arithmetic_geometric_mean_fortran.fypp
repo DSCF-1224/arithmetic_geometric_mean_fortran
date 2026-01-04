@@ -77,9 +77,12 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'initialize'
     interface ${INTERFACE_NAME}$
+        #:include 'initialize_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -477,6 +480,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'initialize_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(agm)
+        #:include 'initialize_description.fypp'
 
         type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
 
