@@ -82,9 +82,18 @@ module arithmetic_geometric_mean_fortran
 
 
     interface compute_step
+        !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+
+
         module procedure :: compute_step_real32
         module procedure :: compute_step_real64
         module procedure :: compute_step_real128
+
     end interface compute_step
 
 
@@ -1084,6 +1093,13 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_step_real32(prev_a, prev_g, next_a, next_g)
+        !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+
 
         real(real32), intent(in) :: prev_a
         !! previous arithmetic mean
@@ -1107,6 +1123,13 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_step_real64(prev_a, prev_g, next_a, next_g)
+        !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+
 
         real(real64), intent(in) :: prev_a
         !! previous arithmetic mean
@@ -1130,6 +1153,13 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_step_real128(prev_a, prev_g, next_a, next_g)
+        !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+
 
         real(real128), intent(in) :: prev_a
         !! previous arithmetic mean
