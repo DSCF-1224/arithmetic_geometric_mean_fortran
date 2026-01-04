@@ -1,5 +1,172 @@
 #:include '../src/common.fypp'
 #:set PROGRAM_NAME = 'check_reference'
+#:set MODULE_NAME = PROGRAM_NAME + '_lib'
+module ${MODULE_NAME}$
+
+    use, intrinsic :: iso_fortran_env, only: error_unit
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+
+
+    implicit none
+
+
+
+    private
+
+    public :: validate_order_error
+    public :: validate_ulp_error
+
+
+
+    #:set INTERFACE_NAME = 'validate_order_error'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+    #:del INTERFACE_NAME
+
+
+
+    #:set INTERFACE_NAME = 'validate_ulp_error'
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+    #:del INTERFACE_NAME
+
+
+
+    contains
+    #:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'validate_order_error_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ar_mean, b, ge_mean)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$), intent(in) :: ar_mean !! arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: b
+
+        real(${REAL_KIND}$), intent(in) :: ge_mean !! geometric mean
+
+
+
+        if ( ge_mean .gt. ag_mean_cal ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is less than geometric mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            write( unit = error_unit, fmt = * ) &!
+                '           geometric = ' , ge_mean
+
+            error stop
+
+        end if
+
+
+
+        if ( ag_mean_cal .gt. ar_mean ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b                    = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic           = ' , ar_mean
+
+            write( unit = error_unit, fmt = * ) &!
+                'arithmetic-geometric = ' , ag_mean_cal
+
+            error stop
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+    #:endfor
+    #:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'validate_ulp_error_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ag_mean_ref, b)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$), intent(in) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$), intent(in) :: b
+
+
+
+        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
+
+        real(${REAL_KIND}$) :: ulp_error
+
+        real(${REAL_KIND}$) :: ulp_error_abs
+
+
+
+        ag_mean_dif   = ag_mean_cal - ag_mean_ref
+        ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
+        ulp_error_abs = abs(ulp_error)
+
+
+
+        if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'WARNING: Large ULP error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+        end if
+
+
+
+        if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
+
+            write( unit = error_unit, fmt = * ) &!
+                'FAIL: Unacceptable error'
+
+            write( unit = error_unit, fmt = * ) &!
+                'b         = ' , b
+
+            write( unit = error_unit, fmt = * ) &!
+                'ULP error = ' ,  ulp_error
+
+            error stop
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+    #:endfor
+
+end module ${MODULE_NAME}$
+
+
+
 program ${PROGRAM_NAME}$
 
     use, intrinsic :: iso_fortran_env, only: error_unit
@@ -10,6 +177,8 @@ program ${PROGRAM_NAME}$
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
     use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: ${PROGRAM_NAME}$_lib
 
 
 
@@ -22,7 +191,11 @@ program ${PROGRAM_NAME}$
 
 
 #:for REAL_KIND in REAL_KINDS
-    call test_${REAL_KIND}$
+    call test_func_${REAL_KIND}$
+#:endfor
+
+#:for REAL_KIND in REAL_KINDS
+    call test_type_${REAL_KIND}$
 #:endfor
 
 
@@ -100,7 +273,7 @@ program ${PROGRAM_NAME}$
 
 
 
-    #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
+    #:set SUBROUTINE_NAME = 'test_func_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
         real(${REAL_KIND}$), parameter :: a = 1.0_${REAL_KIND}$
@@ -111,8 +284,6 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
 
-        real(${REAL_KIND}$) :: ag_mean_dif !! arithmetic-geometric mean (difference)
-
         real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
 
         real(${REAL_KIND}$) :: ag_mean_rev !! arithmetic-geometric mean (reverse)
@@ -122,10 +293,6 @@ program ${PROGRAM_NAME}$
         real(${REAL_KIND}$) :: b
 
         real(${REAL_KIND}$) :: ge_mean !! geometric mean
-
-        real(${REAL_KIND}$) :: ulp_error
-
-        real(${REAL_KIND}$) :: ulp_error_abs
 
         character(256) :: msg
 
@@ -177,83 +344,25 @@ program ${PROGRAM_NAME}$
 
 
 
-            ag_mean_cal   = arithmetic_geometric_mean(a, b)
-            ag_mean_rev   = arithmetic_geometric_mean(b, a)
-            ag_mean_dif   = ag_mean_cal - ag_mean_ref
-            ulp_error     = ag_mean_dif / spacing(ag_mean_ref)
-            ulp_error_abs = abs(ulp_error)
+            ag_mean_cal = arithmetic_geometric_mean(a, b)
+            ag_mean_rev = arithmetic_geometric_mean(b, a)
 
 
 
-            if ( ge_mean .gt. ag_mean_cal ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is less than geometric mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                write( unit = error_unit, fmt = * ) &!
-                    '           geometric = ' , ge_mean
-
-                error stop
-
-            end if
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
 
 
 
-            if ( ag_mean_cal .gt. ar_mean ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: arithmetic-geometric mean is greater than arithmetic mean'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b                    = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic           = ' , ar_mean
-
-                write( unit = error_unit, fmt = * ) &!
-                    'arithmetic-geometric = ' , ag_mean_cal
-
-                error stop
-
-            end if
-
-
-
-            if ( ulp_error_abs .gt. 2.0_${REAL_KIND}$ ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'WARNING: Large ULP error'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b         = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'ULP error = ' ,  ulp_error
-
-            end if
-
-
-
-            if ( ulp_error_abs .gt. 10.0_${REAL_KIND}$ ) then
-
-                write( unit = error_unit, fmt = * ) &!
-                    'FAIL: Unacceptable error'
-
-                write( unit = error_unit, fmt = * ) &!
-                    'b         = ' , b
-
-                write( unit = error_unit, fmt = * ) &!
-                    'ULP error = ' ,  ulp_error
-
-                error stop
-
-            end if
+            call validate_ulp_error( &!
+            ag_mean_cal = ag_mean_cal , &! 
+            ag_mean_ref = ag_mean_ref , &! 
+            b           = b             &!
+            )
 
 
 
@@ -277,6 +386,91 @@ program ${PROGRAM_NAME}$
                 error stop
 
             end if
+
+        end do
+
+
+
+        call close_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+
+
+
+    #:set SUBROUTINE_NAME = 'test_type_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$
+
+        real(${REAL_KIND}$), parameter :: a = 1.0_${REAL_KIND}$
+
+        integer :: file_unit
+
+        integer :: stat
+
+        real(${REAL_KIND}$) :: ag_mean_cal !! arithmetic-geometric mean (calculated)
+
+        real(${REAL_KIND}$) :: ag_mean_ref !! arithmetic-geometric mean (reference)
+
+        real(${REAL_KIND}$) :: ar_mean !! arithmetic mean
+
+        real(${REAL_KIND}$) :: b
+
+        real(${REAL_KIND}$) :: ge_mean !! geometric mean
+
+        character(256) :: msg
+
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
+
+
+        call open_reference_file( &!
+        unit = file_unit , &!
+        stat = stat      , &!
+        msg  = msg         &!
+        )
+
+
+
+        do
+
+            read( &!
+            unit   = file_unit , &!
+            fmt    = *         , &!
+            iostat = stat      , &!
+            iomsg  = msg         &!
+            ) &!
+            b, ge_mean, ag_mean_ref, ar_mean
+
+            if ( is_iostat_end(stat) ) then
+                exit
+            else
+                call handle_stat(stat, msg)
+            end if
+
+
+
+            call list%compute(a, b)
+
+
+
+            ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
+            call validate_ulp_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
+            b           = b             &!
+            )
 
         end do
 
