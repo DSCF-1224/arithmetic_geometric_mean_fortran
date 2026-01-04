@@ -110,9 +110,25 @@ module arithmetic_geometric_mean_fortran
 
 
     interface is_not_converged
+        !! Check if the arithmetic-geometric mean iteration has not yet converged.
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! Returns `.true.` if the absolute difference between the arithmetic mean `a`
+        !! and geometric mean `g` exceeds the machine epsilon relative to the smaller value,
+        !! as determined by `spacing(min(a, g))`.
+        !!
+        !! Mathematically: `|a - g| > spacing(min(a, g))`
+        !!
+        !! **Appendix**  
+        !! This function is designed for internal use within the AGM iteration where
+        !! both values are guaranteed to be positive and converging.
+        !! @endnote
+
         module procedure :: is_not_converged_real32
         module procedure :: is_not_converged_real64
         module procedure :: is_not_converged_real128
+
     end interface is_not_converged
 
 
@@ -589,6 +605,20 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function is_not_converged_real32(a, g) result(stat)
+        !! Check if the arithmetic-geometric mean iteration has not yet converged.
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! Returns `.true.` if the absolute difference between the arithmetic mean `a`
+        !! and geometric mean `g` exceeds the machine epsilon relative to the smaller value,
+        !! as determined by `spacing(min(a, g))`.
+        !!
+        !! Mathematically: `|a - g| > spacing(min(a, g))`
+        !!
+        !! **Appendix**  
+        !! This function is designed for internal use within the AGM iteration where
+        !! both values are guaranteed to be positive and converging.
+        !! @endnote
 
         real(real32), intent(in) :: a !! arithmetic mean
 
@@ -607,6 +637,20 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function is_not_converged_real64(a, g) result(stat)
+        !! Check if the arithmetic-geometric mean iteration has not yet converged.
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! Returns `.true.` if the absolute difference between the arithmetic mean `a`
+        !! and geometric mean `g` exceeds the machine epsilon relative to the smaller value,
+        !! as determined by `spacing(min(a, g))`.
+        !!
+        !! Mathematically: `|a - g| > spacing(min(a, g))`
+        !!
+        !! **Appendix**  
+        !! This function is designed for internal use within the AGM iteration where
+        !! both values are guaranteed to be positive and converging.
+        !! @endnote
 
         real(real64), intent(in) :: a !! arithmetic mean
 
@@ -625,6 +669,20 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function is_not_converged_real128(a, g) result(stat)
+        !! Check if the arithmetic-geometric mean iteration has not yet converged.
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! Returns `.true.` if the absolute difference between the arithmetic mean `a`
+        !! and geometric mean `g` exceeds the machine epsilon relative to the smaller value,
+        !! as determined by `spacing(min(a, g))`.
+        !!
+        !! Mathematically: `|a - g| > spacing(min(a, g))`
+        !!
+        !! **Appendix**  
+        !! This function is designed for internal use within the AGM iteration where
+        !! both values are guaranteed to be positive and converging.
+        !! @endnote
 
         real(real128), intent(in) :: a !! arithmetic mean
 
