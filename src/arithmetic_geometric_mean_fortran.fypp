@@ -317,6 +317,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'compute_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(agm, x, y)
+        #:include 'compute_description.fypp'
 
         class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
 
