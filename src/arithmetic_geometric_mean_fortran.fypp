@@ -90,9 +90,12 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'is_not_converged'
     interface ${INTERFACE_NAME}$
+        #:include 'is_not_converged_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -265,6 +268,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set FUNCTION_NAME = 'is_not_converged_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(a, g) result(stat)
+        #:include 'is_not_converged_description.fypp'
 
         real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
 

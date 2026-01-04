@@ -1,0 +1,14 @@
+        !! Check if the arithmetic-geometric mean iteration has not yet converged.
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! Returns `.true.` if the absolute difference between the arithmetic mean `a`
+        !! and geometric mean `g` exceeds the machine epsilon relative to the smaller value,
+        !! as determined by `spacing(min(a, g))`.
+        !!
+        !! Mathematically: `|a - g| > spacing(min(a, g))`
+        !!
+        !! **Appendix**  
+        !! This function is designed for internal use within the AGM iteration where
+        !! both values are guaranteed to be positive and converging.
+        !! @endnote
