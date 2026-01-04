@@ -99,9 +99,12 @@ module arithmetic_geometric_mean_fortran
 
 
     interface initialize
+    !! Initialize components: `n_iter`, `list_a` and `list_g`
+
         module procedure :: initialize_real32
         module procedure :: initialize_real64
         module procedure :: initialize_real128
+
     end interface initialize
 
 
@@ -1183,6 +1186,7 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine initialize_real32(agm)
+    !! Initialize components: `n_iter`, `list_a` and `list_g`
 
         type(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
 
@@ -1198,6 +1202,7 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine initialize_real64(agm)
+    !! Initialize components: `n_iter`, `list_a` and `list_g`
 
         type(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
 
@@ -1213,6 +1218,7 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine initialize_real128(agm)
+    !! Initialize components: `n_iter`, `list_a` and `list_g`
 
         type(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
 
