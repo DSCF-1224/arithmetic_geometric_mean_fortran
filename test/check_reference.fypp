@@ -42,10 +42,10 @@ module ${MODULE_NAME}$
 
 
     contains
-
-
-
     #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set SUBROUTINE_NAME = 'validate_order_error_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ar_mean, b, ge_mean)
 
@@ -100,10 +100,10 @@ module ${MODULE_NAME}$
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
     #:endfor
-
-
-
     #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set SUBROUTINE_NAME = 'validate_ulp_error_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$(ag_mean_cal, ag_mean_ref, b)
 
