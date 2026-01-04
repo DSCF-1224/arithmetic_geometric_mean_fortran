@@ -980,6 +980,28 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_kernel_real32(agm, init_a, init_g)
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `init_a` and geometric mean `init_g`
+        !! and store the complete iteration history.
+        !!
+        !! This type-bound subroutine performs the AGM iteration starting from
+        !! given initial values, storing each intermediate arithmetic and geometric mean
+        !! in `list_a` and `list_g` respectively.
+        !! The final iteration count is stored in `n_iter`.
+        !!
+        !! Unlike the [[arithmetic_geometric_mean_kernel]],
+        !! this subroutine preserves the full convergence history for analysis.
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! - Calling this subroutine overwrites any previous computation stored in the object.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! See [[is_not_converged]]
+        !! @endnote
 
         class(arithmetic_geometric_mean_real32_type), intent(inout) :: agm
 
@@ -1042,6 +1064,28 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_kernel_real64(agm, init_a, init_g)
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `init_a` and geometric mean `init_g`
+        !! and store the complete iteration history.
+        !!
+        !! This type-bound subroutine performs the AGM iteration starting from
+        !! given initial values, storing each intermediate arithmetic and geometric mean
+        !! in `list_a` and `list_g` respectively.
+        !! The final iteration count is stored in `n_iter`.
+        !!
+        !! Unlike the [[arithmetic_geometric_mean_kernel]],
+        !! this subroutine preserves the full convergence history for analysis.
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! - Calling this subroutine overwrites any previous computation stored in the object.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! See [[is_not_converged]]
+        !! @endnote
 
         class(arithmetic_geometric_mean_real64_type), intent(inout) :: agm
 
@@ -1104,6 +1148,28 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental subroutine compute_kernel_real128(agm, init_a, init_g)
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `init_a` and geometric mean `init_g`
+        !! and store the complete iteration history.
+        !!
+        !! This type-bound subroutine performs the AGM iteration starting from
+        !! given initial values, storing each intermediate arithmetic and geometric mean
+        !! in `list_a` and `list_g` respectively.
+        !! The final iteration count is stored in `n_iter`.
+        !!
+        !! Unlike the [[arithmetic_geometric_mean_kernel]],
+        !! this subroutine preserves the full convergence history for analysis.
+        !!
+        !! @warning
+        !! - This subroutine/interface assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! - Calling this subroutine overwrites any previous computation stored in the object.
+        !! @endwarning
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! See [[is_not_converged]]
+        !! @endnote
 
         class(arithmetic_geometric_mean_real128_type), intent(inout) :: agm
 
