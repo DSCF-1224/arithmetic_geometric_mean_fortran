@@ -44,6 +44,7 @@ module arithmetic_geometric_mean_fortran
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$
     #:endfor
+    #:del REAL_KIND
 
     end interface ${INTERFACE_NAME_KERNEL}$
 
