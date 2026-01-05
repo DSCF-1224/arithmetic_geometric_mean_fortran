@@ -1,7 +1,12 @@
+        #:if defined('REAL_KIND')
+            #:set FUNCTION_OR_INTERFACE = 'function'
+        #:else
+            #:set FUNCTION_OR_INTERFACE = 'interface'
+        #:endif
         !! Compute arithmetic–geometric mean (AGM)
         !! using the given arithmetic mean `a` and geometric mean `g`.
         !!
-        !! This function/interface provides a lightweight AGM computation
+        !! This ${FUNCTION_OR_INTERFACE}$ provides a lightweight AGM computation
         !! that returns only the final converged value
         !! without storing iteration history.  
         !! For applications that need to analyze the convergence process,
@@ -13,7 +18,7 @@
         !! which preserves the full iteration history.
         !!
         !! @warning
-        !! - This function/interface assumes both inputs are positive.
+        !! - This ${FUNCTION_OR_INTERFACE}$ assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
         !!
@@ -21,4 +26,4 @@
         !! **Convergence criterion**  
         !! See [[is_not_converged]]
         !! @endnote
-
+        #:del FUNCTION_OR_INTERFACE
