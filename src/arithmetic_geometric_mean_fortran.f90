@@ -39,10 +39,10 @@ module arithmetic_geometric_mean_fortran
     interface arithmetic_geometric_mean
         !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
         !!
-        !! This function/interface performs lightweight AGM computation
+        !! This interface performs lightweight AGM computation
         !! with input validation, automatic ordering.
-        !! Unlike the [[compute]] function/interface,
-        !! this function does not retain intermediate calculation results,
+        !! Unlike the type-bound subroutine instead,
+        !! this interface does not retain intermediate calculation results,
         !! so they cannot be referenced later.
         !!
         !! @note
@@ -51,7 +51,6 @@ module arithmetic_geometric_mean_fortran
         !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
         !! - Otherwise: computes AGM using the iterative kernel
         !! @endnote
-
 
         module procedure :: arithmetic_geometric_mean_real32
         module procedure :: arithmetic_geometric_mean_real64
@@ -65,7 +64,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic–geometric mean (AGM)
         !! using the given arithmetic mean `a` and geometric mean `g`.
         !!
-        !! This function/interface provides a lightweight AGM computation
+        !! This interface provides a lightweight AGM computation
         !! that returns only the final converged value
         !! without storing iteration history.  
         !! For applications that need to analyze the convergence process,
@@ -73,7 +72,7 @@ module arithmetic_geometric_mean_fortran
         !! which preserves the full iteration history.
         !!
         !! @warning
-        !! - This function/interface assumes both inputs are positive.
+        !! - This interface assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
         !!
@@ -81,7 +80,6 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! See [[is_not_converged]]
         !! @endnote
-
 
         module procedure :: arithmetic_geometric_mean_kernel_real32
         module procedure :: arithmetic_geometric_mean_kernel_real64
@@ -95,7 +93,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
         !!
         !! @warning
-        !! - This subroutine/interface assumes both inputs are positive.
+        !! - This interface assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
 
@@ -131,7 +129,7 @@ module arithmetic_geometric_mean_fortran
         !! Mathematically: `|a - g| > spacing(min(a, g))`
         !!
         !! **Appendix**  
-        !! This function is designed for internal use within the AGM iteration where
+        !! This interface is designed for internal use within the AGM iteration where
         !! both values are guaranteed to be positive and converging.
         !! @endnote
 
@@ -227,9 +225,9 @@ module arithmetic_geometric_mean_fortran
     elemental function arithmetic_geometric_mean_real32(x, y) result(agm)
         !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
         !!
-        !! This function/interface performs lightweight AGM computation
+        !! This function performs lightweight AGM computation
         !! with input validation, automatic ordering.
-        !! Unlike the [[compute]] function/interface,
+        !! Unlike the type-bound subroutine [[compute_real32]] instead,
         !! this function does not retain intermediate calculation results,
         !! so they cannot be referenced later.
         !!
@@ -239,7 +237,6 @@ module arithmetic_geometric_mean_fortran
         !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
         !! - Otherwise: computes AGM using the iterative kernel
         !! @endnote
-
 
         real(real32), intent(in) :: x, y
 
@@ -290,9 +287,9 @@ module arithmetic_geometric_mean_fortran
     elemental function arithmetic_geometric_mean_real64(x, y) result(agm)
         !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
         !!
-        !! This function/interface performs lightweight AGM computation
+        !! This function performs lightweight AGM computation
         !! with input validation, automatic ordering.
-        !! Unlike the [[compute]] function/interface,
+        !! Unlike the type-bound subroutine [[compute_real64]] instead,
         !! this function does not retain intermediate calculation results,
         !! so they cannot be referenced later.
         !!
@@ -302,7 +299,6 @@ module arithmetic_geometric_mean_fortran
         !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
         !! - Otherwise: computes AGM using the iterative kernel
         !! @endnote
-
 
         real(real64), intent(in) :: x, y
 
@@ -353,9 +349,9 @@ module arithmetic_geometric_mean_fortran
     elemental function arithmetic_geometric_mean_real128(x, y) result(agm)
         !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
         !!
-        !! This function/interface performs lightweight AGM computation
+        !! This function performs lightweight AGM computation
         !! with input validation, automatic ordering.
-        !! Unlike the [[compute]] function/interface,
+        !! Unlike the type-bound subroutine [[compute_real128]] instead,
         !! this function does not retain intermediate calculation results,
         !! so they cannot be referenced later.
         !!
@@ -365,7 +361,6 @@ module arithmetic_geometric_mean_fortran
         !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
         !! - Otherwise: computes AGM using the iterative kernel
         !! @endnote
-
 
         real(real128), intent(in) :: x, y
 
@@ -417,7 +412,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic–geometric mean (AGM)
         !! using the given arithmetic mean `a` and geometric mean `g`.
         !!
-        !! This function/interface provides a lightweight AGM computation
+        !! This function provides a lightweight AGM computation
         !! that returns only the final converged value
         !! without storing iteration history.  
         !! For applications that need to analyze the convergence process,
@@ -425,7 +420,7 @@ module arithmetic_geometric_mean_fortran
         !! which preserves the full iteration history.
         !!
         !! @warning
-        !! - This function/interface assumes both inputs are positive.
+        !! - This function assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
         !!
@@ -433,7 +428,6 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! See [[is_not_converged]]
         !! @endnote
-
 
         real(real32), intent(in) :: a !! arithmetic mean
 
@@ -494,7 +488,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic–geometric mean (AGM)
         !! using the given arithmetic mean `a` and geometric mean `g`.
         !!
-        !! This function/interface provides a lightweight AGM computation
+        !! This function provides a lightweight AGM computation
         !! that returns only the final converged value
         !! without storing iteration history.  
         !! For applications that need to analyze the convergence process,
@@ -502,7 +496,7 @@ module arithmetic_geometric_mean_fortran
         !! which preserves the full iteration history.
         !!
         !! @warning
-        !! - This function/interface assumes both inputs are positive.
+        !! - This function assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
         !!
@@ -510,7 +504,6 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! See [[is_not_converged]]
         !! @endnote
-
 
         real(real64), intent(in) :: a !! arithmetic mean
 
@@ -571,7 +564,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic–geometric mean (AGM)
         !! using the given arithmetic mean `a` and geometric mean `g`.
         !!
-        !! This function/interface provides a lightweight AGM computation
+        !! This function provides a lightweight AGM computation
         !! that returns only the final converged value
         !! without storing iteration history.  
         !! For applications that need to analyze the convergence process,
@@ -579,7 +572,7 @@ module arithmetic_geometric_mean_fortran
         !! which preserves the full iteration history.
         !!
         !! @warning
-        !! - This function/interface assumes both inputs are positive.
+        !! - This function assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
         !!
@@ -587,7 +580,6 @@ module arithmetic_geometric_mean_fortran
         !! **Convergence criterion**  
         !! See [[is_not_converged]]
         !! @endnote
-
 
         real(real128), intent(in) :: a !! arithmetic mean
 
@@ -1347,7 +1339,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
         !!
         !! @warning
-        !! - This subroutine/interface assumes both inputs are positive.
+        !! - This subroutine assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
 
@@ -1377,7 +1369,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
         !!
         !! @warning
-        !! - This subroutine/interface assumes both inputs are positive.
+        !! - This subroutine assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
 
@@ -1407,7 +1399,7 @@ module arithmetic_geometric_mean_fortran
         !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
         !!
         !! @warning
-        !! - This subroutine/interface assumes both inputs are positive.
+        !! - This subroutine assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
 
