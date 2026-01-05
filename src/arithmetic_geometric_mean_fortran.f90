@@ -37,8 +37,13 @@ module arithmetic_geometric_mean_fortran
 
 
     interface arithmetic_geometric_mean
-        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
-        !! with input validation and ordering.
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This function/interface performs lightweight AGM computation
+        !! with input validation, automatic ordering.
+        !! Unlike the [[compute]] function/interface,
+        !! this function does not retain intermediate calculation results,
+        !! so they cannot be referenced later.
         !!
         !! @note
         !! - If either input was NaN: returns NaN
@@ -220,8 +225,13 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_real32(x, y) result(agm)
-        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
-        !! with input validation and ordering.
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This function/interface performs lightweight AGM computation
+        !! with input validation, automatic ordering.
+        !! Unlike the [[compute]] function/interface,
+        !! this function does not retain intermediate calculation results,
+        !! so they cannot be referenced later.
         !!
         !! @note
         !! - If either input was NaN: returns NaN
@@ -278,8 +288,13 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_real64(x, y) result(agm)
-        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
-        !! with input validation and ordering.
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This function/interface performs lightweight AGM computation
+        !! with input validation, automatic ordering.
+        !! Unlike the [[compute]] function/interface,
+        !! this function does not retain intermediate calculation results,
+        !! so they cannot be referenced later.
         !!
         !! @note
         !! - If either input was NaN: returns NaN
@@ -336,8 +351,13 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function arithmetic_geometric_mean_real128(x, y) result(agm)
-        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
-        !! with input validation and ordering.
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This function/interface performs lightweight AGM computation
+        !! with input validation, automatic ordering.
+        !! Unlike the [[compute]] function/interface,
+        !! this function does not retain intermediate calculation results,
+        !! so they cannot be referenced later.
         !!
         !! @note
         !! - If either input was NaN: returns NaN
