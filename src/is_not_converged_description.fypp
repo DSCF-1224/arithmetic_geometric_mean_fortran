@@ -1,0 +1,19 @@
+        #:if defined('REAL_KIND')
+            #:set FUNCTION_OR_INTERFACE = 'function'
+        #:else
+            #:set FUNCTION_OR_INTERFACE = 'interface'
+        #:endif
+        !! Check if the arithmetic-geometric mean iteration has not yet converged.
+        !!
+        !! @note
+        !! **Convergence criterion**  
+        !! Returns `.true.` if the absolute difference between the arithmetic mean `a`
+        !! and geometric mean `g` exceeds the machine epsilon relative to the smaller value,
+        !! as determined by `spacing(min(a, g))`.
+        !!
+        !! Mathematically: `|a - g| > spacing(min(a, g))`
+        !!
+        !! **Appendix**  
+        !! This ${FUNCTION_OR_INTERFACE}$ is designed for internal use within the AGM iteration where
+        !! both values are guaranteed to be positive and converging.
+        !! @endnote

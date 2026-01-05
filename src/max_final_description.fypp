@@ -1,0 +1,8 @@
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the larger of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning

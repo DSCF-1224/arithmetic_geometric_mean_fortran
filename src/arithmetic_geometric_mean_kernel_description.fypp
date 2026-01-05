@@ -1,15 +1,29 @@
-        !! Compute arithmetic–geometric mean using the given arithmetic mean `a` and geometric mean `g`.
+        #:if defined('REAL_KIND')
+            #:set FUNCTION_OR_INTERFACE = 'function'
+        #:else
+            #:set FUNCTION_OR_INTERFACE = 'interface'
+        #:endif
+        !! Compute arithmetic–geometric mean (AGM)
+        !! using the given arithmetic mean `a` and geometric mean `g`.
+        !!
+        !! This ${FUNCTION_OR_INTERFACE}$ provides a lightweight AGM computation
+        !! that returns only the final converged value
+        !! without storing iteration history.  
+        !! For applications that need to analyze the convergence process,
+    #:if defined('REAL_KIND')
+        !! use the type-bound subroutine [[compute_kernel_${REAL_KIND}$]] instead,
+    #:else
+        !! use the type-bound subroutine instead,
+    #:endif
+        !! which preserves the full iteration history.
         !!
         !! @warning
-        !! - This function/interface assumes both inputs are positive.
+        !! - This ${FUNCTION_OR_INTERFACE}$ assumes both inputs are positive.
         !! - No validation is performed on inputs.
         !! @endwarning
         !!
         !! @note
         !! **Convergence criterion**  
-        !! The iteration stops when the absolute difference
-        !! between successive arithmetic and geometric means
-        !! is less than or equal to the machine epsilon (relative to the smaller value),
-        !! as determined by the intrinsic `spacing()` function.
+        !! See [[is_not_converged]]
         !! @endnote
-
+        #:del FUNCTION_OR_INTERFACE
