@@ -48,21 +48,21 @@ Since this library consists of a single source file, so that you can
 
 |interface|description|
 |:--------|:----------|
-|`arithmetic_geometric_mean(x, y)`|Computes AGM **with** automatic input validation|
-|`arithmetic_geometric_mean_kernel(x, y)`|Computes AGM **without** automatic input validation|
+|[`arithmetic_geometric_mean`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/arithmetic_geometric_mean.html)|Computes AGM **with** automatic input validation|
+|[`arithmetic_geometric_mean_kernel`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/arithmetic_geometric_mean_kernel.html)|Computes AGM **without** automatic input validation|
 
 ### Types
 
-- `arithmetic_geometric_mean_real32_type`
-- `arithmetic_geometric_mean_real64_type`
-- `arithmetic_geometric_mean_real128_type`
+- [`arithmetic_geometric_mean_real32_type`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/type/arithmetic_geometric_mean_real32_type.html)
+- [`arithmetic_geometric_mean_real64_type`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/type/arithmetic_geometric_mean_real64_type.html)
+- [`arithmetic_geometric_mean_real128_type`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/type/arithmetic_geometric_mean_real128_type.html)
 
 Each type provides:
 
-|procedure|description|
-|:--------|:----------|
-|`compute(x, y)`|Type-bound subroutine that performs AGM computation and stores iteration history|
-|`max(agm_object)`|Extracts the final AGM value|
+|procedure|type|description|
+|:--------|:---|:----------|
+|`compute`|subroutine|Type-bound subroutine that performs AGM computation and stores iteration history|
+|[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface |Extracts the final AGM value|
 
 ## Testing
 
