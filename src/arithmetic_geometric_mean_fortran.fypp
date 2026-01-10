@@ -312,9 +312,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        associate(i => agm%n_iter)
-            ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
-        end associate
+        ${FUNCTION_NAME_KERNEL}$ = max(agm, agm%n_iter)
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
