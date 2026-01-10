@@ -756,9 +756,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        associate(i => agm%n_iter)
-            max_final = max( agm%list_a(i), agm%list_g(i) )
-        end associate
+        max_final = max(agm, agm%n_iter)
 
     end function max_final_real32
 
@@ -782,9 +780,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        associate(i => agm%n_iter)
-            max_final = max( agm%list_a(i), agm%list_g(i) )
-        end associate
+        max_final = max(agm, agm%n_iter)
 
     end function max_final_real64
 
@@ -808,9 +804,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        associate(i => agm%n_iter)
-            max_final = max( agm%list_a(i), agm%list_g(i) )
-        end associate
+        max_final = max(agm, agm%n_iter)
 
     end function max_final_real128
 
