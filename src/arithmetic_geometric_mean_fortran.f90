@@ -817,6 +817,17 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function max_selectable_real32(agm, i) result(max_selectable)
+        !! Extract the arithmetic-geometric mean value at a specific iteration.  
+        !! Specifically, this function returns the larger of the two values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
 
         type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
 
@@ -835,6 +846,17 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function max_selectable_real64(agm, i) result(max_selectable)
+        !! Extract the arithmetic-geometric mean value at a specific iteration.  
+        !! Specifically, this function returns the larger of the two values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
 
         type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
 
@@ -853,6 +875,17 @@ module arithmetic_geometric_mean_fortran
 
 
     elemental function max_selectable_real128(agm, i) result(max_selectable)
+        !! Extract the arithmetic-geometric mean value at a specific iteration.  
+        !! Specifically, this function returns the larger of the two values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
 
         type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
 
