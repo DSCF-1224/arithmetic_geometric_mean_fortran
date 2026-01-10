@@ -142,9 +142,15 @@ module arithmetic_geometric_mean_fortran
 
 
     interface max
+
         module procedure :: max_final_real32
         module procedure :: max_final_real64
         module procedure :: max_final_real128
+
+        module procedure :: max_selectable_real32
+        module procedure :: max_selectable_real64
+        module procedure :: max_selectable_real128
+
     end interface max
 
 
@@ -807,6 +813,60 @@ module arithmetic_geometric_mean_fortran
         end associate
 
     end function max_final_real128
+
+
+
+    elemental function max_selectable_real32(agm, i) result(max_selectable)
+
+        type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real32) :: max_selectable
+
+
+
+        max_selectable = max( agm%list_a(i), agm%list_g(i) )
+
+    end function max_selectable_real32
+
+
+
+    elemental function max_selectable_real64(agm, i) result(max_selectable)
+
+        type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real64) :: max_selectable
+
+
+
+        max_selectable = max( agm%list_a(i), agm%list_g(i) )
+
+    end function max_selectable_real64
+
+
+
+    elemental function max_selectable_real128(agm, i) result(max_selectable)
+
+        type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real128) :: max_selectable
+
+
+
+        max_selectable = max( agm%list_a(i), agm%list_g(i) )
+
+    end function max_selectable_real128
 
 
 
