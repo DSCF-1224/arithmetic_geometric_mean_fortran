@@ -1,5 +1,9 @@
         !! Extract the arithmetic-geometric mean value at a specific iteration.  
+    #:if MAX_OR_MIN == 'max'
         !! Specifically, this function returns the larger of the two values.
+    #:elif MAX_OR_MIN == 'min'
+        !! Specifically, this function returns the smaller of the two values.
+    #:endif
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
