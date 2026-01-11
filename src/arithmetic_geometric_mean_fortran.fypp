@@ -102,10 +102,11 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:for MAX_OR_MIN in MAX_AND_MIN
 
 
 
-#:set INTERFACE_NAME = 'max'
+#:set INTERFACE_NAME = MAX_OR_MIN
     interface ${INTERFACE_NAME}$
 
     #:for REAL_KIND in REAL_KINDS
@@ -118,6 +119,8 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:endfor
+#:del MAX_OR_MIN
 
 
 
