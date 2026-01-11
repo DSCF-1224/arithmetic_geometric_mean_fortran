@@ -306,7 +306,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(agm) result(${FUNCTION_NAME_KERNEL}$)
-        #:include 'max_final_description.fypp'
+        #:include 'max_min_final_description.fypp'
 
         type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
 
