@@ -913,7 +913,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental function min_final_real32(agm) result(min_final)
         !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
-        !! Specifically, this function returns the larger of the two final values.
+        !! Specifically, this function returns the smaller of the two final values.
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
@@ -937,7 +937,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental function min_final_real64(agm) result(min_final)
         !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
-        !! Specifically, this function returns the larger of the two final values.
+        !! Specifically, this function returns the smaller of the two final values.
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
@@ -961,7 +961,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental function min_final_real128(agm) result(min_final)
         !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
-        !! Specifically, this function returns the larger of the two final values.
+        !! Specifically, this function returns the smaller of the two final values.
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
