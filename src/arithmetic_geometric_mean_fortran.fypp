@@ -317,7 +317,8 @@ module arithmetic_geometric_mean_fortran
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
-#:set FUNCTION_NAME_KERNEL = 'max_selectable'
+#:for MAX_OR_MIN in MAX_AND_MIN
+#:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_selectable'
 #:for REAL_KIND in REAL_KINDS
 
 
@@ -336,11 +337,13 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$( agm%list_a(i), agm%list_g(i) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
+#:endfor
+#:del MAX_OR_MIN
 #:del FUNCTION_NAME_KERNEL
 #:for REAL_KIND in REAL_KINDS
 
