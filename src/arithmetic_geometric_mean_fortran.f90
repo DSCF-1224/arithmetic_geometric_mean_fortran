@@ -899,7 +899,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental function min_selectable_real32(agm, i) result(min_selectable)
         !! Extract the arithmetic-geometric mean value at a specific iteration.  
-        !! Specifically, this function returns the larger of the two values.
+        !! Specifically, this function returns the smaller of the two values.
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
@@ -928,7 +928,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental function min_selectable_real64(agm, i) result(min_selectable)
         !! Extract the arithmetic-geometric mean value at a specific iteration.  
-        !! Specifically, this function returns the larger of the two values.
+        !! Specifically, this function returns the smaller of the two values.
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
@@ -957,7 +957,7 @@ module arithmetic_geometric_mean_fortran
 
     elemental function min_selectable_real128(agm, i) result(min_selectable)
         !! Extract the arithmetic-geometric mean value at a specific iteration.  
-        !! Specifically, this function returns the larger of the two values.
+        !! Specifically, this function returns the smaller of the two values.
         !!
         !! @warning
         !! This function assumes the AGM computation has been performed via the `compute` method.  
