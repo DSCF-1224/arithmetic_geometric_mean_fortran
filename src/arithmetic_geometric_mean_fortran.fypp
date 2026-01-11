@@ -102,10 +102,11 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:for MAX_OR_MIN in MAX_AND_MIN
 
 
 
-#:set INTERFACE_NAME = 'max'
+#:set INTERFACE_NAME = MAX_OR_MIN
     interface ${INTERFACE_NAME}$
 
     #:for REAL_KIND in REAL_KINDS
@@ -118,6 +119,8 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:endfor
+#:del MAX_OR_MIN
 
 
 
@@ -295,7 +298,8 @@ module arithmetic_geometric_mean_fortran
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
-#:set FUNCTION_NAME_KERNEL = 'max_final'
+#:for MAX_OR_MIN in MAX_AND_MIN
+#:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_final'
 #:for REAL_KIND in REAL_KINDS
 
 
@@ -312,12 +316,11 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        ${FUNCTION_NAME_KERNEL}$ = max(agm, agm%n_iter)
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$(agm, agm%n_iter)
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
-#:for MAX_OR_MIN in MAX_AND_MIN
 #:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_selectable'
 #:for REAL_KIND in REAL_KINDS
 
