@@ -1,4 +1,4 @@
-program check_nan
+module check_nan_lib
 
     use, intrinsic :: iso_fortran_env, only: real32
     use, intrinsic :: iso_fortran_env, only: real64
@@ -14,11 +14,17 @@ program check_nan
 
     implicit none
 
+    private
+
+    public :: test_kernel
 
 
-    call test_real32
-    call test_real64
-    call test_real128
+
+    interface test_kernel
+        module procedure :: test_kernel_real32
+        module procedure :: test_kernel_real64
+        module procedure :: test_kernel_real128
+    end interface test_kernel
 
 
 
@@ -60,40 +66,6 @@ program check_nan
 
 
 
-    subroutine test_real32
-
-        real(real32) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real32_type) :: list
-
-
-
-        call set_ieee_quiet_nan(y)
-
-
-
-        call test_kernel_real32( x = -1.0_real32, nan = y )
-        call test_kernel_real32( x =  0.0_real32, nan = y )
-        call test_kernel_real32( x =  1.0_real32, nan = y )
-
-
-
-        call set_ieee_quiet_nan(x)
-
-
-
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-    end subroutine test_real32
-
-
-
     subroutine test_kernel_real64(x, nan)
 
         real(real64), intent(in) :: x, nan
@@ -125,40 +97,6 @@ program check_nan
         if ( .not. ieee_is_nan( max(list) ) ) error stop
 
     end subroutine test_kernel_real64
-
-
-
-    subroutine test_real64
-
-        real(real64) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real64_type) :: list
-
-
-
-        call set_ieee_quiet_nan(y)
-
-
-
-        call test_kernel_real64( x = -1.0_real64, nan = y )
-        call test_kernel_real64( x =  0.0_real64, nan = y )
-        call test_kernel_real64( x =  1.0_real64, nan = y )
-
-
-
-        call set_ieee_quiet_nan(x)
-
-
-
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-    end subroutine test_real64
 
 
 
@@ -194,6 +132,106 @@ program check_nan
 
     end subroutine test_kernel_real128
 
+end module check_nan_lib
+
+
+
+program check_nan
+
+    use, intrinsic :: iso_fortran_env, only: real32
+    use, intrinsic :: iso_fortran_env, only: real64
+    use, intrinsic :: iso_fortran_env, only: real128
+
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: check_nan_lib
+
+
+
+    implicit none
+
+
+
+    call test_real32
+    call test_real64
+    call test_real128
+
+
+
+    contains
+
+
+
+    subroutine test_real32
+
+        real(real32) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real32_type) :: list
+
+
+
+        call set_ieee_quiet_nan(y)
+
+
+
+        call test_kernel( x = -1.0_real32, nan = y )
+        call test_kernel( x =  0.0_real32, nan = y )
+        call test_kernel( x =  1.0_real32, nan = y )
+
+
+
+        call set_ieee_quiet_nan(x)
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+    end subroutine test_real32
+
+
+
+    subroutine test_real64
+
+        real(real64) :: agm, x, y
+
+        type(arithmetic_geometric_mean_real64_type) :: list
+
+
+
+        call set_ieee_quiet_nan(y)
+
+
+
+        call test_kernel( x = -1.0_real64, nan = y )
+        call test_kernel( x =  0.0_real64, nan = y )
+        call test_kernel( x =  1.0_real64, nan = y )
+
+
+
+        call set_ieee_quiet_nan(x)
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+    end subroutine test_real64
+
 
 
     subroutine test_real128
@@ -208,9 +246,9 @@ program check_nan
 
 
 
-        call test_kernel_real128( x = -1.0_real128, nan = y )
-        call test_kernel_real128( x =  0.0_real128, nan = y )
-        call test_kernel_real128( x =  1.0_real128, nan = y )
+        call test_kernel( x = -1.0_real128, nan = y )
+        call test_kernel( x =  0.0_real128, nan = y )
+        call test_kernel( x =  1.0_real128, nan = y )
 
 
 
