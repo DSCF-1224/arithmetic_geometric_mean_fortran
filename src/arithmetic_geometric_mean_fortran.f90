@@ -20,6 +20,7 @@ module arithmetic_geometric_mean_fortran
     public :: arithmetic_geometric_mean
     public :: arithmetic_geometric_mean_kernel
     public :: max
+    public :: min
 
     public :: arithmetic_geometric_mean_real32_type
     public :: arithmetic_geometric_mean_real64_type
@@ -152,6 +153,20 @@ module arithmetic_geometric_mean_fortran
         module procedure :: max_selectable_real128
 
     end interface max
+
+
+
+    interface min
+
+        module procedure :: min_final_real32
+        module procedure :: min_final_real64
+        module procedure :: min_final_real128
+
+        module procedure :: min_selectable_real32
+        module procedure :: min_selectable_real64
+        module procedure :: min_selectable_real128
+
+    end interface min
 
 
 
@@ -894,6 +909,165 @@ module arithmetic_geometric_mean_fortran
         max_selectable = max( agm%list_a(i), agm%list_g(i) )
 
     end function max_selectable_real128
+
+
+
+    elemental function min_final_real32(agm) result(min_final)
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the smaller of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
+
+
+
+        real(real32) :: min_final
+
+
+
+        min_final = min(agm, agm%n_iter)
+
+    end function min_final_real32
+
+
+
+    elemental function min_final_real64(agm) result(min_final)
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the smaller of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
+
+
+
+        real(real64) :: min_final
+
+
+
+        min_final = min(agm, agm%n_iter)
+
+    end function min_final_real64
+
+
+
+    elemental function min_final_real128(agm) result(min_final)
+        !! Extract the final arithmetic-geometric mean from completed AGM calculations.  
+        !! Specifically, this function returns the smaller of the two final values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
+
+
+
+        real(real128) :: min_final
+
+
+
+        min_final = min(agm, agm%n_iter)
+
+    end function min_final_real128
+
+
+
+    elemental function min_selectable_real32(agm, i) result(min_selectable)
+        !! Extract the arithmetic-geometric mean value at a specific iteration.  
+        !! Specifically, this function returns the smaller of the two values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real32) :: min_selectable
+
+
+
+        min_selectable = min( agm%list_a(i), agm%list_g(i) )
+
+    end function min_selectable_real32
+
+
+
+    elemental function min_selectable_real64(agm, i) result(min_selectable)
+        !! Extract the arithmetic-geometric mean value at a specific iteration.  
+        !! Specifically, this function returns the smaller of the two values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real64) :: min_selectable
+
+
+
+        min_selectable = min( agm%list_a(i), agm%list_g(i) )
+
+    end function min_selectable_real64
+
+
+
+    elemental function min_selectable_real128(agm, i) result(min_selectable)
+        !! Extract the arithmetic-geometric mean value at a specific iteration.  
+        !! Specifically, this function returns the smaller of the two values.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real128) :: min_selectable
+
+
+
+        min_selectable = min( agm%list_a(i), agm%list_g(i) )
+
+    end function min_selectable_real128
 
 
 

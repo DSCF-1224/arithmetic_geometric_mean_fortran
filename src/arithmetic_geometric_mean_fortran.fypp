@@ -21,7 +21,10 @@ module arithmetic_geometric_mean_fortran
 
     public :: ${INTERFACE_NAME_KERNEL}$
     public :: ${INTERFACE_NAME_KERNEL}$_kernel
-    public :: max
+#:for MAX_OR_MIN in MAX_AND_MIN
+    public :: ${MAX_OR_MIN}$
+#:endfor
+#:del MAX_OR_MIN
 
 #:for REAL_KIND in REAL_KINDS
     public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
@@ -102,10 +105,11 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:for MAX_OR_MIN in MAX_AND_MIN
 
 
 
-#:set INTERFACE_NAME = 'max'
+#:set INTERFACE_NAME = MAX_OR_MIN
     interface ${INTERFACE_NAME}$
 
     #:for REAL_KIND in REAL_KINDS
@@ -118,6 +122,8 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+#:endfor
+#:del MAX_OR_MIN
 
 
 
@@ -295,14 +301,15 @@ module arithmetic_geometric_mean_fortran
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
-#:set FUNCTION_NAME_KERNEL = 'max_final'
+#:for MAX_OR_MIN in MAX_AND_MIN
+#:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_final'
 #:for REAL_KIND in REAL_KINDS
 
 
 
     #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(agm) result(${FUNCTION_NAME_KERNEL}$)
-        #:include 'max_final_description.fypp'
+        #:include 'max_min_final_description.fypp'
 
         type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
 
@@ -312,19 +319,19 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        ${FUNCTION_NAME_KERNEL}$ = max(agm, agm%n_iter)
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$(agm, agm%n_iter)
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
-#:set FUNCTION_NAME_KERNEL = 'max_selectable'
+#:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_selectable'
 #:for REAL_KIND in REAL_KINDS
 
 
 
     #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(agm, i) result(${FUNCTION_NAME_KERNEL}$)
-        #:include 'max_selectable_description.fypp'
+        #:include 'max_min_selectable_description.fypp'
 
         type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
 
@@ -336,11 +343,13 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$( agm%list_a(i), agm%list_g(i) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
+#:endfor
+#:del MAX_OR_MIN
 #:del FUNCTION_NAME_KERNEL
 #:for REAL_KIND in REAL_KINDS
 
