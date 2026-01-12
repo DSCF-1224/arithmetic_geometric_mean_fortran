@@ -1,6 +1,8 @@
 #:include '../src/common.fypp'
-#:set PROGRAM_NAME = 'check_infinity'
-program ${PROGRAM_NAME}$
+#:set PROGRAM_NAME   = 'check_infinity'
+#:set MODULE_NAME    = PROGRAM_NAME + '_lib'
+#:set INTERFACE_NAME = 'test_kernel'
+module ${MODULE_NAME}$
 
 #:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
@@ -14,11 +16,17 @@ program ${PROGRAM_NAME}$
 
     implicit none
 
+    private
+
+    public :: ${INTERFACE_NAME}$
 
 
-#:for REAL_KIND in REAL_KINDS
-    call test_${REAL_KIND}$
-#:endfor
+
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
 
 
 
@@ -27,7 +35,7 @@ program ${PROGRAM_NAME}$
 
 
 
-    #:set SUBROUTINE_NAME = 'test_kernel_' + REAL_KIND
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$(x, inf)
 
         real(${REAL_KIND}$), intent(in) :: x, inf
@@ -60,6 +68,38 @@ program ${PROGRAM_NAME}$
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
+#:endfor
+
+end module ${MODULE_NAME}$
+
+
+
+program ${PROGRAM_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: ${MODULE_NAME}$
+
+
+
+    implicit none
+
+
+
+#:for REAL_KIND in REAL_KINDS
+    call test_${REAL_KIND}$
+#:endfor
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
 
 
 
@@ -76,13 +116,13 @@ program ${PROGRAM_NAME}$
 
 
 
-        call test_kernel_${REAL_KIND}$( x = tiny(x), inf = y )
+        call ${INTERFACE_NAME}$( x = tiny(x), inf = y )
 
-        call test_kernel_${REAL_KIND}$( x = epsilon(x), inf = y )
+        call ${INTERFACE_NAME}$( x = epsilon(x), inf = y )
 
-        call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, inf = y )
+        call ${INTERFACE_NAME}$( x = 1.0_${REAL_KIND}$, inf = y )
 
-        call test_kernel_${REAL_KIND}$( x = huge(x), inf = y )
+        call ${INTERFACE_NAME}$( x = huge(x), inf = y )
 
 
 
