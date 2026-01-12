@@ -454,10 +454,12 @@ program ${PROGRAM_NAME}$
 
 
             call list%compute(a, b)
+        #:for MAX_OR_MIN in MAX_AND_MIN
 
 
 
-            ag_mean_cal = max(list)
+
+            ag_mean_cal = ${MAX_OR_MIN}$(list)
 
             call validate_order_error( &!
             ag_mean_cal = ag_mean_cal , &!
@@ -471,6 +473,8 @@ program ${PROGRAM_NAME}$
             ag_mean_ref = ag_mean_ref , &!
             b           = b             &!
             )
+        #:endfor
+        #:del MAX_OR_MIN
 
         end do
 
