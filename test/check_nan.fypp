@@ -51,12 +51,6 @@ module ${MODULE_NAME}$
 
 
 
-        real(${REAL_KIND}$) :: agm
-
-        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
-
-
-
         call ${INTERFACE_NAME}$_half( x   , nan )
         call ${INTERFACE_NAME}$_half( nan , x   )
 
@@ -128,7 +122,7 @@ program ${PROGRAM_NAME}$
     #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
-        real(${REAL_KIND}$) :: agm, x, y
+        real(${REAL_KIND}$) :: x, y
 
 
 
