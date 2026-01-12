@@ -8,8 +8,6 @@ module check_nan_lib
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
-    use, non_intrinsic :: ieee_class_fortran
-
 
 
     implicit none
@@ -17,6 +15,7 @@ module check_nan_lib
     private
 
     public :: test_kernel
+    public :: test_kernel_half
 
 
 
@@ -183,10 +182,6 @@ program check_nan
     use, intrinsic :: iso_fortran_env, only: real64
     use, intrinsic :: iso_fortran_env, only: real128
 
-    use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
-
-    use, non_intrinsic :: arithmetic_geometric_mean_fortran
-
     use, non_intrinsic :: ieee_class_fortran
 
     use, non_intrinsic :: check_nan_lib
@@ -211,8 +206,6 @@ program check_nan
 
         real(real32) :: agm, x, y
 
-        type(arithmetic_geometric_mean_real32_type) :: list
-
 
 
         call set_ieee_quiet_nan(y)
@@ -229,13 +222,7 @@ program check_nan
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine test_real32
 
@@ -244,8 +231,6 @@ program check_nan
     subroutine test_real64
 
         real(real64) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real64_type) :: list
 
 
 
@@ -263,13 +248,7 @@ program check_nan
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine test_real64
 
@@ -278,8 +257,6 @@ program check_nan
     subroutine test_real128
 
         real(real128) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real128_type) :: list
 
 
 
@@ -297,13 +274,7 @@ program check_nan
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine test_real128
 
