@@ -28,6 +28,14 @@ module check_nan_lib
 
 
 
+    interface test_kernel_half
+        module procedure :: test_kernel_half_real32
+        module procedure :: test_kernel_half_real64
+        module procedure :: test_kernel_half_real128
+    end interface test_kernel_half
+
+
+
     contains
 
 
@@ -44,23 +52,8 @@ module check_nan_lib
 
 
 
-        agm = arithmetic_geometric_mean(x, nan)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(nan, x)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-
-
-        call list%compute(x, nan)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-        call list%compute(nan, x)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half( x   , nan )
+        call test_kernel_half( nan , x   )
 
     end subroutine test_kernel_real32
 
@@ -78,23 +71,8 @@ module check_nan_lib
 
 
 
-        agm = arithmetic_geometric_mean(x, nan)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(nan, x)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-
-
-        call list%compute(x, nan)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-        call list%compute(nan, x)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half( x   , nan )
+        call test_kernel_half( nan , x   )
 
     end subroutine test_kernel_real64
 
@@ -112,25 +90,88 @@ module check_nan_lib
 
 
 
-        agm = arithmetic_geometric_mean(x, nan)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(nan, x)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-
-
-        call list%compute(x, nan)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-        call list%compute(nan, x)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half( x   , nan )
+        call test_kernel_half( nan , x   )
 
     end subroutine test_kernel_real128
+
+
+
+    subroutine test_kernel_half_real32(x, y)
+
+        real(real32), intent(in) :: x, y
+
+
+
+        real(real32) :: agm
+
+        type(arithmetic_geometric_mean_real32_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+    end subroutine test_kernel_half_real32
+
+
+
+    subroutine test_kernel_half_real64(x, y)
+
+        real(real64), intent(in) :: x, y
+
+
+
+        real(real64) :: agm
+
+        type(arithmetic_geometric_mean_real64_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+    end subroutine test_kernel_half_real64
+
+
+
+    subroutine test_kernel_half_real128(x, y)
+
+        real(real128), intent(in) :: x, y
+
+
+
+        real(real128) :: agm
+
+        type(arithmetic_geometric_mean_real128_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_nan(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+        if ( .not. ieee_is_nan( max(list) ) ) error stop
+
+    end subroutine test_kernel_half_real128
 
 end module check_nan_lib
 
