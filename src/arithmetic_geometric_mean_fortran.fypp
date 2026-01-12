@@ -34,6 +34,7 @@ module arithmetic_geometric_mean_fortran
 #:for REAL_KIND in REAL_KINDS
     integer, parameter :: max_n_iter_${REAL_KIND}$ = digits(0.0_${REAL_KIND}$)
 #:endfor
+#:del REAL_KIND
 
 
 
@@ -44,6 +45,7 @@ module arithmetic_geometric_mean_fortran
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$
     #:endfor
+    #:del REAL_KIND
 
     end interface ${INTERFACE_NAME_KERNEL}$
 
@@ -56,6 +58,7 @@ module arithmetic_geometric_mean_fortran
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+    #:del REAL_KIND
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
@@ -64,9 +67,12 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'compute_step'
     interface ${INTERFACE_NAME}$
+        #:include 'compute_step_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -74,9 +80,13 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'initialize'
     interface ${INTERFACE_NAME}$
+        #:include 'initialize_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+    #:del REAL_KIND
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -84,9 +94,12 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'is_not_converged'
     interface ${INTERFACE_NAME}$
+        #:include 'is_not_converged_description.fypp'
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -94,9 +107,15 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'max'
     interface ${INTERFACE_NAME}$
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_final_${REAL_KIND}$
     #:endfor
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_selectable_${REAL_KIND}$
+    #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -259,6 +278,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set FUNCTION_NAME = 'is_not_converged_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(a, g) result(stat)
+        #:include 'is_not_converged_description.fypp'
 
         real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
 
@@ -282,6 +302,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
     elemental function ${FUNCTION_NAME}$(agm) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'max_final_description.fypp'
 
         type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
 
@@ -291,9 +312,31 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        associate(i => agm%n_iter)
-            ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
-        end associate
+        ${FUNCTION_NAME_KERNEL}$ = max(agm, agm%n_iter)
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:set FUNCTION_NAME_KERNEL = 'max_selectable'
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(agm, i) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'max_selectable_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(${REAL_KIND}$) :: ${FUNCTION_NAME_KERNEL}$
+
+
+
+        ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
@@ -305,6 +348,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'compute_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(agm, x, y)
+        #:include 'compute_description.fypp'
 
         class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
 
@@ -380,6 +424,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'compute_kernel_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(agm, init_a, init_g)
+        #:include 'compute_kernel_description.fypp'
 
         class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
 
@@ -446,6 +491,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'compute_step_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(prev_a, prev_g, next_a, next_g)
+        #:include 'compute_step_description.fypp'
 
         real(${REAL_KIND}$), intent(in) :: prev_a
         !! previous arithmetic mean
@@ -473,6 +519,7 @@ module arithmetic_geometric_mean_fortran
 
     #:set SUBROUTINE_NAME = 'initialize_' + REAL_KIND
     elemental subroutine ${SUBROUTINE_NAME}$(agm)
+        #:include 'initialize_description.fypp'
 
         type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
 

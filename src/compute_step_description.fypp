@@ -1,0 +1,12 @@
+        #:if defined('REAL_KIND')
+            #:set SUBROUTINE_OR_INTERFACE = 'subroutine'
+        #:else
+            #:set SUBROUTINE_OR_INTERFACE = 'interface'
+        #:endif
+        !! Compute arithmetic and geometric mean using the given `prev_a` and `prev_g`.  
+        !!
+        !! @warning
+        !! - This ${SUBROUTINE_OR_INTERFACE}$ assumes both inputs are positive.
+        !! - No validation is performed on inputs.
+        !! @endwarning
+

@@ -8,6 +8,9 @@ A Fortran library for computing the arithmetic-geometric mean (AGM) of two non-n
 
 - [x] Support for `real32`, `real64`, and `real128` precision
 - [x] Elemental functions (works with scalars and arrays)
+- [x] Two computation interfaces:
+  - **Lightweight functions**: Fast computation returning only the final AGM value
+  - **Type-bound methods**: Full computation with iteration history storage for convergence analysis
 - [x] Single-file library for easy integration
 
 ## Requirements
@@ -38,6 +41,40 @@ Since this library consists of a single source file, so that you can
 
 1. Download [`arithmetic_geometric_mean_fortran.f90`](src/arithmetic_geometric_mean_fortran.f90)
 2. Include it in your compilation
+
+## API Reference
+
+### Functions
+
+|interface|description|
+|:--------|:----------|
+|[`arithmetic_geometric_mean`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/arithmetic_geometric_mean.html)|Computes AGM **with** automatic input validation|
+|[`arithmetic_geometric_mean_kernel`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/arithmetic_geometric_mean_kernel.html)|Computes AGM **without** automatic input validation|
+
+### Types
+
+- [`arithmetic_geometric_mean_real32_type`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/type/arithmetic_geometric_mean_real32_type.html)
+- [`arithmetic_geometric_mean_real64_type`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/type/arithmetic_geometric_mean_real64_type.html)
+- [`arithmetic_geometric_mean_real128_type`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/type/arithmetic_geometric_mean_real128_type.html)
+
+Each type provides:
+
+|procedure|type|description|
+|:--------|:---|:----------|
+|`compute`|subroutine|Type-bound subroutine that performs AGM computation and stores iteration history|
+|[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface |Extracts the final AGM value|
+
+## Testing
+
+Run tests using fpm:
+
+```bash
+fpm test --profile debug
+```
+
+```bash
+fpm test --profile release
+```
 
 ## Documentation 
 
