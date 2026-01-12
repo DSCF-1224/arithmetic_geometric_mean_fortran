@@ -12,8 +12,6 @@ module ${MODULE_NAME}$
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
-    use, non_intrinsic :: ieee_class_fortran
-
 
 
     implicit none
@@ -21,6 +19,7 @@ module ${MODULE_NAME}$
     private
 
     public :: ${INTERFACE_NAME}$
+    public :: ${INTERFACE_NAME}$_half
 
 
 
@@ -105,10 +104,6 @@ program ${PROGRAM_NAME}$
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
 #:endfor
 
-    use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
-
-    use, non_intrinsic :: arithmetic_geometric_mean_fortran
-
     use, non_intrinsic :: ieee_class_fortran
 
     use, non_intrinsic :: ${MODULE_NAME}$
@@ -135,8 +130,6 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: agm, x, y
 
-        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
-
 
 
         call set_ieee_quiet_nan(y)
@@ -153,13 +146,7 @@ program ${PROGRAM_NAME}$
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_nan(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
