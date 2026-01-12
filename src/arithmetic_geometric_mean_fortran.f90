@@ -20,6 +20,7 @@ module arithmetic_geometric_mean_fortran
     public :: arithmetic_geometric_mean
     public :: arithmetic_geometric_mean_kernel
     public :: max
+    public :: min
 
     public :: arithmetic_geometric_mean_real32_type
     public :: arithmetic_geometric_mean_real64_type
