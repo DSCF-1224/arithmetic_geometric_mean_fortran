@@ -15,6 +15,7 @@ module check_infinity_lib
     private
 
     public :: test_kernel
+    public :: test_kernel_half
 
 
 
@@ -23,6 +24,14 @@ module check_infinity_lib
         module procedure :: test_kernel_real64
         module procedure :: test_kernel_real128
     end interface test_kernel
+
+
+
+    interface test_kernel_half
+        module procedure :: test_kernel_half_real32
+        module procedure :: test_kernel_half_real64
+        module procedure :: test_kernel_half_real128
+    end interface test_kernel_half
 
 
 
@@ -36,29 +45,8 @@ module check_infinity_lib
 
 
 
-        real(real32) :: agm
-
-        type(arithmetic_geometric_mean_real32_type) :: list
-
-
-
-        agm = arithmetic_geometric_mean(x, inf)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(inf, x)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-
-
-        call list%compute(x, inf)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
-
-        call list%compute(inf, x)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+        call test_kernel_half( x   , inf )
+        call test_kernel_half( inf , x   )
 
     end subroutine test_kernel_real32
 
@@ -70,29 +58,8 @@ module check_infinity_lib
 
 
 
-        real(real64) :: agm
-
-        type(arithmetic_geometric_mean_real64_type) :: list
-
-
-
-        agm = arithmetic_geometric_mean(x, inf)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(inf, x)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-
-
-        call list%compute(x, inf)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
-
-        call list%compute(inf, x)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+        call test_kernel_half( x   , inf )
+        call test_kernel_half( inf , x   )
 
     end subroutine test_kernel_real64
 
@@ -104,31 +71,88 @@ module check_infinity_lib
 
 
 
+        call test_kernel_half( x   , inf )
+        call test_kernel_half( inf , x   )
+
+    end subroutine test_kernel_real128
+
+
+
+    subroutine test_kernel_half_real32(x, y)
+
+        real(real32), intent(in) :: x, y
+
+
+
+        real(real32) :: agm
+
+        type(arithmetic_geometric_mean_real32_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. is_ieee_positive_inf(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+
+    end subroutine test_kernel_half_real32
+
+
+
+    subroutine test_kernel_half_real64(x, y)
+
+        real(real64), intent(in) :: x, y
+
+
+
+        real(real64) :: agm
+
+        type(arithmetic_geometric_mean_real64_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. is_ieee_positive_inf(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+
+    end subroutine test_kernel_half_real64
+
+
+
+    subroutine test_kernel_half_real128(x, y)
+
+        real(real128), intent(in) :: x, y
+
+
+
         real(real128) :: agm
 
         type(arithmetic_geometric_mean_real128_type) :: list
 
 
 
-        agm = arithmetic_geometric_mean(x, inf)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(inf, x)
+        agm = arithmetic_geometric_mean(x, y)
 
         if ( .not. is_ieee_positive_inf(agm) ) error stop
 
 
 
-        call list%compute(x, inf)
+        call list%compute(x, y)
 
         if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
 
-        call list%compute(inf, x)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
-
-    end subroutine test_kernel_real128
+    end subroutine test_kernel_half_real128
 
 end module check_infinity_lib
 
@@ -139,8 +163,6 @@ program check_infinity
     use, intrinsic :: iso_fortran_env, only: real32
     use, intrinsic :: iso_fortran_env, only: real64
     use, intrinsic :: iso_fortran_env, only: real128
-
-    use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
     use, non_intrinsic :: ieee_class_fortran
 
@@ -164,9 +186,7 @@ program check_infinity
 
     subroutine test_real32
 
-        real(real32) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real32_type) :: list
+        real(real32) :: x, y
 
 
 
@@ -188,13 +208,7 @@ program check_infinity
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine test_real32
 
@@ -202,9 +216,7 @@ program check_infinity
 
     subroutine test_real64
 
-        real(real64) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real64_type) :: list
+        real(real64) :: x, y
 
 
 
@@ -226,13 +238,7 @@ program check_infinity
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine test_real64
 
@@ -240,9 +246,7 @@ program check_infinity
 
     subroutine test_real128
 
-        real(real128) :: agm, x, y
-
-        type(arithmetic_geometric_mean_real128_type) :: list
+        real(real128) :: x, y
 
 
 
@@ -264,13 +268,7 @@ program check_infinity
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. is_ieee_positive_inf(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. is_ieee_positive_inf( max(list) ) ) error stop
+        call test_kernel_half(x, y)
 
     end subroutine test_real128
 
