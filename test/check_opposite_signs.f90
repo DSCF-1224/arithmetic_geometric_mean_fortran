@@ -28,11 +28,58 @@ module check_opposite_signs_lib
 
 
 
+    interface test_kernel_half
+        module procedure :: test_kernel_half_real32
+        module procedure :: test_kernel_half_real64
+        module procedure :: test_kernel_half_real128
+    end interface test_kernel_half
+
+
+
     contains
 
 
 
     subroutine test_kernel_real32(x, y)
+
+        real(real32), intent(in) :: x, y
+
+
+
+        call test_kernel_half(x, y)
+        call test_kernel_half(y, x)
+
+    end subroutine test_kernel_real32
+
+
+
+    subroutine test_kernel_real64(x, y)
+
+        real(real64), intent(in) :: x, y
+
+
+
+        call test_kernel_half(x, y)
+        call test_kernel_half(y, x)
+
+    end subroutine test_kernel_real64
+
+
+
+    subroutine test_kernel_real128(x, y)
+
+        real(real128), intent(in) :: x, y
+
+
+
+        call test_kernel_half(x, y)
+        call test_kernel_half(y, x)
+
+    end subroutine test_kernel_real128
+
+
+
+    subroutine test_kernel_half_real32(x, y)
 
         real(real32), intent(in) :: x, y
 
@@ -48,23 +95,17 @@ module check_opposite_signs_lib
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
 
         call list%compute(x, y)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
 
-        call list%compute(y, x)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-    end subroutine test_kernel_real32
+    end subroutine test_kernel_half_real32
 
 
 
-    subroutine test_kernel_real64(x, y)
+    subroutine test_kernel_half_real64(x, y)
 
         real(real64), intent(in) :: x, y
 
@@ -80,23 +121,17 @@ module check_opposite_signs_lib
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
 
         call list%compute(x, y)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
 
-        call list%compute(y, x)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-    end subroutine test_kernel_real64
+    end subroutine test_kernel_half_real64
 
 
 
-    subroutine test_kernel_real128(x, y)
+    subroutine test_kernel_half_real128(x, y)
 
         real(real128), intent(in) :: x, y
 
@@ -112,19 +147,13 @@ module check_opposite_signs_lib
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
 
         call list%compute(x, y)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
 
-        call list%compute(y, x)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-    end subroutine test_kernel_real128
+    end subroutine test_kernel_half_real128
 
 end module check_opposite_signs_lib
 
