@@ -21,7 +21,10 @@ module arithmetic_geometric_mean_fortran
 
     public :: ${INTERFACE_NAME_KERNEL}$
     public :: ${INTERFACE_NAME_KERNEL}$_kernel
-    public :: max
+#:for MAX_OR_MIN in MAX_AND_MIN
+    public :: ${MAX_OR_MIN}$
+#:endfor
+#:del MAX_OR_MIN
 
 #:for REAL_KIND in REAL_KINDS
     public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
