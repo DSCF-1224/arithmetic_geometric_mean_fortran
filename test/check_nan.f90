@@ -99,6 +99,7 @@ module check_nan_lib
         call list%compute(x, y)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
+        if ( .not. ieee_is_nan( min(list) ) ) error stop
 
     end subroutine test_kernel_half_real32
 
@@ -125,6 +126,7 @@ module check_nan_lib
         call list%compute(x, y)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
+        if ( .not. ieee_is_nan( min(list) ) ) error stop
 
     end subroutine test_kernel_half_real64
 
@@ -151,6 +153,7 @@ module check_nan_lib
         call list%compute(x, y)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
+        if ( .not. ieee_is_nan( min(list) ) ) error stop
 
     end subroutine test_kernel_half_real128
 
