@@ -72,6 +72,7 @@ module check_zero_lib
         call list%compute(x, y)
 
         if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+        if ( .not. is_ieee_positive_zero( min(list) ) ) error stop
 
     end subroutine test_kernel_half_real32
 
@@ -111,6 +112,7 @@ module check_zero_lib
         call list%compute(x, y)
 
         if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+        if ( .not. is_ieee_positive_zero( min(list) ) ) error stop
 
     end subroutine test_kernel_half_real64
 
@@ -150,6 +152,7 @@ module check_zero_lib
         call list%compute(x, y)
 
         if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+        if ( .not. is_ieee_positive_zero( min(list) ) ) error stop
 
     end subroutine test_kernel_half_real128
 
