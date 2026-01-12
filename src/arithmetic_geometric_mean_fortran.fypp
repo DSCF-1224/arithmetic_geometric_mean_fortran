@@ -107,9 +107,15 @@ module arithmetic_geometric_mean_fortran
 
 #:set INTERFACE_NAME = 'max'
     interface ${INTERFACE_NAME}$
+
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_final_${REAL_KIND}$
     #:endfor
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_selectable_${REAL_KIND}$
+    #:endfor
+
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
 
@@ -306,9 +312,31 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        associate(i => agm%n_iter)
-            ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
-        end associate
+        ${FUNCTION_NAME_KERNEL}$ = max(agm, agm%n_iter)
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:set FUNCTION_NAME_KERNEL = 'max_selectable'
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(agm, i) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'max_selectable_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(${REAL_KIND}$) :: ${FUNCTION_NAME_KERNEL}$
+
+
+
+        ${FUNCTION_NAME_KERNEL}$ = max( agm%list_a(i), agm%list_g(i) )
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
