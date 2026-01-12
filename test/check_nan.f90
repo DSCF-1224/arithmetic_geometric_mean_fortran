@@ -45,12 +45,6 @@ module check_nan_lib
 
 
 
-        real(real32) :: agm
-
-        type(arithmetic_geometric_mean_real32_type) :: list
-
-
-
         call test_kernel_half( x   , nan )
         call test_kernel_half( nan , x   )
 
@@ -64,12 +58,6 @@ module check_nan_lib
 
 
 
-        real(real64) :: agm
-
-        type(arithmetic_geometric_mean_real64_type) :: list
-
-
-
         call test_kernel_half( x   , nan )
         call test_kernel_half( nan , x   )
 
@@ -80,12 +68,6 @@ module check_nan_lib
     subroutine test_kernel_real128(x, nan)
 
         real(real128), intent(in) :: x, nan
-
-
-
-        real(real128) :: agm
-
-        type(arithmetic_geometric_mean_real128_type) :: list
 
 
 
@@ -204,7 +186,7 @@ program check_nan
 
     subroutine test_real32
 
-        real(real32) :: agm, x, y
+        real(real32) :: x, y
 
 
 
@@ -230,7 +212,7 @@ program check_nan
 
     subroutine test_real64
 
-        real(real64) :: agm, x, y
+        real(real64) :: x, y
 
 
 
@@ -256,7 +238,7 @@ program check_nan
 
     subroutine test_real128
 
-        real(real128) :: agm, x, y
+        real(real128) :: x, y
 
 
 
