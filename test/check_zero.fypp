@@ -79,7 +79,10 @@ module ${MODULE_NAME}$
 
         call list%compute(x, y)
 
-        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        if ( .not. is_ieee_positive_zero( ${MAX_OR_MIN}$(list) ) ) error stop
+    #:endfor
+    #:del MAX_OR_MIN
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
