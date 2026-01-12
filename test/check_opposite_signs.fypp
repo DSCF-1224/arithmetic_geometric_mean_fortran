@@ -32,12 +32,37 @@ module ${MODULE_NAME}$
 
 
 
+    interface ${INTERFACE_NAME}$_half
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_half_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$_half
+
+
+
     contains
 #:for REAL_KIND in REAL_KINDS
 
 
 
     #:set SUBROUTINE_NAME = INTERFACE_NAME + '_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, y)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        call ${INTERFACE_NAME}$_half(x, y)
+        call ${INTERFACE_NAME}$_half(y, x)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_half_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$(x, y)
 
         real(${REAL_KIND}$), intent(in) :: x, y
@@ -54,15 +79,9 @@ module ${MODULE_NAME}$
 
         if ( .not. ieee_is_nan(agm) ) error stop
 
-        agm = arithmetic_geometric_mean(y, x)
 
-        if ( .not. ieee_is_nan(agm) ) error stop
 
         call list%compute(x, y)
-
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-
-        call list%compute(y, x)
 
         if ( .not. ieee_is_nan( max(list) ) ) error stop
 
