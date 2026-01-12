@@ -82,8 +82,10 @@ module ${MODULE_NAME}$
 
         call list%compute(x, y)
 
-        if ( .not. ieee_is_nan( max(list) ) ) error stop
-        if ( .not. ieee_is_nan( min(list) ) ) error stop
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        if ( .not. ieee_is_nan( ${MAX_OR_MIN}$(list) ) ) error stop
+    #:endfor
+    #:del MAX_OR_MIN
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
