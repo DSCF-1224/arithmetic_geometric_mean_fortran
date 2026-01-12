@@ -1,10 +1,12 @@
 #:include '../src/common.fypp'
-#:set PROGRAM_NAME = 'check_nan'
-program ${PROGRAM_NAME}$
+#:set PROGRAM_NAME   = 'check_nan'
+#:set MODULE_NAME    = PROGRAM_NAME + '_lib'
+#:set INTERFACE_NAME = 'test_kernel'
+module ${MODULE_NAME}$
 
-#:for REAL_KIND in REAL_KINDS
+    #:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
-#:endfor
+    #:endfor
 
     use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
 
@@ -16,11 +18,17 @@ program ${PROGRAM_NAME}$
 
     implicit none
 
+    private
+
+    public :: ${INTERFACE_NAME}$
 
 
-#:for REAL_KIND in REAL_KINDS
-    call test_${REAL_KIND}$
-#:endfor
+
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
 
 
 
@@ -29,7 +37,7 @@ program ${PROGRAM_NAME}$
 
 
 
-    #:set SUBROUTINE_NAME = 'test_kernel_' + REAL_KIND
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$(x, nan)
 
         real(${REAL_KIND}$), intent(in) :: x, nan
@@ -62,6 +70,40 @@ program ${PROGRAM_NAME}$
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
+#:endfor
+
+end module ${MODULE_NAME}$
+
+
+
+program ${PROGRAM_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: ${MODULE_NAME}$
+
+
+
+    implicit none
+
+
+
+#:for REAL_KIND in REAL_KINDS
+    call test_${REAL_KIND}$
+#:endfor
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
 
 
 
@@ -78,9 +120,9 @@ program ${PROGRAM_NAME}$
 
 
 
-        call test_kernel_${REAL_KIND}$( x = -1.0_${REAL_KIND}$, nan = y )
-        call test_kernel_${REAL_KIND}$( x =  0.0_${REAL_KIND}$, nan = y )
-        call test_kernel_${REAL_KIND}$( x =  1.0_${REAL_KIND}$, nan = y )
+        call test_kernel( x = -1.0_${REAL_KIND}$, nan = y )
+        call test_kernel( x =  0.0_${REAL_KIND}$, nan = y )
+        call test_kernel( x =  1.0_${REAL_KIND}$, nan = y )
 
 
 
