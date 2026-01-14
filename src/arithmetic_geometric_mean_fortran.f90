@@ -172,7 +172,7 @@ module arithmetic_geometric_mean_fortran
 
     type, abstract :: arithmetic_geometric_mean_base_type
 
-        integer, private :: n_iter = initial_n_iter
+        integer, private :: n_iter_ = initial_n_iter
         !! the number of iterations performed during AGM calculation
 
     end type arithmetic_geometric_mean_base_type
@@ -771,7 +771,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        max_final = max(agm, agm%n_iter)
+        max_final = max(agm, agm%n_iter_)
 
     end function max_final_real32
 
@@ -795,7 +795,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        max_final = max(agm, agm%n_iter)
+        max_final = max(agm, agm%n_iter_)
 
     end function max_final_real64
 
@@ -819,7 +819,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        max_final = max(agm, agm%n_iter)
+        max_final = max(agm, agm%n_iter_)
 
     end function max_final_real128
 
@@ -930,7 +930,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        min_final = min(agm, agm%n_iter)
+        min_final = min(agm, agm%n_iter_)
 
     end function min_final_real32
 
@@ -954,7 +954,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        min_final = min(agm, agm%n_iter)
+        min_final = min(agm, agm%n_iter_)
 
     end function min_final_real64
 
@@ -978,7 +978,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        min_final = min(agm, agm%n_iter)
+        min_final = min(agm, agm%n_iter_)
 
     end function min_final_real128
 
@@ -1107,7 +1107,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
             return
 
@@ -1123,7 +1123,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
         else if ( xy .gt. 0.0_real32 ) then
 
@@ -1137,24 +1137,24 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = 0
+            agm%n_iter_ = 0
 
             if (x .lt. y) then
 
-                agm%list_a(agm%n_iter) = y
-                agm%list_g(agm%n_iter) = x
+                agm%list_a(agm%n_iter_) = y
+                agm%list_g(agm%n_iter_) = x
 
             else
 
-                agm%list_a(agm%n_iter) = x
-                agm%list_g(agm%n_iter) = y
+                agm%list_a(agm%n_iter_) = x
+                agm%list_g(agm%n_iter_) = y
         
             end if
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
-            agm%list_a(agm%n_iter) = 0.0_real32
-            agm%list_g(agm%n_iter) = 0.0_real32
+            agm%list_a(agm%n_iter_) = 0.0_real32
+            agm%list_g(agm%n_iter_) = 0.0_real32
 
         end if
 
@@ -1198,7 +1198,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
             return
 
@@ -1214,7 +1214,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
         else if ( xy .gt. 0.0_real64 ) then
 
@@ -1228,24 +1228,24 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = 0
+            agm%n_iter_ = 0
 
             if (x .lt. y) then
 
-                agm%list_a(agm%n_iter) = y
-                agm%list_g(agm%n_iter) = x
+                agm%list_a(agm%n_iter_) = y
+                agm%list_g(agm%n_iter_) = x
 
             else
 
-                agm%list_a(agm%n_iter) = x
-                agm%list_g(agm%n_iter) = y
+                agm%list_a(agm%n_iter_) = x
+                agm%list_g(agm%n_iter_) = y
         
             end if
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
-            agm%list_a(agm%n_iter) = 0.0_real64
-            agm%list_g(agm%n_iter) = 0.0_real64
+            agm%list_a(agm%n_iter_) = 0.0_real64
+            agm%list_g(agm%n_iter_) = 0.0_real64
 
         end if
 
@@ -1289,7 +1289,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
             return
 
@@ -1305,7 +1305,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
         else if ( xy .gt. 0.0_real128 ) then
 
@@ -1319,24 +1319,24 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = 0
+            agm%n_iter_ = 0
 
             if (x .lt. y) then
 
-                agm%list_a(agm%n_iter) = y
-                agm%list_g(agm%n_iter) = x
+                agm%list_a(agm%n_iter_) = y
+                agm%list_g(agm%n_iter_) = x
 
             else
 
-                agm%list_a(agm%n_iter) = x
-                agm%list_g(agm%n_iter) = y
+                agm%list_a(agm%n_iter_) = x
+                agm%list_g(agm%n_iter_) = y
         
             end if
 
-            agm%n_iter = agm%n_iter + 1
+            agm%n_iter_ = agm%n_iter_ + 1
 
-            agm%list_a(agm%n_iter) = 0.0_real128
-            agm%list_g(agm%n_iter) = 0.0_real128
+            agm%list_a(agm%n_iter_) = 0.0_real128
+            agm%list_g(agm%n_iter_) = 0.0_real128
 
         end if
 
@@ -1382,11 +1382,11 @@ module arithmetic_geometric_mean_fortran
 
         agm%list_a(0) = init_a
         agm%list_g(0) = init_g
-        agm%n_iter    = 0
+        agm%n_iter_    = 0
 
         do
 
-            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%n_iter_, next_iter => agm%n_iter_ + 1)
 
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
@@ -1395,7 +1395,7 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    agm%n_iter = agm%n_iter + 1
+                    agm%n_iter_ = agm%n_iter_ + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -1466,11 +1466,11 @@ module arithmetic_geometric_mean_fortran
 
         agm%list_a(0) = init_a
         agm%list_g(0) = init_g
-        agm%n_iter    = 0
+        agm%n_iter_    = 0
 
         do
 
-            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%n_iter_, next_iter => agm%n_iter_ + 1)
 
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
@@ -1479,7 +1479,7 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    agm%n_iter = agm%n_iter + 1
+                    agm%n_iter_ = agm%n_iter_ + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -1550,11 +1550,11 @@ module arithmetic_geometric_mean_fortran
 
         agm%list_a(0) = init_a
         agm%list_g(0) = init_g
-        agm%n_iter    = 0
+        agm%n_iter_    = 0
 
         do
 
-            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%n_iter_, next_iter => agm%n_iter_ + 1)
 
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
@@ -1563,7 +1563,7 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    agm%n_iter = agm%n_iter + 1
+                    agm%n_iter_ = agm%n_iter_ + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -1693,7 +1693,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        agm%n_iter = initial_n_iter
+        agm%n_iter_ = initial_n_iter
 
         agm%list_a(:) = ieee_value( x = 0.0_real32, class = ieee_quiet_nan )
         agm%list_g(:) = agm%list_a(:)
@@ -1709,7 +1709,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        agm%n_iter = initial_n_iter
+        agm%n_iter_ = initial_n_iter
 
         agm%list_a(:) = ieee_value( x = 0.0_real64, class = ieee_quiet_nan )
         agm%list_g(:) = agm%list_a(:)
@@ -1725,7 +1725,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        agm%n_iter = initial_n_iter
+        agm%n_iter_ = initial_n_iter
 
         agm%list_a(:) = ieee_value( x = 0.0_real128, class = ieee_quiet_nan )
         agm%list_g(:) = agm%list_a(:)
