@@ -1,5 +1,97 @@
 #:include '../src/common.fypp'
 #:set PROGRAM_NAME = 'check_zero'
+#:set MODULE_NAME    = PROGRAM_NAME + '_lib'
+#:set INTERFACE_NAME = 'test_kernel'
+module ${MODULE_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+    use, non_intrinsic :: ieee_class_fortran
+
+
+
+    implicit none
+
+    private
+
+    public :: ${INTERFACE_NAME}$
+    public :: ${INTERFACE_NAME}$_half
+
+
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+
+
+
+    interface ${INTERFACE_NAME}$_half
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_half_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$_half
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, zero)
+
+        real(${REAL_KIND}$), intent(in) :: x, zero
+
+
+
+        call ${INTERFACE_NAME}$_half( x    , zero )
+        call ${INTERFACE_NAME}$_half( zero , x    )
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+
+
+
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_half_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, y)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: agm
+
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. is_ieee_positive_zero(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        if ( .not. is_ieee_positive_zero( ${MAX_OR_MIN}$(list) ) ) error stop
+    #:endfor
+    #:del MAX_OR_MIN
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+
+end module ${MODULE_NAME}$
+
+
+
 program ${PROGRAM_NAME}$
 
 #:for REAL_KIND in REAL_KINDS
@@ -9,6 +101,8 @@ program ${PROGRAM_NAME}$
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
     use, non_intrinsic :: ieee_class_fortran
+
+    use, non_intrinsic :: ${MODULE_NAME}$
 
 
 
@@ -27,48 +121,10 @@ program ${PROGRAM_NAME}$
 
 
 
-    #:set SUBROUTINE_NAME = 'test_kernel_' + REAL_KIND
-    subroutine ${SUBROUTINE_NAME}$(x, zero)
-
-        real(${REAL_KIND}$), intent(in) :: x, zero
-
-
-
-        real(${REAL_KIND}$) :: agm
-
-        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
-
-
-
-        agm = arithmetic_geometric_mean(x, zero)
-
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(zero, x)
-
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
-
-
-
-        call list%compute(x, zero)
-
-        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
-
-        call list%compute(zero, x)
-
-        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
-
-    end subroutine ${SUBROUTINE_NAME}$
-    #:del SUBROUTINE_NAME
-
-
-
     #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
-        real(${REAL_KIND}$) :: agm, x, y
-
-        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+        real(${REAL_KIND}$) :: x, y
 
 
 
@@ -76,9 +132,9 @@ program ${PROGRAM_NAME}$
 
 
 
-        call test_kernel_${REAL_KIND}$( x = 1.0_${REAL_KIND}$, zero = y )
+        call ${INTERFACE_NAME}$( x = 1.0_${REAL_KIND}$, zero = y )
 
-        call test_kernel_${REAL_KIND}$( x = huge(x), zero = y )
+        call ${INTERFACE_NAME}$( x = huge(x), zero = y )
 
 
 
@@ -86,13 +142,7 @@ program ${PROGRAM_NAME}$
 
 
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. is_ieee_positive_zero(agm) ) error stop
-
-        call list%compute(x, y)
-
-        if ( .not. is_ieee_positive_zero( max(list) ) ) error stop
+        call ${INTERFACE_NAME}$_half(x, y)
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME

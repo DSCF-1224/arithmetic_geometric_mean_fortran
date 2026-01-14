@@ -46,7 +46,10 @@ program ${PROGRAM_NAME}$
 
         call list%compute(one, one)
 
-        if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        if ( .not. is_ieee_positive_zero( ${MAX_OR_MIN}$(list) - one ) ) error stop
+    #:endfor
+    #:del MAX_OR_MIN
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME

@@ -62,7 +62,8 @@ Each type provides:
 |procedure|type|description|
 |:--------|:---|:----------|
 |`compute`|subroutine|Type-bound subroutine that performs AGM computation and stores iteration history|
-|[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface |Extracts the final AGM value|
+|[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface |Extracts the final AGM value / AGM value at a specific iteration|
+|[`min`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/min.html)|interface |Extracts the final AGM value / AGM value at a specific iteration|
 
 ## Testing
 

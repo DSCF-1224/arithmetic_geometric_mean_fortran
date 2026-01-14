@@ -662,7 +662,26 @@ program check_reference
 
 
 
+
             ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
+            call validate_ulp_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
+            b           = b             &!
+            )
+
+
+
+
+            ag_mean_cal = min(list)
 
             call validate_order_error( &!
             ag_mean_cal = ag_mean_cal , &!
@@ -872,7 +891,26 @@ program check_reference
 
 
 
+
             ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
+            call validate_ulp_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
+            b           = b             &!
+            )
+
+
+
+
+            ag_mean_cal = min(list)
 
             call validate_order_error( &!
             ag_mean_cal = ag_mean_cal , &!
@@ -1082,7 +1120,26 @@ program check_reference
 
 
 
+
             ag_mean_cal = max(list)
+
+            call validate_order_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ar_mean     = ar_mean     , &!
+            b           = b           , &!
+            ge_mean     = ge_mean       &!
+            )
+
+            call validate_ulp_error( &!
+            ag_mean_cal = ag_mean_cal , &!
+            ag_mean_ref = ag_mean_ref , &!
+            b           = b             &!
+            )
+
+
+
+
+            ag_mean_cal = min(list)
 
             call validate_order_error( &!
             ag_mean_cal = ag_mean_cal , &!
