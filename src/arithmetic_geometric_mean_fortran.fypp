@@ -26,6 +26,7 @@ module arithmetic_geometric_mean_fortran
     public :: ${MAX_OR_MIN}$
 #:endfor
 #:del MAX_OR_MIN
+    public :: ${N_ITER}$
 
 #:for REAL_KIND in REAL_KINDS
     public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
@@ -133,6 +134,10 @@ module arithmetic_geometric_mean_fortran
 
         integer, private :: ${N_ITER}$_ = initial_${N_ITER}$
         !! the number of iterations performed during AGM calculation
+
+        contains
+
+        procedure, pass, public :: ${N_ITER}$
 
     end type ${TYPE_NAME}$
     #:del TYPE_NAME
@@ -352,6 +357,23 @@ module arithmetic_geometric_mean_fortran
 #:endfor
 #:del MAX_OR_MIN
 #:del FUNCTION_NAME_KERNEL
+
+
+#:set FUNCTION_NAME = N_ITER
+    elemental function ${FUNCTION_NAME}$(agm)
+
+        class(${INTERFACE_NAME_KERNEL}$_base_type), intent(in) :: agm
+
+
+
+        integer :: ${FUNCTION_NAME}$
+
+
+
+         ${FUNCTION_NAME}$ = agm%${N_ITER}$_
+
+    end function ${FUNCTION_NAME}$
+#:del FUNCTION_NAME
 #:for REAL_KIND in REAL_KINDS
 
 

@@ -21,6 +21,7 @@ module arithmetic_geometric_mean_fortran
     public :: arithmetic_geometric_mean_kernel
     public :: max
     public :: min
+    public :: n_iter
 
     public :: arithmetic_geometric_mean_real32_type
     public :: arithmetic_geometric_mean_real64_type
@@ -174,6 +175,10 @@ module arithmetic_geometric_mean_fortran
 
         integer, private :: n_iter_ = initial_n_iter
         !! the number of iterations performed during AGM calculation
+
+        contains
+
+        procedure, pass, public :: n_iter
 
     end type arithmetic_geometric_mean_base_type
 
@@ -1068,6 +1073,21 @@ module arithmetic_geometric_mean_fortran
         min_selectable = min( agm%list_a(i), agm%list_g(i) )
 
     end function min_selectable_real128
+
+
+    elemental function n_iter(agm)
+
+        class(arithmetic_geometric_mean_base_type), intent(in) :: agm
+
+
+
+        integer :: n_iter
+
+
+
+         n_iter = agm%n_iter_
+
+    end function n_iter
 
 
 
