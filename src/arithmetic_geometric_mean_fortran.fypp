@@ -361,6 +361,7 @@ module arithmetic_geometric_mean_fortran
 
 #:set FUNCTION_NAME = N_ITER
     elemental function ${FUNCTION_NAME}$(agm)
+        !! return the number of iterations performed during AGM calculation
 
         class(${INTERFACE_NAME_KERNEL}$_base_type), intent(in) :: agm
 
