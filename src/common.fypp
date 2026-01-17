@@ -4,4 +4,6 @@
 
     #:set MAX_AND_MIN = ['max', 'min']
 
+    #:set N_ITER = 'n_iter'
+
 #:endmute
