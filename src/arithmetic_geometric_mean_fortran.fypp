@@ -1,5 +1,6 @@
 #:include 'common.fypp'
 #:set INTERFACE_NAME_KERNEL = 'arithmetic_geometric_mean'
+#:set N_ITER = 'n_iter'
 module arithmetic_geometric_mean_fortran
 #:include 'module_description.fypp'
 
@@ -25,6 +26,7 @@ module arithmetic_geometric_mean_fortran
     public :: ${MAX_OR_MIN}$
 #:endfor
 #:del MAX_OR_MIN
+    public :: ${N_ITER}$
 
 #:for REAL_KIND in REAL_KINDS
     public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
@@ -32,10 +34,10 @@ module arithmetic_geometric_mean_fortran
 
 
 
-    integer, parameter :: initial_n_iter = -1
+    integer, parameter :: initial_${N_ITER}$ = -1
 
 #:for REAL_KIND in REAL_KINDS
-    integer, parameter :: max_n_iter_${REAL_KIND}$ = digits(0.0_${REAL_KIND}$)
+    integer, parameter :: max_${N_ITER}$_${REAL_KIND}$ = digits(0.0_${REAL_KIND}$)
 #:endfor
 #:del REAL_KIND
 
@@ -130,8 +132,12 @@ module arithmetic_geometric_mean_fortran
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_base_type'
     type, abstract :: ${TYPE_NAME}$
 
-        integer, private :: n_iter = initial_n_iter
+        integer, private :: ${N_ITER}$_ = initial_${N_ITER}$
         !! the number of iterations performed during AGM calculation
+
+        contains
+
+        procedure, pass, public :: ${N_ITER}$
 
     end type ${TYPE_NAME}$
     #:del TYPE_NAME
@@ -142,10 +148,10 @@ module arithmetic_geometric_mean_fortran
     #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
     type, extends(${INTERFACE_NAME_KERNEL}$_base_type) :: ${TYPE_NAME}$
 
-        real(${REAL_KIND}$), private :: list_a(0:max_n_iter_${REAL_KIND}$)
+        real(${REAL_KIND}$), private :: list_a(0:max_${N_ITER}$_${REAL_KIND}$)
         !! history of the arithmetic mean
 
-        real(${REAL_KIND}$), private :: list_g(0:max_n_iter_${REAL_KIND}$)
+        real(${REAL_KIND}$), private :: list_g(0:max_${N_ITER}$_${REAL_KIND}$)
         !! history of the geometric mean
 
         contains
@@ -319,7 +325,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$(agm, agm%n_iter)
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$(agm, agm%${N_ITER}$_)
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
@@ -351,6 +357,24 @@ module arithmetic_geometric_mean_fortran
 #:endfor
 #:del MAX_OR_MIN
 #:del FUNCTION_NAME_KERNEL
+
+
+#:set FUNCTION_NAME = N_ITER
+    elemental function ${FUNCTION_NAME}$(agm)
+        !! return the number of iterations performed during AGM calculation
+
+        class(${INTERFACE_NAME_KERNEL}$_base_type), intent(in) :: agm
+
+
+
+        integer :: ${FUNCTION_NAME}$
+
+
+
+         ${FUNCTION_NAME}$ = agm%${N_ITER}$_
+
+    end function ${FUNCTION_NAME}$
+#:del FUNCTION_NAME
 #:for REAL_KIND in REAL_KINDS
 
 
@@ -373,7 +397,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
 
             return
 
@@ -389,7 +413,7 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = agm%n_iter + 1
+            agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
 
         else if ( xy .gt. 0.0_${REAL_KIND}$ ) then
 
@@ -403,24 +427,24 @@ module arithmetic_geometric_mean_fortran
 
             call initialize(agm)
 
-            agm%n_iter = 0
+            agm%${N_ITER}$_ = 0
 
             if (x .lt. y) then
 
-                agm%list_a(agm%n_iter) = y
-                agm%list_g(agm%n_iter) = x
+                agm%list_a(agm%${N_ITER}$_) = y
+                agm%list_g(agm%${N_ITER}$_) = x
 
             else
 
-                agm%list_a(agm%n_iter) = x
-                agm%list_g(agm%n_iter) = y
+                agm%list_a(agm%${N_ITER}$_) = x
+                agm%list_g(agm%${N_ITER}$_) = y
         
             end if
 
-            agm%n_iter = agm%n_iter + 1
+            agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
 
-            agm%list_a(agm%n_iter) = 0.0_${REAL_KIND}$
-            agm%list_g(agm%n_iter) = 0.0_${REAL_KIND}$
+            agm%list_a(agm%${N_ITER}$_) = 0.0_${REAL_KIND}$
+            agm%list_g(agm%${N_ITER}$_) = 0.0_${REAL_KIND}$
 
         end if
 
@@ -449,11 +473,11 @@ module arithmetic_geometric_mean_fortran
 
         agm%list_a(0) = init_a
         agm%list_g(0) = init_g
-        agm%n_iter    = 0
+        agm%${N_ITER}$_    = 0
 
         do
 
-            associate(prev_iter => agm%n_iter, next_iter => agm%n_iter + 1)
+            associate(prev_iter => agm%${N_ITER}$_, next_iter => agm%${N_ITER}$_ + 1)
 
                 associate( &!
                     prev_a => agm%list_a(prev_iter) , &!
@@ -462,7 +486,7 @@ module arithmetic_geometric_mean_fortran
                     next_g => agm%list_g(next_iter)   &!
                 )
 
-                    agm%n_iter = agm%n_iter + 1
+                    agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
 
                     call compute_step( &!
                         prev_a = prev_a , &!
@@ -534,7 +558,7 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        agm%n_iter = initial_n_iter
+        agm%${N_ITER}$_ = initial_${N_ITER}$
 
         agm%list_a(:) = ieee_value( x = 0.0_${REAL_KIND}$, class = ieee_quiet_nan )
         agm%list_g(:) = agm%list_a(:)
