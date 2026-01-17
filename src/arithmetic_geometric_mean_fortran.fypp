@@ -1,6 +1,5 @@
 #:include 'common.fypp'
 #:set INTERFACE_NAME_KERNEL = 'arithmetic_geometric_mean'
-#:set N_ITER = 'n_iter'
 module arithmetic_geometric_mean_fortran
 #:include 'module_description.fypp'
 
