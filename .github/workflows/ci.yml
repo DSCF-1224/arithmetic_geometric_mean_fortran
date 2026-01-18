@@ -70,6 +70,13 @@ jobs:
           path: test/*.f90
           retention-days: 1
 
+      - name: Upload artifacts (example)
+        uses: actions/upload-artifact@v4
+        with:
+          name: example-f90
+          path: example/*.f90
+          retention-days: 1
+
   test:
 
     needs: fypp
