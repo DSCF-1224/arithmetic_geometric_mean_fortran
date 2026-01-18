@@ -79,6 +79,8 @@ module check_nominal_lib
         if ( .not. ieee_is_normal( max(list) ) ) error stop
         if ( .not. ieee_is_normal( min(list) ) ) error stop
 
+        if ( n_iter(list) .lt. 1 ) error stop
+
     end subroutine check_nominal_kernel_half_real32
 
 
@@ -119,6 +121,8 @@ module check_nominal_lib
         if ( .not. ieee_is_normal( max(list) ) ) error stop
         if ( .not. ieee_is_normal( min(list) ) ) error stop
 
+        if ( n_iter(list) .lt. 1 ) error stop
+
     end subroutine check_nominal_kernel_half_real64
 
 
@@ -158,6 +162,8 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
         if ( .not. ieee_is_normal( min(list) ) ) error stop
+
+        if ( n_iter(list) .lt. 1 ) error stop
 
     end subroutine check_nominal_kernel_half_real128
 
