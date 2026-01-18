@@ -50,6 +50,12 @@ jobs:
           fypp -F check_zero.fypp check_zero.f90
           cd ..
 
+      - name: Run fypp (example)
+        run: |
+          cd example
+          fypp -F demo_basic_usage.fypp demo_basic_usage.f90
+          cd ..
+
       - name: Upload artifacts (src)
         uses: actions/upload-artifact@v4
         with:
