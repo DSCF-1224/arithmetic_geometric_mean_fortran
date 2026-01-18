@@ -34,11 +34,24 @@ program ${PROGRAM_NAME}$
 
         real(${REAL_KIND}$) :: agm
 
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(one, one)
 
         if ( .not. is_ieee_positive_zero(agm - one) ) error stop
+
+
+
+        call list%compute(one, one)
+
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        if ( .not. is_ieee_positive_zero( ${MAX_OR_MIN}$(list) - one ) ) error stop
+    #:endfor
+    #:del MAX_OR_MIN
+
+        if ( ${N_ITER}$(list) .ne. 1 ) error stop
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME

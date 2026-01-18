@@ -20,6 +20,26 @@ module arithmetic_geometric_mean_fortran
     private
 
     public :: ${INTERFACE_NAME_KERNEL}$
+    public :: ${INTERFACE_NAME_KERNEL}$_kernel
+#:for MAX_OR_MIN in MAX_AND_MIN
+    public :: ${MAX_OR_MIN}$
+#:endfor
+#:del MAX_OR_MIN
+    public :: ${N_ITER}$
+
+#:for REAL_KIND in REAL_KINDS
+    public :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type
+#:endfor
+
+
+
+    integer, parameter :: initial_${N_ITER}$ = -1
+
+#:for REAL_KIND in REAL_KINDS
+    integer, parameter :: max_${N_ITER}$_${REAL_KIND}$ = digits(0.0_${REAL_KIND}$)
+#:endfor
+#:del REAL_KIND
+
 
 
 
@@ -29,6 +49,7 @@ module arithmetic_geometric_mean_fortran
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$
     #:endfor
+    #:del REAL_KIND
 
     end interface ${INTERFACE_NAME_KERNEL}$
 
@@ -41,9 +62,108 @@ module arithmetic_geometric_mean_fortran
     #:for REAL_KIND in REAL_KINDS
         module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
     #:endfor
+    #:del REAL_KIND
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'compute_step'
+    interface ${INTERFACE_NAME}$
+        #:include 'compute_step_description.fypp'
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'initialize'
+    interface ${INTERFACE_NAME}$
+        #:include 'initialize_description.fypp'
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    #:del REAL_KIND
+
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'is_not_converged'
+    interface ${INTERFACE_NAME}$
+        #:include 'is_not_converged_description.fypp'
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+#:for MAX_OR_MIN in MAX_AND_MIN
+
+
+
+#:set INTERFACE_NAME = MAX_OR_MIN
+    interface ${INTERFACE_NAME}$
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_final_${REAL_KIND}$
+    #:endfor
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_selectable_${REAL_KIND}$
+    #:endfor
+
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
+#:endfor
+#:del MAX_OR_MIN
+
+
+
+    #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_base_type'
+    type, abstract :: ${TYPE_NAME}$
+
+        integer, private :: ${N_ITER}$_ = initial_${N_ITER}$
+        !! the number of iterations performed during AGM calculation
+
+        contains
+
+        procedure, pass, public :: ${N_ITER}$
+
+    end type ${TYPE_NAME}$
+    #:del TYPE_NAME
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set TYPE_NAME = INTERFACE_NAME_KERNEL + '_' + REAL_KIND + '_type'
+    type, extends(${INTERFACE_NAME_KERNEL}$_base_type) :: ${TYPE_NAME}$
+
+        real(${REAL_KIND}$), private :: list_a(0:max_${N_ITER}$_${REAL_KIND}$)
+        !! history of the arithmetic mean
+
+        real(${REAL_KIND}$), private :: list_g(0:max_${N_ITER}$_${REAL_KIND}$)
+        !! history of the geometric mean
+
+        contains
+
+        procedure, pass, private :: compute_${REAL_KIND}$
+        procedure, pass, private :: compute_kernel_${REAL_KIND}$
+
+        generic, public  :: compute        => compute_${REAL_KIND}$
+        generic, private :: compute_kernel => compute_kernel_${REAL_KIND}$
+
+    end type ${TYPE_NAME}$
+    #:del TYPE_NAME
+#:endfor
 
 
 
@@ -102,10 +222,10 @@ module arithmetic_geometric_mean_fortran
     #:del FUNCTION_NAME
 #:endfor
 #:for REAL_KIND in REAL_KINDS
+
+
+
     #:set FUNCTION_NAME = INTERFACE_NAME_KERNEL + '_kernel_' + REAL_KIND
-
-
-
     elemental function ${FUNCTION_NAME}$(a, g) result(agm)
         #:include 'arithmetic_geometric_mean_kernel_description.fypp'
 
@@ -119,9 +239,9 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        real(${REAL_KIND}$) :: last_a !! last arithmetic mean
+        real(${REAL_KIND}$) :: prev_a !! previous arithmetic mean
 
-        real(${REAL_KIND}$) :: last_g !! last geometric mean
+        real(${REAL_KIND}$) :: prev_g !! previous geometric mean
 
         real(${REAL_KIND}$) :: next_a !! next arithmetic mean
 
@@ -129,20 +249,24 @@ module arithmetic_geometric_mean_fortran
 
 
 
-        last_a = a
-        last_g = g
+        prev_a = a
+        prev_g = g
 
 
 
         do
 
-            next_a =     (last_a + last_g) * 0.5_${REAL_KIND}$
-            next_g = sqrt(last_a * last_g)
+            call compute_step( &!
+                prev_a = prev_a , &!
+                prev_g = prev_g , &!
+                next_a = next_a , &!
+                next_g = next_g   &!
+            )
 
-            if ( abs(next_a - next_g) .gt. spacing( min(next_a, next_g) ) ) then
+            if ( is_not_converged(next_a, next_g) ) then
 
-                last_a = next_a
-                last_g = next_g
+                prev_a = next_a
+                prev_g = next_g
 
                 cycle
 
@@ -158,6 +282,288 @@ module arithmetic_geometric_mean_fortran
 
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = 'is_not_converged_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(a, g) result(stat)
+        #:include 'is_not_converged_description.fypp'
+
+        real(${REAL_KIND}$), intent(in) :: a !! arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: g !! geometric mean
+
+
+
+        logical :: stat
+
+
+
+        stat = abs(a - g) .gt. spacing( min(a, g) )
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:for MAX_OR_MIN in MAX_AND_MIN
+#:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_final'
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(agm) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'max_min_final_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
+
+
+
+        real(${REAL_KIND}$) :: ${FUNCTION_NAME_KERNEL}$
+
+
+
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$(agm, agm%${N_ITER}$_)
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:set FUNCTION_NAME_KERNEL = MAX_OR_MIN + '_selectable'
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(agm, i) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'max_min_selectable_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(${REAL_KIND}$) :: ${FUNCTION_NAME_KERNEL}$
+
+
+
+        ${FUNCTION_NAME_KERNEL}$ = ${MAX_OR_MIN}$( agm%list_a(i), agm%list_g(i) )
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:endfor
+#:del MAX_OR_MIN
+#:del FUNCTION_NAME_KERNEL
+
+
+#:set FUNCTION_NAME = N_ITER
+    elemental function ${FUNCTION_NAME}$(agm)
+        !! return the number of iterations performed during AGM calculation
+
+        class(${INTERFACE_NAME_KERNEL}$_base_type), intent(in) :: agm
+
+
+
+        integer :: ${FUNCTION_NAME}$
+
+
+
+         ${FUNCTION_NAME}$ = agm%${N_ITER}$_
+
+    end function ${FUNCTION_NAME}$
+#:del FUNCTION_NAME
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm, x, y)
+        #:include 'compute_description.fypp'
+
+        class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: xy
+
+
+
+        if ( ieee_unordered(x, y) ) then
+
+            call initialize(agm)
+
+            agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
+
+            return
+
+        end if
+
+
+
+        xy = x * y
+
+
+
+        if ( xy .lt. 0.0_${REAL_KIND}$ ) then
+
+            call initialize(agm)
+
+            agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
+
+        else if ( xy .gt. 0.0_${REAL_KIND}$ ) then
+
+            if (x .lt. y) then
+                call agm%compute_kernel(init_a = y, init_g = x)
+            else
+                call agm%compute_kernel(init_a = x, init_g = y)
+            end if
+
+        else
+
+            call initialize(agm)
+
+            agm%${N_ITER}$_ = 0
+
+            if (x .lt. y) then
+
+                agm%list_a(agm%${N_ITER}$_) = y
+                agm%list_g(agm%${N_ITER}$_) = x
+
+            else
+
+                agm%list_a(agm%${N_ITER}$_) = x
+                agm%list_g(agm%${N_ITER}$_) = y
+        
+            end if
+
+            agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
+
+            agm%list_a(agm%${N_ITER}$_) = 0.0_${REAL_KIND}$
+            agm%list_g(agm%${N_ITER}$_) = 0.0_${REAL_KIND}$
+
+        end if
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_kernel_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm, init_a, init_g)
+        #:include 'compute_kernel_description.fypp'
+
+        class(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+        real(${REAL_KIND}$), intent(in) :: init_a
+        !! initial value: arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: init_g
+        !! initial value: geometric mean
+
+
+
+        call initialize(agm)
+
+        agm%list_a(0) = init_a
+        agm%list_g(0) = init_g
+        agm%${N_ITER}$_    = 0
+
+        do
+
+            associate(prev_iter => agm%${N_ITER}$_, next_iter => agm%${N_ITER}$_ + 1)
+
+                associate( &!
+                    prev_a => agm%list_a(prev_iter) , &!
+                    prev_g => agm%list_g(prev_iter) , &!
+                    next_a => agm%list_a(next_iter) , &!
+                    next_g => agm%list_g(next_iter)   &!
+                )
+
+                    agm%${N_ITER}$_ = agm%${N_ITER}$_ + 1
+
+                    call compute_step( &!
+                        prev_a = prev_a , &!
+                        prev_g = prev_g , &!
+                        next_a = next_a , &!
+                        next_g = next_g   &!
+                    )
+
+                    if ( is_not_converged(next_a, next_g) ) then
+
+                        prev_iter = next_iter
+
+                        cycle
+
+                    else
+
+                        prev_iter = next_iter
+
+                        return
+
+                    end if
+
+                end associate
+
+            end associate
+
+        end do
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'compute_step_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(prev_a, prev_g, next_a, next_g)
+        #:include 'compute_step_description.fypp'
+
+        real(${REAL_KIND}$), intent(in) :: prev_a
+        !! previous arithmetic mean
+
+        real(${REAL_KIND}$), intent(in) :: prev_g
+        !! previous geometric mean
+
+        real(${REAL_KIND}$), intent(out) :: next_a
+        !! next arithmetic mean
+
+        real(${REAL_KIND}$), intent(out) :: next_g
+        !! next geometric mean
+
+
+
+        next_a =     (prev_a + prev_g) * 0.5_${REAL_KIND}$
+        next_g = sqrt(prev_a * prev_g)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'initialize_' + REAL_KIND
+    elemental subroutine ${SUBROUTINE_NAME}$(agm)
+        #:include 'initialize_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(inout) :: agm
+
+
+
+        agm%${N_ITER}$_ = initial_${N_ITER}$
+
+        agm%list_a(:) = ieee_value( x = 0.0_${REAL_KIND}$, class = ieee_quiet_nan )
+        agm%list_g(:) = agm%list_a(:)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
 #:endfor
 
 end module arithmetic_geometric_mean_fortran

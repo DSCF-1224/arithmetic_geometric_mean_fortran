@@ -1,5 +1,19 @@
-        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation 
-        !! with input validation and ordering.
+        #:if defined('REAL_KIND')
+            #:set FUNCTION_OR_INTERFACE = 'function'
+        #:else
+            #:set FUNCTION_OR_INTERFACE = 'interface'
+        #:endif
+        !! Safe wrapper for the arithmetic-geometric mean (AGM) computation.
+        !!
+        !! This ${FUNCTION_OR_INTERFACE}$ performs lightweight AGM computation
+        !! with input validation, automatic ordering.
+    #:if defined('REAL_KIND')
+        !! Unlike the type-bound subroutine [[compute_${REAL_KIND}$]] instead,
+    #:else
+        !! Unlike the type-bound subroutine instead,
+    #:endif
+        !! this ${FUNCTION_OR_INTERFACE}$ does not retain intermediate calculation results,
+        !! so they cannot be referenced later.
         !!
         !! @note
         !! - If either input was NaN: returns NaN
@@ -7,4 +21,4 @@
         !! - If either `x` or `y` is zero (`x * y .eq. 0`): returns 0
         !! - Otherwise: computes AGM using the iterative kernel
         !! @endnote
-
+        #:del FUNCTION_OR_INTERFACE

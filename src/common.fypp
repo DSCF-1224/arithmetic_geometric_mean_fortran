@@ -2,4 +2,8 @@
 
     #:set REAL_KINDS = ['real32', 'real64', 'real128']
 
+    #:set MAX_AND_MIN = ['max', 'min']
+
+    #:set N_ITER = 'n_iter'
+
 #:endmute

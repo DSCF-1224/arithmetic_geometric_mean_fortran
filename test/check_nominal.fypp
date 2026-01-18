@@ -1,7 +1,10 @@
 #:include '../src/common.fypp'
-#:set PROGRAM_NAME = 'check_nominal'
-program ${PROGRAM_NAME}$
+#:set PROGRAM_NAME   = 'check_nominal'
+#:set MODULE_NAME    = PROGRAM_NAME + '_lib'
+#:set INTERFACE_NAME = PROGRAM_NAME + '_kernel'
+module ${MODULE_NAME}$
 
+    use, intrinsic :: iso_fortran_env, only: error_unit
 #:for REAL_KIND in REAL_KINDS
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
 #:endfor
@@ -11,6 +14,100 @@ program ${PROGRAM_NAME}$
     use, intrinsic :: ieee_arithmetic, only: ieee_value
 
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+
+
+    implicit none
+
+
+
+    private
+
+    public :: ${INTERFACE_NAME}$
+
+
+
+    interface ${INTERFACE_NAME}$
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$
+
+
+
+    interface ${INTERFACE_NAME}$_half
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_half_${REAL_KIND}$
+    #:endfor
+    end interface ${INTERFACE_NAME}$_half
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, y)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        call ${INTERFACE_NAME}$_half(x, y)
+        call ${INTERFACE_NAME}$_half(y, x)
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+
+
+
+    #:set SUBROUTINE_NAME = INTERFACE_NAME + '_half_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, y)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+
+
+        real(${REAL_KIND}$) :: agm
+
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: list
+
+
+
+        agm = arithmetic_geometric_mean(x, y)
+
+        if ( .not. ieee_is_normal(agm) ) error stop
+
+
+
+        call list%compute(x, y)
+
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        if ( .not. ieee_is_normal( ${MAX_OR_MIN}$(list) ) ) error stop
+    #:endfor
+    #:del MAX_OR_MIN
+
+        if ( ${N_ITER}$(list) .lt. 1 ) error stop
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+
+end module ${MODULE_NAME}$
+
+
+
+program ${PROGRAM_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, intrinsic :: ieee_arithmetic, only: ieee_next_after
+
+    use, non_intrinsic :: ${MODULE_NAME}$
 
 
 
@@ -32,48 +129,28 @@ program ${PROGRAM_NAME}$
     #:set SUBROUTINE_NAME = 'test_' + REAL_KIND
     subroutine ${SUBROUTINE_NAME}$
 
-        real(${REAL_KIND}$) :: agm, x, y
+        real(${REAL_KIND}$) :: x, y
 
 
 
         x = 1.0_${REAL_KIND}$
 
-
-
         y = tiny(y)
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
+        call ${INTERFACE_NAME}$(x, y)
 
 
 
         y = epsilon(y)
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
+        call ${INTERFACE_NAME}$(x, y)
 
 
 
         x   = sqrt( huge(x) )
         y   = ieee_next_after(x, 0.0_${REAL_KIND}$)
 
-        agm = arithmetic_geometric_mean(x, y)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
-
-        agm = arithmetic_geometric_mean(y, x)
-
-        if ( .not. ieee_is_normal(agm) ) error stop
+        call ${INTERFACE_NAME}$(x, y)
 
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME

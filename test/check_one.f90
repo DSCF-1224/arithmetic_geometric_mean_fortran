@@ -30,11 +30,22 @@ program check_one
 
         real(real32) :: agm
 
+        type(arithmetic_geometric_mean_real32_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(one, one)
 
         if ( .not. is_ieee_positive_zero(agm - one) ) error stop
+
+
+
+        call list%compute(one, one)
+
+        if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
+        if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+
+        if ( n_iter(list) .ne. 1 ) error stop
 
     end subroutine test_real32
 
@@ -46,11 +57,22 @@ program check_one
 
         real(real64) :: agm
 
+        type(arithmetic_geometric_mean_real64_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(one, one)
 
         if ( .not. is_ieee_positive_zero(agm - one) ) error stop
+
+
+
+        call list%compute(one, one)
+
+        if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
+        if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+
+        if ( n_iter(list) .ne. 1 ) error stop
 
     end subroutine test_real64
 
@@ -62,11 +84,22 @@ program check_one
 
         real(real128) :: agm
 
+        type(arithmetic_geometric_mean_real128_type) :: list
+
 
 
         agm = arithmetic_geometric_mean(one, one)
 
         if ( .not. is_ieee_positive_zero(agm - one) ) error stop
+
+
+
+        call list%compute(one, one)
+
+        if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
+        if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+
+        if ( n_iter(list) .ne. 1 ) error stop
 
     end subroutine test_real128
 
