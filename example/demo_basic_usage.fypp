@@ -1,0 +1,54 @@
+#:include '../src/common.fypp'
+#:set PROGRAM_NAME = 'demo_basic_usage'
+program ${PROGRAM_NAME}$
+
+#:for REAL_KIND in REAL_KINDS
+    use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
+#:endfor
+
+    use, non_intrinsic :: arithmetic_geometric_mean_fortran
+
+
+
+    implicit none
+#:for REAL_KIND in REAL_KINDS
+
+
+
+#:for I in range(2, 6)
+    call run_demo_${REAL_KIND}$(1.0_${REAL_KIND}$, ${I}$.0_${REAL_KIND}$)
+#:endfor
+#:endfor
+
+
+
+    contains
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set SUBROUTINE_NAME = 'run_demo_' + REAL_KIND
+    subroutine ${SUBROUTINE_NAME}$(x, y)
+
+        real(${REAL_KIND}$), intent(in) :: x, y
+
+        type(arithmetic_geometric_mean_${REAL_KIND}$_type) :: agm
+
+
+
+        print *, 'x, y   : ', x, y
+        print *, 'fnc    : ', arithmetic_geometric_mean(x, y)
+
+        call agm%compute(x, y)
+
+    #:for MAX_OR_MIN in MAX_AND_MIN
+        print *, '${MAX_OR_MIN}$    : ', ${MAX_OR_MIN}$(agm)
+    #:endfor
+        print *, '${N_ITER}$ : ', agm%${N_ITER}$()
+        print *
+
+    end subroutine ${SUBROUTINE_NAME}$
+    #:del SUBROUTINE_NAME
+#:endfor
+
+end program ${PROGRAM_NAME}$
