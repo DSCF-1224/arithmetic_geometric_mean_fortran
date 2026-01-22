@@ -87,6 +87,8 @@ module ${MODULE_NAME}$
     #:endfor
     #:del MAX_OR_MIN
 
+        if ( ${N_ITER}$(list) .ne. 0 ) error stop
+
     end subroutine ${SUBROUTINE_NAME}$
     #:del SUBROUTINE_NAME
 #:endfor
