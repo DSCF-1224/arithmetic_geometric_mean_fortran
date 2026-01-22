@@ -65,6 +65,21 @@ Each type provides:
 |[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface |Extracts the final AGM value / AGM value at a specific iteration|
 |[`min`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/min.html)|interface |Extracts the final AGM value / AGM value at a specific iteration|
 
+## Examples
+
+|program|description|
+|:------|:----------|
+|[`demo_basic_usage`](example/demo_basic_usage.f90)|Demonstrates both function and type-bound interfaces|
+|[`demo_n_iter`](example/demo_n_iter.f90)| shows how to access iteration history
+
+Run examples using fpm:
+
+```bash
+fpm run --example demo_basic_usage
+fpm run --example demo_n_iter
+fpm run --example  # Run all examples
+```
+
 ## Testing
 
 Run tests using fpm:
