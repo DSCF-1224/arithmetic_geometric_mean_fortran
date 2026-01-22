@@ -70,7 +70,7 @@ Each type provides:
 |program|description|
 |:------|:----------|
 |[`demo_basic_usage`](example/demo_basic_usage.f90)|Demonstrates both function and type-bound interfaces|
-|[`demo_n_iter`](example/demo_n_iter.f90)| shows how to access iteration history
+|[`demo_n_iter`](example/demo_n_iter.f90)|Shows how to access iteration history
 
 Run examples using fpm:
 
@@ -79,6 +79,8 @@ fpm run --example demo_basic_usage
 fpm run --example demo_n_iter
 fpm run --example  # Run all examples
 ```
+
+The `--profile` subcommand is also available.
 
 ## Testing
 
