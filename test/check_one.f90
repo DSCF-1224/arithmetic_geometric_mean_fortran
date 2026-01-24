@@ -45,6 +45,8 @@ program check_one
         if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
         if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
 
+        if ( n_iter(list) .ne. 1 ) error stop
+
     end subroutine test_real32
 
 
@@ -70,6 +72,8 @@ program check_one
         if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
         if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
 
+        if ( n_iter(list) .ne. 1 ) error stop
+
     end subroutine test_real64
 
 
@@ -94,6 +98,8 @@ program check_one
 
         if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
         if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+
+        if ( n_iter(list) .ne. 1 ) error stop
 
     end subroutine test_real128
 
