@@ -106,6 +106,22 @@ module arithmetic_geometric_mean_fortran
 
     end interface ${INTERFACE_NAME}$
 #:del INTERFACE_NAME
+
+
+
+#:set INTERFACE_NAME = 'gap'
+    interface ${INTERFACE_NAME}$
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_final_${REAL_KIND}$
+    #:endfor
+
+    #:for REAL_KIND in REAL_KINDS
+        module procedure :: ${INTERFACE_NAME}$_selectable_${REAL_KIND}$
+    #:endfor
+
+    end interface ${INTERFACE_NAME}$
+#:del INTERFACE_NAME
 #:for MAX_OR_MIN in MAX_AND_MIN
 
 
@@ -283,6 +299,29 @@ module arithmetic_geometric_mean_fortran
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
+#:set FUNCTION_NAME_KERNEL = 'gap_final'
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(agm) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'gap_final_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
+
+
+
+        real(${REAL_KIND}$) :: ${FUNCTION_NAME_KERNEL}$
+
+
+
+        ${FUNCTION_NAME_KERNEL}$ = gap(agm, agm%${N_ITER}$_)
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:del FUNCTION_NAME_KERNEL
 #:set FUNCTION_NAME_KERNEL = 'gap_selectable'
 #:for REAL_KIND in REAL_KINDS
 
