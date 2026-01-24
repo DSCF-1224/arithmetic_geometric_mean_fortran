@@ -143,6 +143,20 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    interface gap
+
+        module procedure :: gap_final_real32
+        module procedure :: gap_final_real64
+        module procedure :: gap_final_real128
+
+        module procedure :: gap_selectable_real32
+        module procedure :: gap_selectable_real64
+        module procedure :: gap_selectable_real128
+
+    end interface gap
+
+
+
     interface max
 
         module procedure :: max_final_real32
@@ -659,6 +673,75 @@ module arithmetic_geometric_mean_fortran
         end do
 
     end function arithmetic_geometric_mean_kernel_real128
+
+
+
+    elemental function gap_final_real32(agm) result(gap_final)
+        !! Extract the final gap (arithmetic mean - geometric mean).
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
+
+
+
+        real(real32) :: gap_final
+
+
+
+        gap_final = gap(agm, agm%n_iter_)
+
+    end function gap_final_real32
+
+
+
+    elemental function gap_final_real64(agm) result(gap_final)
+        !! Extract the final gap (arithmetic mean - geometric mean).
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
+
+
+
+        real(real64) :: gap_final
+
+
+
+        gap_final = gap(agm, agm%n_iter_)
+
+    end function gap_final_real64
+
+
+
+    elemental function gap_final_real128(agm) result(gap_final)
+        !! Extract the final gap (arithmetic mean - geometric mean).
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
+
+
+
+        real(real128) :: gap_final
+
+
+
+        gap_final = gap(agm, agm%n_iter_)
+
+    end function gap_final_real128
 
 
 
