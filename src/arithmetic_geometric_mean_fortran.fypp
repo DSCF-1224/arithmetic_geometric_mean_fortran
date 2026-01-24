@@ -283,6 +283,31 @@ module arithmetic_geometric_mean_fortran
     end function ${FUNCTION_NAME}$
     #:del FUNCTION_NAME
 #:endfor
+#:set FUNCTION_NAME_KERNEL = 'gap_selectable'
+#:for REAL_KIND in REAL_KINDS
+
+
+
+    #:set FUNCTION_NAME = FUNCTION_NAME_KERNEL + '_' + REAL_KIND
+    elemental function ${FUNCTION_NAME}$(agm, i) result(${FUNCTION_NAME_KERNEL}$)
+        #:include 'gap_selectable_description.fypp'
+
+        type(${INTERFACE_NAME_KERNEL}$_${REAL_KIND}$_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(${REAL_KIND}$) :: ${FUNCTION_NAME_KERNEL}$
+
+
+
+        ${FUNCTION_NAME_KERNEL}$ = agm%list_a(i) - agm%list_g(i)
+
+    end function ${FUNCTION_NAME}$
+    #:del FUNCTION_NAME
+#:endfor
+#:del FUNCTION_NAME_KERNEL
 #:for REAL_KIND in REAL_KINDS
 
 

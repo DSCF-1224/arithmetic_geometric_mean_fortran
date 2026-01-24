@@ -662,6 +662,90 @@ module arithmetic_geometric_mean_fortran
 
 
 
+    elemental function gap_selectable_real32(agm, i) result(gap_selectable)
+        !! Extract the gap (arithmetic mean - geometric mean) at a specific iteration.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real32_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real32) :: gap_selectable
+
+
+
+        gap_selectable = agm%list_a(i) - agm%list_g(i)
+
+    end function gap_selectable_real32
+
+
+
+    elemental function gap_selectable_real64(agm, i) result(gap_selectable)
+        !! Extract the gap (arithmetic mean - geometric mean) at a specific iteration.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real64_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real64) :: gap_selectable
+
+
+
+        gap_selectable = agm%list_a(i) - agm%list_g(i)
+
+    end function gap_selectable_real64
+
+
+
+    elemental function gap_selectable_real128(agm, i) result(gap_selectable)
+        !! Extract the gap (arithmetic mean - geometric mean) at a specific iteration.
+        !!
+        !! @warning
+        !! This function assumes the AGM computation has been performed via the `compute` method.  
+        !! If called on an uninitialized or improperly computed AGM object,
+        !! the result may be NaN or undefined.
+        !!
+        !! The iteration index `i` must be valid: `0 <= i <= n_iter`.  
+        !! No bounds checking is performed; invalid indices may cause undefined behavior.
+        !! @endwarning
+
+        type(arithmetic_geometric_mean_real128_type), intent(in) :: agm
+
+        integer, intent(in) :: i
+
+
+
+        real(real128) :: gap_selectable
+
+
+
+        gap_selectable = agm%list_a(i) - agm%list_g(i)
+
+    end function gap_selectable_real128
+
+
+
     elemental function is_not_converged_real32(a, g) result(stat)
         !! Check if the arithmetic-geometric mean iteration has not yet converged.
         !!
