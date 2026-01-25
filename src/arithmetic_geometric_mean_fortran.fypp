@@ -21,6 +21,7 @@ module arithmetic_geometric_mean_fortran
 
     public :: ${INTERFACE_NAME_KERNEL}$
     public :: ${INTERFACE_NAME_KERNEL}$_kernel
+    public :: gap
 #:for MAX_OR_MIN in MAX_AND_MIN
     public :: ${MAX_OR_MIN}$
 #:endfor

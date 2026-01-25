@@ -19,6 +19,7 @@ module arithmetic_geometric_mean_fortran
 
     public :: arithmetic_geometric_mean
     public :: arithmetic_geometric_mean_kernel
+    public :: gap
     public :: max
     public :: min
     public :: n_iter
