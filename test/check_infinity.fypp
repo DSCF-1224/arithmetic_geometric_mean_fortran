@@ -8,6 +8,8 @@ module ${MODULE_NAME}$
     use, intrinsic :: iso_fortran_env, only: ${REAL_KIND}$
 #:endfor
 
+    use, intrinsic :: ieee_arithmetic, only: ieee_is_nan
+
     use, non_intrinsic :: arithmetic_geometric_mean_fortran
 
     use, non_intrinsic :: ieee_class_fortran
@@ -86,6 +88,8 @@ module ${MODULE_NAME}$
         if ( .not. is_ieee_positive_inf( ${MAX_OR_MIN}$(list) ) ) error stop
     #:endfor
     #:del MAX_OR_MIN
+
+        if ( .not. ieee_is_nan( gap(list) ) ) error stop
 
         if ( ${N_ITER}$(list) .ne. 1 ) error stop
 
