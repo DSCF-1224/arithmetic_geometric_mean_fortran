@@ -45,7 +45,7 @@ program ${PROGRAM_NAME}$
         call agm%compute(x, y)
 
         do iter = 0, agm%${N_ITER}$()
-            print *, iter, min(agm, iter), max(agm, iter)
+            print *, iter, min(agm, iter), max(agm, iter), gap(agm, iter)
         end do
 
         print *
