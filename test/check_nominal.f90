@@ -78,6 +78,7 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
         if ( .not. ieee_is_normal( min(list) ) ) error stop
+        if ( .not. ieee_is_normal( gap(list) ) ) error stop
 
         if ( n_iter(list) .lt. 1 ) error stop
 
@@ -120,6 +121,7 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
         if ( .not. ieee_is_normal( min(list) ) ) error stop
+        if ( .not. ieee_is_normal( gap(list) ) ) error stop
 
         if ( n_iter(list) .lt. 1 ) error stop
 
@@ -162,6 +164,7 @@ module check_nominal_lib
 
         if ( .not. ieee_is_normal( max(list) ) ) error stop
         if ( .not. ieee_is_normal( min(list) ) ) error stop
+        if ( .not. ieee_is_normal( gap(list) ) ) error stop
 
         if ( n_iter(list) .lt. 1 ) error stop
 
