@@ -41,7 +41,7 @@ program ${PROGRAM_NAME}$
 
         call agm%compute(x, y)
 
-    #:for MAX_OR_MIN in MAX_AND_MIN
+    #:for MAX_OR_MIN in (MAX_AND_MIN + ['gap'])
         print *, '${MAX_OR_MIN}$    : ', ${MAX_OR_MIN}$(agm)
     #:endfor
         print *, '${N_ITER}$ : ', agm%${N_ITER}$()
