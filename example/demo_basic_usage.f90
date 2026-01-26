@@ -52,6 +52,7 @@ program demo_basic_usage
 
         print *, 'max    : ', max(agm)
         print *, 'min    : ', min(agm)
+        print *, 'gap    : ', gap(agm)
         print *, 'n_iter : ', agm%n_iter()
         print *
 
@@ -74,6 +75,7 @@ program demo_basic_usage
 
         print *, 'max    : ', max(agm)
         print *, 'min    : ', min(agm)
+        print *, 'gap    : ', gap(agm)
         print *, 'n_iter : ', agm%n_iter()
         print *
 
@@ -96,6 +98,7 @@ program demo_basic_usage
 
         print *, 'max    : ', max(agm)
         print *, 'min    : ', min(agm)
+        print *, 'gap    : ', gap(agm)
         print *, 'n_iter : ', agm%n_iter()
         print *
 
