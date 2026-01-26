@@ -50,6 +50,7 @@ program ${PROGRAM_NAME}$
         if ( .not. is_ieee_positive_zero( ${MAX_OR_MIN}$(list) - one ) ) error stop
     #:endfor
     #:del MAX_OR_MIN
+        if ( .not. is_ieee_positive_zero( gap(list)       ) ) error stop
 
         if ( ${N_ITER}$(list) .ne. 1 ) error stop
 
