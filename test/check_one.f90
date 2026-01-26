@@ -44,6 +44,7 @@ program check_one
 
         if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
         if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+        if ( .not. is_ieee_positive_zero( gap(list)       ) ) error stop
 
         if ( n_iter(list) .ne. 1 ) error stop
 
@@ -71,6 +72,7 @@ program check_one
 
         if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
         if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+        if ( .not. is_ieee_positive_zero( gap(list)       ) ) error stop
 
         if ( n_iter(list) .ne. 1 ) error stop
 
@@ -98,6 +100,7 @@ program check_one
 
         if ( .not. is_ieee_positive_zero( max(list) - one ) ) error stop
         if ( .not. is_ieee_positive_zero( min(list) - one ) ) error stop
+        if ( .not. is_ieee_positive_zero( gap(list)       ) ) error stop
 
         if ( n_iter(list) .ne. 1 ) error stop
 
