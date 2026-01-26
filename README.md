@@ -62,8 +62,10 @@ Each type provides:
 |procedure|type|description|
 |:--------|:---|:----------|
 |`compute`|subroutine|Type-bound subroutine that performs AGM computation and stores iteration history|
-|[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface |Extracts the final AGM value / AGM value at a specific iteration|
-|[`min`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/min.html)|interface |Extracts the final AGM value / AGM value at a specific iteration|
+|[`max`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/max.html)|interface|Extracts the final AGM value / AGM value at a specific iteration|
+|[`min`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/min.html)|interface|Extracts the final AGM value / AGM value at a specific iteration|
+|[`n_iter`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/proc/n_iter.html)|function|Returns the number of iterations performed|
+|[`gap`](https://dscf-1224.github.io/arithmetic_geometric_mean_fortran/interface/min.html)|interface|Extracts the final gap (a-g) / gap at a specific iteration|
 
 ## Examples
 
