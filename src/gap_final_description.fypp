@@ -1,7 +1,3 @@
         !! Extract the final gap (arithmetic mean - geometric mean).
         !!
-        !! @warning
-        !! This function assumes the AGM computation has been performed via the `compute` method.  
-        !! If called on an uninitialized or improperly computed AGM object,
-        !! the result may be NaN or undefined.
-        !! @endwarning
+        #:include 'common_final_description.fypp'
