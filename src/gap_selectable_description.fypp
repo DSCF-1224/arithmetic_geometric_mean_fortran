@@ -1,0 +1,3 @@
+        !! Extract the gap (arithmetic mean - geometric mean) at a specific iteration.
+        !!
+        #:include 'common_selectable_description.fypp'

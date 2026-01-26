@@ -54,7 +54,7 @@ program demo_basic_usage
         call agm%compute(x, y)
 
         do iter = 0, agm%n_iter()
-            print *, iter, min(agm, iter), max(agm, iter)
+            print *, iter, min(agm, iter), max(agm, iter), gap(agm, iter)
         end do
 
         print *
@@ -80,7 +80,7 @@ program demo_basic_usage
         call agm%compute(x, y)
 
         do iter = 0, agm%n_iter()
-            print *, iter, min(agm, iter), max(agm, iter)
+            print *, iter, min(agm, iter), max(agm, iter), gap(agm, iter)
         end do
 
         print *
@@ -106,7 +106,7 @@ program demo_basic_usage
         call agm%compute(x, y)
 
         do iter = 0, agm%n_iter()
-            print *, iter, min(agm, iter), max(agm, iter)
+            print *, iter, min(agm, iter), max(agm, iter), gap(agm, iter)
         end do
 
         print *

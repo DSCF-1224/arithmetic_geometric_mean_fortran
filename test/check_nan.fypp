@@ -82,7 +82,7 @@ module ${MODULE_NAME}$
 
         call list%compute(x, y)
 
-    #:for MAX_OR_MIN in MAX_AND_MIN
+    #:for MAX_OR_MIN in (MAX_AND_MIN + ['gap'])
         if ( .not. ieee_is_nan( ${MAX_OR_MIN}$(list) ) ) error stop
     #:endfor
     #:del MAX_OR_MIN

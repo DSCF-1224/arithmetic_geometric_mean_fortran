@@ -1,0 +1,3 @@
+        !! Extract the final gap (arithmetic mean - geometric mean).
+        !!
+        #:include 'common_final_description.fypp'
